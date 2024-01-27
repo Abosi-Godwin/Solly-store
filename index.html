@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    Solly Store - your favorite Ecommerce store
+  </title>
+  <link rel="stylesheet" href="style.css">
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=PT+Sans&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+
+<body>
+  <header>
+    <nav>
+      <div class="nav-links">
+        <ion-icon name="close" size="large" class="close-icon iconic"></ion-icon>
+        <ul>
+          <li>Home</li>
+          <li>All products</li>
+          <li>About us </li>
+          <li>Contact us</li>
+          <li>Login</li>
+        </ul>
+      </div>
+      <div>
+        <ion-icon name="menu" size="large" class="menu-icon iconic"></ion-icon>
+      </div>
+      <div class="logo">
+        <h1 class="logo">
+          Solly Store
+        </h1>
+      </div>
+      <div>
+        <ion-icon name="cart" size="large" class="cart-icon iconic"></ion-icon>
+      </div>
+    </nav>
+    <div class="banner">
+      <h1>
+        Explore, click, upgrade.
+      </h1>
+      <p>
+        - Unleash the Power of Tomorrow's Gadgets Today!
+      </p>
+      <button>
+        Shop Now
+      </button>
+    </div>
+  </header>
+  <main>
+    
+    <div class="explore">
+      <h1 class="explore-heading">
+        Latest products
+      </h1>
+      <div class="products">
+
+      </div>
+    </div>
+    
+    <div class="categories">
+      <div class="category-section">
+        <h3>
+          Shop by categories
+        </h3>
+        <div class="category-tab">
+          <button class="tab active" data-category="electronics">
+            electronics
+          </button>
+          <button class="tab" data-category="jewelery">
+            jewelery
+          </button>
+          <button class="tab" data-category="men's clothing">
+            men's clothing
+          </button>
+          <button class="tab" data-category="women's clothing">
+            women's clothing
+          </button>
+        </div>
+      </div>
+      <div class="category-products">
+
+      </div>
+    </div>
+
+    <!-- -->
+    <div class="reviews">
+      <h1>
+        What others say
+      </h1>
+      <div class="reviews-container">
+
+        <div class="review r1">
+          <div class="icon">
+            <ion-icon name="thumbs-up" class="thumbs">
+
+            </ion-icon>
+          </div>
+          <p>
+            This Ecommerce store is a shopper's paradise! <br>The diverse product range, coupled with seamless navigation, enhances the shopping experience. <br><br>Quick deliveries and responsive customer support make it my preferred online destination.
+          </p>
+          <h4>
+            AlexShopaholic
+          </h4>
+          <p class="whatTheyBought">
+            Bought men's clothes
+          </p>
+        </div>
+
+        <div class="review r2">
+          <div class="icon">
+            <ion-icon name="thumbs-up" class="thumbs">
+
+            </ion-icon>
+          </div>
+          <p>Fashion finds galore! <br> This Ecommerce store nails it with trendy pieces and affordable prices.<br><br> The website layout is user-friendly, making it easy to explore the latest styles. <br><br>Prompt shipping and hassle-free returns earn them a spot in my bookmarks.
+          </p>
+          <h4>
+            FashionistaJane
+          </h4>
+          <p class="whatTheyBought">
+            Bought women's clothes
+          </p>
+        </div>
+
+        <div class="review r3">
+          <div class="icon">
+            <ion-icon name="thumbs-up" class="thumbs">
+
+            </ion-icon>
+          </div>
+          <p>For fitness essentials, this Ecommerce store is unmatched.<br><br> Quality workout gear and equipment, plus a straightforward shopping process. <br>Their commitment to quick deliveries and excellent service has turned me into a loyal customer.<br><br>Highly recommended!
+          </p>
+          <h4>
+            FitnessExplorer77
+          </h4>
+          <p class="whatTheyBought">
+            Bought electronic products
+          </p>
+        </div>
+        <div class="slider-navigation">
+          <button class="btn-left">
+            <ion-icon name="chevron-back-outline"></ion-icon>
+          </button>
+          <button class="btn-right">
+            <ion-icon name="chevron-forward-outline"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- -->
+
+    <div class="obj">
+      <div class="original">
+        <div>
+          <img srcset="" src="./images/free_icon_1.svg" alt="shipping image">
+          <h2>
+            Free shipping 
+          </h2>
+        </div>
+        <p>
+          we offer free shipping within United States, UAE and Asian countries on every order above $200 
+        </p>
+      </div>
+      <div class="delivery">
+        <div>
+          <img src="./images/free_icon_(3).svg" alt="Quality">
+          <h2>Quality Guaranteed</h2>
+        </div>
+        <p>
+          We offer you 100% quality products with 30 days money back guarantee.
+        </p>
+      </div>
+      <div class="support">
+        <div>
+          <img src="./images/free_icon_(2).svg" alt="">
+          <h2>
+            Customer Support
+          </h2>
+        </div>
+        <p>
+          <!--Tab to edit-->
+          Our customer support representatives are active 24/7 to help you with any problem you may encounter with our products.
+        </p>
+      </div>
+    </div>
+    
+    <div class="email-capture">
+      <h1 class="email-section-title">
+        join and save
+      </h1>
+      <p class="email-message">
+        <!--Tab to edit-->
+        Join us before the countdown finishes to enjoy a <br> 50% discount.
+      </p>
+      <div class="countdown-timer">
+      </div>
+      <div class="form-section">
+        <h2>Enter your email below</h2>
+        <input type="email" name="email" id="email" placeholder="Enter your valid email here...">
+        <input type="submit" value="Join us now">
+      </div>
+    </div>
+    
+    <div class="war-clothing">
+      <h2 class="war-heading">
+        His and Hers
+      </h2>
+      <p class="war-para">
+        sleek clothing material for any gender.
+      </p>
+      <div class="war-products">
+        
+      </div>
+    </div>
+  </main>
+
+  <footer>
+  <div id="map">
+  </div>
+  </footer>
+  <script src="script.js" type="module"></script>
+</body>
+
+</html>
