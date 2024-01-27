@@ -143,13 +143,11 @@ nav .nav-links {
   color: #738BA7;
   font-size: 2rem;
 }
-
+/*
 .categories {
-  padding: 2rem 0;
-  background: #143153;
 }
-
-.category-section {
+*/
+.categories, .category-section {
   background: #143153;
   padding: 2rem 0;
 }
@@ -432,4 +430,38 @@ nav .nav-links {
 .product-div.shown{
   opacity: 1;
   transform: translateY(0);
+}
+footer{
+  background: #143153;
+  color: #fff;
+  
+}
+.connect{
+  padding: 3rem 1rem;
+}
+.connect-info{
+  margin-bottom: 1rem;
+}
+.connect-info h1{
+  text-transform: uppercase;
+  margin: 0.3rem 0;
+}
+
+.platforms-section{
+  background: #fff;
+  color: #000;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+}
+.platforms{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem 0;;
+}
+
+ion-icon{
+  font-size: 1.7rem;
 }
