@@ -214,6 +214,7 @@ const warSection = async () => {
   } catch (e) {
     throw new Error(e);
   }
+  fadeAnimation();
 }
 warSection();
 
