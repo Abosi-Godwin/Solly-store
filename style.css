@@ -514,9 +514,4 @@ ion-icon{
   text-align: center;
   text-wrap: balance;
   width: 100vw;
-  border: 1px solid #000;
-}
-.copyright p{
-  width: 100%;
-  border: 1px solid red;
 }
