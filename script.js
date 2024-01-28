@@ -35,7 +35,7 @@ setInterval(() => {
 
   const date = new Date();
 
-  const targetDate = new Date("Jan 28, 2024, 00:00:00").getTime();
+  const targetDate = new Date("Jan 31, 2024, 00:00:00").getTime();
   const now = date.getTime();
   const gap = targetDate - now;
 
