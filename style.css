@@ -397,6 +397,9 @@ nav .nav-links {
   width: 90vw;
   margin: 0 auto;
   overflow: hidden;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
 }
 
 
@@ -436,13 +439,17 @@ footer{
   color: #fff;
   
 }
+.mission{
+  padding: 1rem;
+}
+
 .connect{
-  padding: 3rem 1rem;
+  padding: 1rem;
 }
 .connect-info{
   margin-bottom: 1rem;
 }
-.connect-info h1{
+.mission h1, .connect-info h1{
   text-transform: uppercase;
   margin: 0.3rem 0;
 }
@@ -471,4 +478,17 @@ footer{
 }
 ion-icon{
   font-size: 1.7rem;
+}
+
+.trust_badge{
+  width: 90%;
+  padding: 0.6rem;
+  background: #fff;
+  margin: 10px auto;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+}
+.trust_badge img{
+  width: 100%;
 }

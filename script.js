@@ -71,7 +71,6 @@ const apiCaller = async url => {
 
 /* Function creating product elements */
 const elementCreator = (product, elementClass) => {
-
   const productsDiv = `
         <div class="${elementClass}">
         <div class="fave">
@@ -221,12 +220,16 @@ warSection();
 
 
 function renderMap(lat, long) {
-  const myMap = L.map('map').setView([lat, long], 16);
+  const myMap = L.map('map',{
+    dragging: false,
+    attributionControl: false,
+    closePopupOnClick: false,
+  }).setView([lat, long], 16);
   L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
   }).addTo(myMap);
   L.marker([lat, long]).addTo(myMap)
-    .bindPopup(`The physical location of our store <br/> on the map`)
+    .bindPopup(`The physical location of <br> our store on the map`)
     .openPopup();
 }
 renderMap(52.508, 13.381);
