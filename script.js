@@ -1,5 +1,6 @@
 "use strict";
-
+const nav = document.querySelector("nav");
+const banner = document.querySelector(".banner")
 const products = document.querySelector(".products");
 const categoryProducts = document.querySelector(".category-products");
 const categoryBtn = document.querySelector(".category-tab");
@@ -240,6 +241,59 @@ renderMap(52.508, 13.381);
    2: 19.037, 72.873
    3: -33.933, 18.474 
 */
+
+/*function stickyNav() {
+  //const workImages = document.querySelectorAll(".product-div");
+  const fadeOptions = { threshold: 0.6 };
+  const fadeIn = (entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        console.log("Intercepting")
+        entry.target.classList.add("shown");
+        observer.unobserve(entry.target)
+      }
+      else {
+        entry.target.classList.remove("shown")
+      }
+    })
+  }
+
+  const fader = new IntersectionObserver(fadeIn, fadeOptions);
+  
+  //workImages.forEach(workImage => {
+    fader.observe(banner);
+ // })
+}
+
+stickyNav();
+*/
+
+
+//observe and animate the menu bar
+
+const observeMenuFunc = (entries) => {
+  const [entry] = entries;
+
+
+  if (!entry.isIntersecting) {
+    nav.classList.add("color");
+    console.log("activated")
+  //  slideIcon.style.display = 'none';
+  //  hireMe.style.backgroundColor = '#f8a840';
+  }
+  else {
+    nav.classList.remove("color");
+ //   slideIcon.style.display = "block";
+//    hireMe.style.backgroundColor = "transparent";
+  }
+}
+const observeMenuOpt = {
+  root: null,
+  threshold: 0.8,
+}
+const menuObserver = new IntersectionObserver(observeMenuFunc, observeMenuOpt);
+menuObserver.observe(banner);
+
 
 function fadeAnimation() {
   const workImages = document.querySelectorAll(".product-div");
