@@ -24,20 +24,18 @@ p{
 header {
   height: 100vh;
   width: 100vw;
-  background: url("./images/banner.jpeg"), linear-gradient(125deg, rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.75), rgba(20, 49, 83, 0.10)/*rgba(11, 8, 27, 0.95), rgba(11, 8, 27, 0.75), rgba(11, 8, 27, 0.10)*/);
+  background: url("./images/banner.jpeg"), linear-gradient(125deg, rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.75), rgba(20, 49, 83, 0.10));
   background-blend-mode: overlay;
   -webkit-background-size: cover;
   background-size: cover;
   background-position: bottom-right;
   color: #fff;
   position: relative;
-  font-family: 'Montserrat', sans-serif;
-  font-famifly: 'Public Sans', sans-serif;
 }
 
 nav {
   position: absolute;
-  z-index: 1;
+  z-index: 10;
   display: flex;
   justify-content: space-between;
   padding: 0.9rem 0.6rem;
@@ -416,6 +414,7 @@ nav .nav-links {
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
   border-radius: 0.5rem;
+  z-index: 1;
 }
 
 
