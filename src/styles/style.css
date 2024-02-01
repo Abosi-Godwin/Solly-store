@@ -24,7 +24,7 @@ p{
 header {
   height: 100vh;
   width: 100vw;
-  background: url("./images/banner.jpeg"), linear-gradient(125deg, rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.75), rgba(20, 49, 83, 0.10));
+  background: url("/src/images/banner.jpeg"), linear-gradient(125deg, rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.75), rgba(20, 49, 83, 0.10));
   background-blend-mode: overlay;
   -webkit-background-size: cover;
   background-size: cover;
