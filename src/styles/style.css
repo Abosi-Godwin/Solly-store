@@ -1,3 +1,8 @@
+:root{
+  --dark-clr: rgba(20, 49, 83, 1);
+  --faden-color: #adb5bd;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -49,7 +54,7 @@ nav {
 }
 .color{
   background: #143153;
-  background: rgba(20, 49, 83, 1);
+  background: var(--dark-clr);
   position: fixed;
   top: 0;
   left: 0;
@@ -129,13 +134,13 @@ nav .nav-links {
 
 
 .product-div .category {
-  color: #adb5bd;
+  color: var(--faden-color);
   text-transform: uppercase;
 
 }
 
 .product-div .price {
-  color: #051C37;
+  color: var(--dark-clr);
 }
 
 .product-title {

@@ -2,6 +2,7 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator } from "./modules/views.js";
+import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
@@ -18,10 +19,8 @@ const warProducts = document.querySelector(".war-products");
 setInterval(() => {
 
   const date = new Date();
-
-  const targetDate = new Date("feb 10, 2024, 00:00:00").getTime();
   const now = date.getTime();
-  const gap = targetDate - now;
+  const gap = TARGETDATE - now;
 
   const second = 1000;
   const minute = second * 60;
@@ -33,10 +32,9 @@ setInterval(() => {
   const theHour = Math.floor((gap % day) / hour)
   const theMinutes = Math.floor((gap % hour) / minute);
   const theSeconds = Math.floor((gap % minute) / second);
+  
   countDownTimer.innerHTML = updateTimer(theDate, theHour, theMinutes, theSeconds);
 }, 1000);
-
-
 
 
 /* creating product elements*/
@@ -47,10 +45,11 @@ const createProducts = async (products, section, divClass) => {
   }
 }
 
+
 /* IIFE for some generic products */
 (async () => {
   try {
-    let genericProducts = await apiCaller('https://fakestoreapi.com/products?limit=6');
+    let genericProducts = await apiCaller(`${DATA_BASE_URL}?limit=6`);
     createProducts(genericProducts, products, "product-div");
   } catch (e) {
     throw new Error(e);
@@ -60,9 +59,10 @@ const createProducts = async (products, section, divClass) => {
 
 /* Handling category products fetching */
 const categoryGenerator = async category => {
-  const returnedCategory = apiCaller(`https://fakestoreapi.com/products/category/${category}`);
+  const returnedCategory = apiCaller(`${DATA_BASE_URL}category/${category}`);
   return returnedCategory;
 }
+
 
 const defaultCategory = await categoryGenerator("electronics");
 
@@ -77,7 +77,7 @@ const getCategory = e => {
 
     if (e.target.classList.contains("tab")) {
       const theCategory = e.target.dataset.category;
-      let returnedCategory = apiCaller(`https://fakestoreapi.com/products/category/${theCategory}`);
+      let returnedCategory = apiCaller(`${DATA_BASE_URL}category/${theCategory}`);
 
 
       returnedCategory.then(result => {
@@ -151,9 +151,9 @@ autoSlider();
 /* Getting collections section */
 const warSection = async () => {
   try {
-    const collections = await apiCaller("https://fakestoreapi.com/products/categories");
-    const mensClothings = await apiCaller(`https://fakestoreapi.com/products/category/${collections.slice(-2).slice(0,1)}`);
-    const womensClothings = await apiCaller(`https://fakestoreapi.com/products/category/${collections.slice(-2).slice(1)}`);
+    const collections = await apiCaller(`${DATA_BASE_URL}categories`);
+    const mensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(0,1)}`);
+    const womensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(1)}`);
     const wars = mensClothings.slice(-3).flatMap(product => {
       return [product, womensClothings.shift()];
     });
@@ -182,12 +182,12 @@ function renderMap(lat, long) {
 }
 renderMap(52.508, 13.381);
 
-//observe and animate the menu bar
 
+
+
+//observe and animate the menu bar
 const observeMenuFunc = (entries) => {
   const [entry] = entries;
-
-
   if (!entry.isIntersecting) {
     nav.classList.add("color");
   }
