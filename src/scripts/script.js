@@ -2,6 +2,7 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator } from "./modules/views.js";
+
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
 const products = document.querySelector(".products");
