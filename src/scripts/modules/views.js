@@ -13,8 +13,8 @@ export const updateTimer = (theDate, theHour, theMinutes, theSeconds) => {
   const secsHtml = updateTimerElement(theSeconds, "Seconds");
 
 
-  const timers = `${dayHtml} ${hourHtml} ${minsHtml} ${secsHtml}`
- return timers;
+  return `${dayHtml} ${hourHtml} ${minsHtml} ${secsHtml}`
+
 }
 
 

@@ -138,6 +138,7 @@ const navigate = e => {
     prevSlide();
   }
 }
+
 sliderNav.addEventListener("click", navigate);
 
 const autoSlider = () => {
