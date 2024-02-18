@@ -31,10 +31,12 @@ export const elementCreator = (product, elementClass) => {
           <h3 class="product-title">${product.title}</h3>
           <h2 class="price">$${product.price.toFixed(2)}</h2>
         </div>
-        <div class="fave">
-        <ion-icon name="add-circle" class="heart"></ion-icon>
-        
+        <div class="cart">
+       <!-- <ion-icon name="add-circle" class="heart addToCart"></ion-icon>-->
+        <button class="addToCart"> add to cart </dutton>
         </div>
         </div>`;
   return productsDiv;
 }
+
+export const cartCounter = cart => cart.length;

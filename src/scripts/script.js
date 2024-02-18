@@ -1,7 +1,8 @@
 "use strict";
 
 import { apiCaller } from './modules/model.js';
-import { updateTimer, elementCreator } from "./modules/views.js";
+import { updateTimer, elementCreator, cartCounter } from "./modules/views.js";
+import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
 const nav = document.querySelector("nav");
@@ -14,6 +15,8 @@ const sliderNav = document.querySelector(".slider-navigation");
 let currentSlide = 0;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
+const cartCounterEl = document.querySelector(".cart-counter");
+console.log(cartCounter(cart));
 
 /* Time interval function */
 setInterval(() => {
@@ -32,7 +35,7 @@ setInterval(() => {
   const theHour = Math.floor((gap % day) / hour)
   const theMinutes = Math.floor((gap % hour) / minute);
   const theSeconds = Math.floor((gap % minute) / second);
-  
+
   countDownTimer.innerHTML = updateTimer(theDate, theHour, theMinutes, theSeconds);
 }, 1000);
 
@@ -85,6 +88,7 @@ const getCategory = e => {
 
         createProducts(result, categoryProducts, "product-div");
         fadeAnimation();
+        cartSystem();
       })
       e.target.classList.add("active")
     }
@@ -226,3 +230,32 @@ function fadeAnimation() {
 }
 
 fadeAnimation();
+
+
+let addToCartBtns;
+const cartItemsCounter = () => {
+  cartCounterEl.textContent = cart.length;
+}
+cartItemsCounter();
+const addToCartFunc = e => {
+
+  const itemDetails = e.target.parentNode.previousElementSibling;
+
+  const itemInfos = {
+    imgUrl: itemDetails.querySelector("img").src,
+    category: itemDetails.querySelector(".category").textContent,
+    title: itemDetails.querySelector(".product-title").textContent,
+    price: +itemDetails.querySelector(".price").textContent.replace("$", ""),
+  }
+  const isItemInCart = cart.find((item) => item?.title === itemInfos?.title) ? "Items already exists in cart" : sendToCart(itemInfos);
+  cartItemsCounter();
+
+}
+
+const cartSystem = () => {
+  addToCartBtns = document.querySelectorAll(".addToCart");
+  addToCartBtns.forEach(btn => {
+    btn.addEventListener("click", addToCartFunc);
+  })
+}
+cartSystem();

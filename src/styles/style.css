@@ -1,6 +1,7 @@
 :root{
   --dark-clr: rgba(20, 49, 83, 1);
   --faden-color: #adb5bd;
+  --font: 'Nunito', sans-serif;
 }
 
 * {
@@ -14,7 +15,7 @@
 h1,
 h2,
 h3 {
-  font-family: 'Nunito', sans-serif;
+  font-family: var(--font);
 }
 
 h4,
@@ -61,6 +62,26 @@ nav {
 }
 nav .nav-links {
   display: none;
+}
+.cart-icon-section{
+  position: relative;
+  height: 100%;
+  width: auto;
+}
+.cart-counter {
+  width: 15px;
+  height: 15px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  position: absolute;
+  top: -10px;
+  left: 10px;
+  text-align: center;
+  z-index: 10;
+  display: block;
+  background: #F8A840;
+  
 }
 
 .banner {
@@ -162,10 +183,31 @@ nav .nav-links {
   color: #738BA7;
   font-size: 2rem;
 }
-/*
-.categories {
+
+.cart {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 1rem;
 }
-*/
+.cart .addToCart{
+  display: block;
+  width: 60%;
+  height: 50px;
+  background: #F8A840;
+  border: none;
+  outline: none;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--font);
+}
+
 .categories, .category-section {
   background: #143153;
   padding: 2rem 0;
