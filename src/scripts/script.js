@@ -286,7 +286,7 @@ const  addToCartBtns =
   document.querySelectorAll(".addToCart");
   //console.log(addToCartBtns.parentNode)
   addToCartBtns.forEach(btn => {
-    //btn.style.backgroundColor = "Red";
+    btn.style.backgroundColor = "Red";
     btn.addEventListener("click", addToCartFunc);
   })
 }
