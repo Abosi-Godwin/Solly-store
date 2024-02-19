@@ -166,7 +166,9 @@ const warSection = async () => {
     const wars = mensClothings.slice(-3).flatMap(product => {
       return [product, womensClothings.shift()];
     });
+    
     createProducts(wars, warProducts, "product-div");
+    
   } catch (e) {
     throw new Error(e);
   }
@@ -236,13 +238,13 @@ function fadeAnimation() {
 fadeAnimation();
 
 
-let addToCartBtns;
+//let addToCartBtns;
 const cartItemsCounter = () => {
   cartCounterEl.textContent = cart.length;
 }
 cartItemsCounter();
 const addToCartFunc = e => {
-
+console.log(e.target)
   const itemDetails = e.target.parentNode.previousElementSibling;
 
   const itemInfos = {
@@ -256,14 +258,6 @@ const addToCartFunc = e => {
 
 }
 
-const cartSystem = () => {
-  addToCartBtns = document.querySelectorAll(".addToCart");
-  addToCartBtns.forEach(btn => {
-    btn.addEventListener("click", addToCartFunc);
-  })
-}
-cartSystem();
-
 const updateCartPage = () => {
   cart.forEach(item => {
     const abc = generateCartItem(item);
@@ -272,14 +266,33 @@ const updateCartPage = () => {
 }
 
 const openCartPage = () => {
-  cartItems.innerHTML = "";
+  if (cart.length === 0) {
+    cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
+  }
   updateCartPage();
   cartPage.classList.add("open");
 }
 
 const closeCartPageFunc = () => {
   cartPage.classList.remove("open");
+  setTimeout(()=>{
+  cartItems.innerHTML = "";
+    
+  },1000);
 }
+
+const cartSystem = () => {
+const  addToCartBtns = 
+  document.querySelectorAll(".addToCart");
+  //console.log(addToCartBtns.parentNode)
+  addToCartBtns.forEach(btn => {
+    //btn.style.backgroundColor = "Red";
+    btn.addEventListener("click", addToCartFunc);
+  })
+}
+cartSystem();
+
+
 
 cartCounterSection.addEventListener("click",openCartPage);
 

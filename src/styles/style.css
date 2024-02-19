@@ -755,6 +755,17 @@ ion-icon{
   border-radius: 0.5rem;
   margin: 10px 0;
 }
+
+.cart-notification{
+  text-align: center;
+  text-wrap: balance;
+  background: #051C37;
+  color: #738BA7;
+  padding: 1rem 0.5rem;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+}
 /*
 .cart-quantity .cart-product-image{
   width: 30px;

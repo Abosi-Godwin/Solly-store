@@ -31,9 +31,11 @@ export const elementCreator = (product, elementClass) => {
           <h3 class="product-title">${product.title}</h3>
           <h2 class="price">$${product.price.toFixed(2)}</h2>
         </div>
+        
         <div class="cart">
-       <!-- <ion-icon name="add-circle" class="heart addToCart"></ion-icon>-->
+        
         <button class="addToCart"> add to cart </dutton>
+        
         </div>
         </div>`;
   return productsDiv;
@@ -57,7 +59,7 @@ export const generateCartItem = item => {
               <div>
                 <h4>${item.title}</h4>
                 <p>${item.category}</p>
-                <p>$${item.price}</p>
+                <p><b>$${item.price}</b></p>
               </div>
             </div>
             <div class="row-action">
