@@ -45,9 +45,9 @@ export const generateCartItem = item => {
   //console.log(item)
   return ` <div class="item-row">
             <div class="cart-quantity">
-              <input type="button" value="-" />
-              <input type="number" name="quantity" value="1" id="quantity-number" />
               <input type="button" value="+" />
+              <input type="number" name="quantity" value="1" id="quantity-number" />
+              <input type="button" value="-" />
             </div>
             
             <div class="item-details">

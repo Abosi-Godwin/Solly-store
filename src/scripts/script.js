@@ -266,20 +266,21 @@ cartSystem();
 
 const updateCartPage = () => {
   cart.forEach(item => {
-    
     const abc = generateCartItem(item);
-    console.log(typeof abc)
     cartItems.innerHTML += abc;
   })
 }
 
 const openCartPage = () => {
+  cartItems.innerHTML = "";
   updateCartPage();
   cartPage.classList.add("open");
 }
+
 const closeCartPageFunc = () => {
   cartPage.classList.remove("open");
 }
+
 cartCounterSection.addEventListener("click",openCartPage);
 
 closeCartPage.addEventListener("click",closeCartPageFunc);
