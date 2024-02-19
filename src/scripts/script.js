@@ -1,7 +1,7 @@
 "use strict";
 
 import { apiCaller } from './modules/model.js';
-import { updateTimer, elementCreator, cartCounter } from "./modules/views.js";
+import { updateTimer, elementCreator, generateCartItem} from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
@@ -15,8 +15,12 @@ const sliderNav = document.querySelector(".slider-navigation");
 let currentSlide = 0;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
+const cartCounterSection = document.querySelector(".cart-icon-section");
 const cartCounterEl = document.querySelector(".cart-counter");
-console.log(cartCounter(cart));
+const cartPage = document.querySelector(".cart-page");
+const closeCartPage = document.querySelector(".close-cart-page");
+const cartItems = document.querySelector(".items")
+//console.log(generateCartItem(cart));
 
 /* Time interval function */
 setInterval(() => {
@@ -259,3 +263,23 @@ const cartSystem = () => {
   })
 }
 cartSystem();
+
+const updateCartPage = () => {
+  cart.forEach(item => {
+    
+    const abc = generateCartItem(item);
+    console.log(typeof abc)
+    cartItems.innerHTML += abc;
+  })
+}
+
+const openCartPage = () => {
+  updateCartPage();
+  cartPage.classList.add("open");
+}
+const closeCartPageFunc = () => {
+  cartPage.classList.remove("open");
+}
+cartCounterSection.addEventListener("click",openCartPage);
+
+closeCartPage.addEventListener("click",closeCartPageFunc);

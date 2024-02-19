@@ -39,4 +39,32 @@ export const elementCreator = (product, elementClass) => {
   return productsDiv;
 }
 
-export const cartCounter = cart => cart.length;
+//export const cartCounter = cart => cart.length;
+
+export const generateCartItem = item => {
+  //console.log(item)
+  return ` <div class="item-row">
+            <div class="cart-quantity">
+              <input type="button" value="-" />
+              <input type="number" name="quantity" value="1" id="quantity-number" />
+              <input type="button" value="+" />
+            </div>
+            
+            <div class="item-details">
+              <div class="cart-product-image">
+                <img src="${item.imgUrl}" alt="">
+              </div>
+              <div>
+                <h4>${item.title}</h4>
+                <p>${item.category}</p>
+                <p>$${item.price}</p>
+              </div>
+            </div>
+            <div class="row-action">
+              <button>
+                <ion-icon name="trash-outline"></ion-icon>
+              </button>
+            </div>
+          </div>
+        `
+}
