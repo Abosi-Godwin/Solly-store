@@ -176,6 +176,7 @@ const warSection = async () => {
     throw new Error(e);
   }
   fadeAnimation();
+  cartSystem();
 }
 warSection();
 
@@ -245,19 +246,22 @@ const cartItemsCounter = () => {
 }
 cartItemsCounter();
 const addToCartFunc = e => {
-
   const itemDetails = e.target.parentNode.previousElementSibling;
-
   const itemInfos = {
     imgUrl: itemDetails.querySelector("img").src,
     category: itemDetails.querySelector(".category").textContent,
     title: itemDetails.querySelector(".product-title").textContent,
     price: +itemDetails.querySelector(".price").textContent.replace("$", ""),
   }
-  const isItemInCart = cart.find((item) => item?.title === itemInfos?.title) ? "Items already exists in cart" : sendToCart(itemInfos);
-  cartItemsCounter();
-
+  const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
+  
+  if (!isItemInCart) {
+    sendToCart(itemInfos);
+    cartItemsCounter();
+    e.target.textContent="Added to cart";
+  }
 }
+
 
 const updateCartPage = () => {
   cart.forEach(item => {
