@@ -57,9 +57,9 @@ export const generateCartItem = item => {
                 <img src="${item.imgUrl}" alt="">
               </div>
               <div>
-                <h4>${item.title}</h4>
-                <p>${item.category}</p>
-                <p><b>$${item.price}</b></p>
+                <h4>${item.title.slice(0,35).concat("....")}</h4>
+                <p>${item.category.toUpperCase()}</p>
+                <p><b>$${item.price.toFixed(2)}</b></p>
               </div>
             </div>
             <div class="row-action">

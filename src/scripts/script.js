@@ -1,7 +1,7 @@
 "use strict";
 
 import { apiCaller } from './modules/model.js';
-import { updateTimer, elementCreator, generateCartItem} from "./modules/views.js";
+import { updateTimer, elementCreator, generateCartItem } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
@@ -13,6 +13,8 @@ const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
 const sliderNav = document.querySelector(".slider-navigation");
 let currentSlide = 0;
+let slideInterval;
+let addToCartBtns;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -152,7 +154,8 @@ sliderNav.addEventListener("click", navigate);
 const autoSlider = () => {
   setInterval(() => {
     nextSlide();
-  }, 5000)
+  }, 5000);
+
 }
 autoSlider();
 
@@ -166,9 +169,9 @@ const warSection = async () => {
     const wars = mensClothings.slice(-3).flatMap(product => {
       return [product, womensClothings.shift()];
     });
-    
+
     createProducts(wars, warProducts, "product-div");
-    
+
   } catch (e) {
     throw new Error(e);
   }
@@ -237,14 +240,12 @@ function fadeAnimation() {
 
 fadeAnimation();
 
-
-//let addToCartBtns;
 const cartItemsCounter = () => {
   cartCounterEl.textContent = cart.length;
 }
 cartItemsCounter();
 const addToCartFunc = e => {
-console.log(e.target)
+
   const itemDetails = e.target.parentNode.previousElementSibling;
 
   const itemInfos = {
@@ -275,25 +276,22 @@ const openCartPage = () => {
 
 const closeCartPageFunc = () => {
   cartPage.classList.remove("open");
-  setTimeout(()=>{
-  cartItems.innerHTML = "";
-    
-  },1000);
+  setTimeout(() => {
+    cartItems.innerHTML = "";
+
+  }, 1000);
 }
 
+
+cartCounterSection.addEventListener("click", openCartPage);
+
+closeCartPage.addEventListener("click", closeCartPageFunc);
+
 const cartSystem = () => {
-const  addToCartBtns = 
-  document.querySelectorAll(".addToCart");
-  //console.log(addToCartBtns.parentNode)
+  addToCartBtns =
+    document.querySelectorAll(".addToCart");
   addToCartBtns.forEach(btn => {
-    btn.style.backgroundColor = "Red";
     btn.addEventListener("click", addToCartFunc);
   })
 }
 cartSystem();
-
-
-
-cartCounterSection.addEventListener("click",openCartPage);
-
-closeCartPage.addEventListener("click",closeCartPageFunc);
