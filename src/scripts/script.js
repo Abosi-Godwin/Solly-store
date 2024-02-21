@@ -169,9 +169,7 @@ const warSection = async () => {
     const wars = mensClothings.slice(-3).flatMap(product => {
       return [product, womensClothings.shift()];
     });
-
     createProducts(wars, warProducts, "product-div");
-
   } catch (e) {
     throw new Error(e);
   }
