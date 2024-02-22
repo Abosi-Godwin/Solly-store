@@ -12,9 +12,12 @@ const categoryProducts = document.querySelector(".category-products");
 const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
 const sliderNav = document.querySelector(".slider-navigation");
+const taxRate = 0.2;
+const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
 let addToCartBtns;
+let allPrices;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -22,7 +25,8 @@ const cartCounterEl = document.querySelector(".cart-counter");
 const cartPage = document.querySelector(".cart-page");
 const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
-//console.log(generateCartItem(cart));
+const pricesTotalSection = document.querySelector(".cart-total-section");
+
 
 /* Time interval function */
 setInterval(() => {
@@ -243,14 +247,20 @@ const cartItemsCounter = () => {
   cartCounterEl.textContent = cart.length;
 }
 cartItemsCounter();
+const calculateTax = price =>{
+  return (100 * price) / 0.2;
+}
 const addToCartFunc = e => {
   const itemDetails = e.target.parentNode.previousElementSibling;
+  
   const itemInfos = {
     imgUrl: itemDetails.querySelector("img").src,
     category: itemDetails.querySelector(".category").textContent,
     title: itemDetails.querySelector(".product-title").textContent,
-    price: +itemDetails.querySelector(".price").textContent.replace("$", ""),
+    price: +itemDetails.querySelector(".price").textContent.replace("$", "")
   }
+  
+  
   const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
   
   if (!isItemInCart) {
@@ -273,6 +283,13 @@ const openCartPage = () => {
     cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
   }
   updateCartPage();
+  /*calculateItemsPrice();
+  calculateItemsTax();
+  calculateDelivery();
+calculateItemsPrice();
+calculateItemsTax();
+calculateDelivery();*/
+calculateSubTotal();
   cartPage.classList.add("open");
 }
 
@@ -297,3 +314,26 @@ const cartSystem = () => {
   })
 }
 cartSystem();
+
+const calculateItemsPrice = () =>{
+   allPrices = cart.map(item => item.price);
+  if (allPrices.length !== 0) {
+    allPrices = allPrices.reduce((a,c) => a + c).toFixed(2);
+  }
+  return allPrices;
+}
+
+const calculateItemsTax = () => {
+  const tax = ((allPrices * taxRate) / 100).toFixed(2);
+  return tax;
+}
+
+const calculateDelivery = () => {
+  const shippingPrice = ((allPrices * shippingRate) / 100).toFixed(2);
+  return shippingPrice;
+}
+
+const calculateSubTotal = () => {
+  const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a,c) => a + c);
+  console.log(total);
+}
