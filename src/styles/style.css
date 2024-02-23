@@ -600,7 +600,9 @@ ion-icon{
 
 .backward{
   width: 100%;
-  text-align: right;
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 0;
 }
 .page-info h2{
   font-size: 2rem;

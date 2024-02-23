@@ -247,26 +247,26 @@ const cartItemsCounter = () => {
   cartCounterEl.textContent = cart.length;
 }
 cartItemsCounter();
-const calculateTax = price =>{
+const calculateTax = price => {
   return (100 * price) / 0.2;
 }
 const addToCartFunc = e => {
   const itemDetails = e.target.parentNode.previousElementSibling;
-  
+
   const itemInfos = {
     imgUrl: itemDetails.querySelector("img").src,
     category: itemDetails.querySelector(".category").textContent,
     title: itemDetails.querySelector(".product-title").textContent,
     price: +itemDetails.querySelector(".price").textContent.replace("$", "")
   }
-  
-  
+
+
   const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
-  
+
   if (!isItemInCart) {
     sendToCart(itemInfos);
     cartItemsCounter();
-    e.target.textContent="Added to cart";
+    e.target.textContent = "Added to cart";
   }
 }
 
@@ -289,7 +289,7 @@ const openCartPage = () => {
 calculateItemsPrice();
 calculateItemsTax();
 calculateDelivery();*/
-calculateSubTotal();
+  calculateSubTotalSection();
   cartPage.classList.add("open");
 }
 
@@ -314,26 +314,35 @@ const cartSystem = () => {
   })
 }
 cartSystem();
-
-const calculateItemsPrice = () =>{
-   allPrices = cart.map(item => item.price);
-  if (allPrices.length !== 0) {
-    allPrices = allPrices.reduce((a,c) => a + c).toFixed(2);
+const calculateSubTotalSection = () => {
+  const calculateItemsPrice = () => {
+    allPrices = cart.map(item => item.price);
+    if (allPrices.length !== 0) {
+      allPrices = allPrices.reduce((a, c) => a + c).toFixed(2);
+    }
+    return allPrices;
   }
-  return allPrices;
-}
 
-const calculateItemsTax = () => {
-  const tax = ((allPrices * taxRate) / 100).toFixed(2);
-  return tax;
-}
+  const calculateItemsTax = () => {
+    const tax = ((allPrices * taxRate) / 100).toFixed(2);
+    return tax;
+  }
 
-const calculateDelivery = () => {
-  const shippingPrice = ((allPrices * shippingRate) / 100).toFixed(2);
-  return shippingPrice;
-}
+  const calculateDelivery = () => {
+    const shippingPrice = ((allPrices * shippingRate) / 100).toFixed(2);
+    return shippingPrice;
+  }
 
-const calculateSubTotal = () => {
-  const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a,c) => a + c);
-  console.log(total);
+  const calculateSubTotal = () => {
+    const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
+    return total;
+  }
+  console.log(calculateItemsPrice());
+  pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
+  
+  pricesTotalSection.querySelector(".cart-tax").innerHTML = `$${calculateItemsTax()}`;
+  
+  pricesTotalSection.querySelector(".cart-delivery").innerHTML = `$${calculateDelivery()}`;
+  
+  pricesTotalSection.querySelector(".cart-sub-total").innerHTML = `$${calculateSubTotal()}`;
 }
