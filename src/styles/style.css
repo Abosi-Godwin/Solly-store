@@ -189,7 +189,9 @@ nav .nav-links {
   color: #738BA7;
   font-size: 2rem;
 }
-
+.item-id{
+  display: none;
+}
 .cart {
   width: 100%;
   display: flex;

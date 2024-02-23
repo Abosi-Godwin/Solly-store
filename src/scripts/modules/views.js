@@ -1,4 +1,3 @@
-
 /* countdown timer function*/
 
 const updateTimerElement = (time, unit) => {
@@ -28,6 +27,7 @@ export const elementCreator = (product, elementClass) => {
         <div class="product-info">
           <img src="${product.image}" alt="" class="product-img">
           <p class="category">${product.category}</p>
+          <span class="item-id">${product.id}</span>
           <h3 class="product-title">${product.title}</h3>
           <h2 class="price">$${product.price.toFixed(2)}</h2>
         </div>
@@ -44,7 +44,7 @@ export const elementCreator = (product, elementClass) => {
 //export const cartCounter = cart => cart.length;
 
 export const generateCartItem = item => {
-  //console.log(item)
+
   return ` <div class="item-row">
             <div class="cart-quantity">
               <input type="button" value="+" />
@@ -57,13 +57,14 @@ export const generateCartItem = item => {
                 <img src="${item.imgUrl}" alt="">
               </div>
               <div>
-                <h4>${item.title.slice(0,35).concat("....")}</h4>
+          <span class="item-id">${item.id}</span>
+                <h4 class="item-title">${item.title.slice(0,35).concat("....")}</h4>
                 <p>${item.category.toUpperCase()}</p>
                 <p><b>$${item.price.toFixed(2)}</b></p>
               </div>
             </div>
             <div class="row-action">
-              <button>
+              <button class="delete-cart-item">
                 <ion-icon name="trash-outline"></ion-icon>
               </button>
             </div>

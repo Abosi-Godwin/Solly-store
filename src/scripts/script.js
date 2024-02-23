@@ -27,7 +27,6 @@ const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
-
 /* Time interval function */
 setInterval(() => {
 
@@ -254,6 +253,7 @@ const addToCartFunc = e => {
   const itemDetails = e.target.parentNode.previousElementSibling;
 
   const itemInfos = {
+    id: itemDetails.querySelector(".item-id").textContent,
     imgUrl: itemDetails.querySelector("img").src,
     category: itemDetails.querySelector(".category").textContent,
     title: itemDetails.querySelector(".product-title").textContent,
@@ -278,18 +278,16 @@ const updateCartPage = () => {
   })
 }
 
+const emptyCart = ()=> {
+    if (cart.length === 0) {
+      cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
+    }
+}
+
 const openCartPage = () => {
-  if (cart.length === 0) {
-    cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
-  }
+  emptyCart();
   updateCartPage();
-  /*calculateItemsPrice();
-  calculateItemsTax();
-  calculateDelivery();
-calculateItemsPrice();
-calculateItemsTax();
-calculateDelivery();*/
-  calculateSubTotalSection();
+  calculateSubTotalSection(cart);
   cartPage.classList.add("open");
 }
 
@@ -314,9 +312,11 @@ const cartSystem = () => {
   })
 }
 cartSystem();
-const calculateSubTotalSection = () => {
+
+
+const calculateSubTotalSection = (cartProducts) => {
   const calculateItemsPrice = () => {
-    allPrices = cart.map(item => item.price);
+    allPrices = cartProducts.map(item => item.price);
     if (allPrices.length !== 0) {
       allPrices = allPrices.reduce((a, c) => a + c).toFixed(2);
     }
@@ -334,10 +334,12 @@ const calculateSubTotalSection = () => {
   }
 
   const calculateSubTotal = () => {
+
     const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
     return total;
   }
-  console.log(calculateItemsPrice());
+  //console.log(calculateItemsPrice());
+  //console.log("Deleted")
   pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
   
   pricesTotalSection.querySelector(".cart-tax").innerHTML = `$${calculateItemsTax()}`;
@@ -345,4 +347,21 @@ const calculateSubTotalSection = () => {
   pricesTotalSection.querySelector(".cart-delivery").innerHTML = `$${calculateDelivery()}`;
   
   pricesTotalSection.querySelector(".cart-sub-total").innerHTML = `$${calculateSubTotal()}`;
+  deleteCartItemsFunc();
+}
+
+
+
+const deleteCartItemsFunc = () => {
+const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
+  deleteCartItemBtns.forEach(btn => {
+    btn.addEventListener("click",e =>{
+      const itemToRemove = e.target.parentNode.parentNode.parentNode;
+      const itemId = itemToRemove.querySelector(".item-id").textContent;
+      const itemIndex = cart.findIndex(item => item.id === itemToRemove);
+      calculateSubTotalSection(cart.splice(itemIndex,1));
+      itemToRemove.remove();
+      emptyCart();
+    })
+  });
 }
