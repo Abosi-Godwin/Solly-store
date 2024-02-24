@@ -271,8 +271,9 @@ const addToCartFunc = e => {
 }
 
 
-const updateCartPage = () => {
-  cart.forEach(item => {
+const updateCartPage = itemsInCart => {
+  cartItems.innerHTML = "";
+  itemsInCart.forEach(item => {
     const abc = generateCartItem(item);
     cartItems.innerHTML += abc;
   })
@@ -286,7 +287,7 @@ const emptyCart = ()=> {
 
 const openCartPage = () => {
   emptyCart();
-  updateCartPage();
+  updateCartPage(cart);
   calculateSubTotalSection(cart);
   cartPage.classList.add("open");
 }
@@ -339,7 +340,7 @@ const calculateSubTotalSection = (cartProducts) => {
     return total;
   }
   //console.log(calculateItemsPrice());
-  //console.log("Deleted")
+  console.log(cart)
   pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
   
   pricesTotalSection.querySelector(".cart-tax").innerHTML = `$${calculateItemsTax()}`;
@@ -350,18 +351,24 @@ const calculateSubTotalSection = (cartProducts) => {
   deleteCartItemsFunc();
 }
 
-
+const deleteItem = e =>{
+      
+      const itemToRemove = e.target.parentNode.parentNode.parentNode;
+      const itemId = itemToRemove.querySelector(".item-id").textContent;
+      const itemIndex = cart.findIndex(item => item.id === itemId);
+      const itemRemoved = cart.splice(itemIndex, 1);
+      console.log("deleted");
+      calculateSubTotalSection(cart);
+      itemToRemove.remove();
+      updateCartPage(cart);
+      cartItemsCounter();
+      emptyCart();
+      
+    }
 
 const deleteCartItemsFunc = () => {
 const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
   deleteCartItemBtns.forEach(btn => {
-    btn.addEventListener("click",e =>{
-      const itemToRemove = e.target.parentNode.parentNode.parentNode;
-      const itemId = itemToRemove.querySelector(".item-id").textContent;
-      const itemIndex = cart.findIndex(item => item.id === itemToRemove);
-      calculateSubTotalSection(cart.splice(itemIndex,1));
-      itemToRemove.remove();
-      emptyCart();
-    })
+    btn.addEventListener("click", deleteItem)
   });
 }
