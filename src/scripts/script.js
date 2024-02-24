@@ -279,10 +279,10 @@ const updateCartPage = itemsInCart => {
   })
 }
 
-const emptyCart = ()=> {
-    if (cart.length === 0) {
-      cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
-    }
+const emptyCart = () => {
+  if (cart.length === 0) {
+    cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
+  }
 }
 
 const openCartPage = () => {
@@ -296,7 +296,6 @@ const closeCartPageFunc = () => {
   cartPage.classList.remove("open");
   setTimeout(() => {
     cartItems.innerHTML = "";
-
   }, 1000);
 }
 
@@ -342,32 +341,31 @@ const calculateSubTotalSection = (cartProducts) => {
   //console.log(calculateItemsPrice());
   console.log(cart)
   pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
-  
+
   pricesTotalSection.querySelector(".cart-tax").innerHTML = `$${calculateItemsTax()}`;
-  
+
   pricesTotalSection.querySelector(".cart-delivery").innerHTML = `$${calculateDelivery()}`;
-  
+
   pricesTotalSection.querySelector(".cart-sub-total").innerHTML = `$${calculateSubTotal()}`;
   deleteCartItemsFunc();
 }
 
-const deleteItem = e =>{
-      
-      const itemToRemove = e.target.parentNode.parentNode.parentNode;
-      const itemId = itemToRemove.querySelector(".item-id").textContent;
-      const itemIndex = cart.findIndex(item => item.id === itemId);
-      const itemRemoved = cart.splice(itemIndex, 1);
-      console.log("deleted");
-      calculateSubTotalSection(cart);
-      itemToRemove.remove();
-      updateCartPage(cart);
-      cartItemsCounter();
-      emptyCart();
-      
-    }
+const deleteItem = e => {
+  const itemToRemove = e.target.parentNode.parentNode.parentNode;
+  const itemId = itemToRemove.querySelector(".item-id").textContent;
+  const itemIndex = cart.findIndex(item => item.id === itemId);
+  const itemRemoved = cart.splice(itemIndex, 1);
+
+  itemToRemove.remove();
+  cartItems.innerHTML ="";
+  updateCartPage(cart);
+  calculateSubTotalSection(cart);
+  cartItemsCounter();
+  emptyCart();
+}
 
 const deleteCartItemsFunc = () => {
-const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
+  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
   deleteCartItemBtns.forEach(btn => {
     btn.addEventListener("click", deleteItem)
   });
