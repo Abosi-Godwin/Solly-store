@@ -1,7 +1,7 @@
 "use strict";
 
 import { apiCaller } from './modules/model.js';
-import { updateTimer, elementCreator, generateCartItem } from "./modules/views.js";
+import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
@@ -107,14 +107,13 @@ const getCategory = e => {
   }
 };
 
-
-
 /* Tabbed components event listener */
 categoryBtn.addEventListener("click", getCategory)
 
 
 
 //...... Reviews slider ........//
+// Sliding feature
 const sliding = () => {
   allReviews.forEach((s, i) => {
     s.style.transform = `translateX(${100 * (i - currentSlide)}%)`;
@@ -122,6 +121,7 @@ const sliding = () => {
 }
 sliding();
 
+// Next slide
 const nextSlide = () => {
   if (currentSlide > allReviews.length - 2) {
     currentSlide = 0;
@@ -131,6 +131,7 @@ const nextSlide = () => {
   sliding();
 }
 
+// Prev slide
 const prevSlide = () => {
   if (currentSlide <= 0) {
     currentSlide = allReviews.length - 1;
@@ -140,6 +141,7 @@ const prevSlide = () => {
   sliding();
 }
 
+// Detecting which slider button was clicked
 const navigate = e => {
   const nextArrClicked = e.target.classList.contains("md");
   const nextBtnClicked = e.target.closest("button").classList.contains("btn-right");
@@ -152,8 +154,10 @@ const navigate = e => {
   }
 }
 
+// slider buttons event listener
 sliderNav.addEventListener("click", navigate);
 
+// Automatic slider function
 const autoSlider = () => {
   setInterval(() => {
     nextSlide();
@@ -182,7 +186,7 @@ const warSection = async () => {
 warSection();
 
 
-
+// Map rendering function
 function renderMap(lat, long) {
   const myMap = L.map('map', {
     dragging: false,
@@ -211,10 +215,14 @@ const observeMenuFunc = (entries) => {
     nav.classList.remove("color");
   }
 }
+
+
 const observeMenuOpt = {
   root: null,
   threshold: 0.8,
 }
+
+
 const menuObserver = new IntersectionObserver(observeMenuFunc, observeMenuOpt);
 menuObserver.observe(banner);
 
@@ -242,16 +250,21 @@ function fadeAnimation() {
 
 fadeAnimation();
 
+/* The cart page functions */
+
+//count products in cart and update the cart icon
 const cartItemsCounter = () => {
   cartCounterEl.textContent = cart.length;
 }
 cartItemsCounter();
-const calculateTax = price => {
-  return (100 * price) / 0.2;
-}
+
+
+// function facilitating the add to cart feature
 const addToCartFunc = e => {
+  
   const itemDetails = e.target.parentNode.previousElementSibling;
 
+// Getting the products infos
   const itemInfos = {
     id: itemDetails.querySelector(".item-id").textContent,
     imgUrl: itemDetails.querySelector("img").src,
@@ -261,8 +274,8 @@ const addToCartFunc = e => {
   }
 
 
+// checking if item is in cart already
   const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
-
   if (!isItemInCart) {
     sendToCart(itemInfos);
     cartItemsCounter();
@@ -271,6 +284,7 @@ const addToCartFunc = e => {
 }
 
 
+// Update the cart page when it's opened
 const updateCartPage = itemsInCart => {
   cartItems.innerHTML = "";
   itemsInCart.forEach(item => {
@@ -279,12 +293,15 @@ const updateCartPage = itemsInCart => {
   })
 }
 
+
+// check if cart is empty and display a message
 const emptyCart = () => {
   if (cart.length === 0) {
-    cartItems.innerHTML = `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
+    cartItems.innerHTML = emptyCartContent();
   }
 }
 
+// open cart page when the button is clicked
 const openCartPage = () => {
   emptyCart();
   updateCartPage(cart);
@@ -292,6 +309,10 @@ const openCartPage = () => {
   cartPage.classList.add("open");
 }
 
+// Attaching event listener on cart image
+cartCounterSection.addEventListener("click", openCartPage);
+
+// close cart page when the button is clicked
 const closeCartPageFunc = () => {
   cartPage.classList.remove("open");
   setTimeout(() => {
@@ -299,11 +320,9 @@ const closeCartPageFunc = () => {
   }, 1000);
 }
 
-
-cartCounterSection.addEventListener("click", openCartPage);
-
 closeCartPage.addEventListener("click", closeCartPageFunc);
 
+// Attaching add to cart function to all products
 const cartSystem = () => {
   addToCartBtns =
     document.querySelectorAll(".addToCart");
