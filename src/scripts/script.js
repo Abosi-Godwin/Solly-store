@@ -17,7 +17,7 @@ const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
 let addToCartBtns;
-let totalPrice;
+let totalPrice = 0;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -308,7 +308,7 @@ const emptyCart = productsInCart => {
 const openCartPage = () => {
   updateCartPage(cart);
   emptyCart(cart);
-  calculateSubTotalSection(cart);
+  calculateTotalProductPrices(cart);
   cartPage.classList.add("open");
 }
 
@@ -349,7 +349,7 @@ const calculateItemsPrice = allProductsInCart => {
 }
 
 // calculating the tax
-const calculateItemsTax = totalPrice => ((totalPrice * taxRate) / 100).toFixed(2);
+const calculateItemsTax = () => ((totalPrice * taxRate) / 100).toFixed(2);
 
 // calculating the delivery price
 const calculateDelivery = () => ((totalPrice * shippingRate) / 100).toFixed(2);
@@ -366,18 +366,17 @@ const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 
 
 // function calculating and updating prices
-const calculateSubTotalSection = cartProducts => {
+const calculateTotalProductPrices = cartProducts => {
   
   selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
-
-  selector(".cart-tax").innerHTML = `$${calculateItemsTax(totalPrice)}`;
-
+console.log(totalPrice);
+  selector(".cart-tax").innerHTML = `$${calculateItemsTax(totalPrice)}` ||`$0.00`;
+console.log(totalPrice);
   selector(".cart-delivery").innerHTML = `$${calculateDelivery(totalPrice)}`;
 
-  selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}`;
+  selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}` || "$0.00";
 
   deleteCartItemsFunc();
-  
 }
 
 
@@ -392,7 +391,7 @@ const deleteItem = e => {
   cartItems.innerHTML = "";
 
   updateCartPage(cart);
-  calculateSubTotalSection(cart);
+  calculateTotalProductPrices(cart);
   cartItemsCounter(cart);
   emptyCart(cart);
 }
