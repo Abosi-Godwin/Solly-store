@@ -17,7 +17,7 @@ const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
 let addToCartBtns;
-let allPrices;
+let totalPrice;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -341,11 +341,11 @@ cartSystem();
 
 // calculating the price
 const calculateItemsPrice = allProductsInCart => {
-  allPrices = allProductsInCart.map(item => item.price);
+  const allPrices = allProductsInCart.map(item => item.price);
   if (allPrices.length !== 0) {
-    allPrices = allPrices.reduce((a, c) => a + c).toFixed(2);
+    totalPrice = allPrices.reduce((a, c) => a + c).toFixed(2);
   }
-  return allPrices;
+  return totalPrice;
 }
 
 // calculating the tax
@@ -356,8 +356,10 @@ const calculateDelivery = () => ((totalPrice * shippingRate) / 100).toFixed(2);
 
 
 // calculating the total prices
-const calculateSubTotal = allProductsInCart => [+calculateItemsPrice(allProductsInCart), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
-
+const calculateSubTotal = allProductsInCart => {
+  
+ return [+calculateItemsPrice(allProductsInCart), +calculateItemsTax(totalPrice), +calculateDelivery(totalPrice)].reduce((a, c) => a + c).toFixed(2);
+}
 
 // function selecting price elements
 const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
@@ -365,15 +367,17 @@ const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 
 // function calculating and updating prices
 const calculateSubTotalSection = cartProducts => {
+  
   selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
- 
-  selector(".cart-tax").innerHTML = `$${calculateItemsTax(allPrices)}`;
 
-  selector(".cart-delivery").innerHTML = `$${calculateDelivery(allPrices)}`;
+  selector(".cart-tax").innerHTML = `$${calculateItemsTax(totalPrice)}`;
+
+  selector(".cart-delivery").innerHTML = `$${calculateDelivery(totalPrice)}`;
 
   selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}`;
 
   deleteCartItemsFunc();
+  
 }
 
 
@@ -382,10 +386,11 @@ const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
   const itemId = itemToRemove.querySelector(".item-id").textContent;
   const itemIndex = cart.findIndex(item => item.id === itemId);
-  const itemRemoved = cart.splice(itemIndex, 1);
+ cart.splice(itemIndex, 1);
+ 
   itemToRemove.remove();
   cartItems.innerHTML = "";
-  
+
   updateCartPage(cart);
   calculateSubTotalSection(cart);
   cartItemsCounter(cart);
