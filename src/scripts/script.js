@@ -258,29 +258,32 @@ const cartItemsCounter = () => {
 }
 cartItemsCounter();
 
+// function getting product details
+const getProductDetails = theProduct => {
+  return {
+    id: theProduct.querySelector(".item-id").textContent,
+    imgUrl: theProduct.querySelector("img").src,
+    category: theProduct.querySelector(".category").textContent,
+    title: theProduct.querySelector(".product-title").textContent,
+    price: +theProduct.querySelector(".price").textContent.replace("$", "")
+  }
+}
 
 // function facilitating the add to cart feature
 const addToCartFunc = e => {
-  
-  const itemDetails = e.target.parentNode.previousElementSibling;
+  const productToAdd = e.target.parentNode.previousElementSibling;
 
-// Getting the products infos
-  const itemInfos = {
-    id: itemDetails.querySelector(".item-id").textContent,
-    imgUrl: itemDetails.querySelector("img").src,
-    category: itemDetails.querySelector(".category").textContent,
-    title: itemDetails.querySelector(".product-title").textContent,
-    price: +itemDetails.querySelector(".price").textContent.replace("$", "")
-  }
+  const itemInfos = getProductDetails(productToAdd);
 
-
-// checking if item is in cart already
+  // checking if item is in cart already
   const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
+
   if (!isItemInCart) {
     sendToCart(itemInfos);
     cartItemsCounter();
     e.target.textContent = "Added to cart";
   }
+
 }
 
 
@@ -295,16 +298,16 @@ const updateCartPage = itemsInCart => {
 
 
 // check if cart is empty and display a message
-const emptyCart = () => {
-  if (cart.length === 0) {
+const emptyCart = productsInCart => {
+  if (productsInCart.length === 0) {
     cartItems.innerHTML = emptyCartContent();
   }
 }
 
 // open cart page when the button is clicked
 const openCartPage = () => {
-  emptyCart();
   updateCartPage(cart);
+  emptyCart(cart);
   calculateSubTotalSection(cart);
   cartPage.classList.add("open");
 }
@@ -333,56 +336,64 @@ const cartSystem = () => {
 cartSystem();
 
 
-const calculateSubTotalSection = (cartProducts) => {
-  const calculateItemsPrice = () => {
-    allPrices = cartProducts.map(item => item.price);
-    if (allPrices.length !== 0) {
-      allPrices = allPrices.reduce((a, c) => a + c).toFixed(2);
-    }
-    return allPrices;
+/* calculating items in cart */
+
+
+// calculating the price
+const calculateItemsPrice = allProductsInCart => {
+  allPrices = allProductsInCart.map(item => item.price);
+  if (allPrices.length !== 0) {
+    allPrices = allPrices.reduce((a, c) => a + c).toFixed(2);
   }
+  return allPrices;
+}
 
-  const calculateItemsTax = () => {
-    const tax = ((allPrices * taxRate) / 100).toFixed(2);
-    return tax;
-  }
+// calculating the tax
+const calculateItemsTax = totalPrice => ((totalPrice * taxRate) / 100).toFixed(2);
 
-  const calculateDelivery = () => {
-    const shippingPrice = ((allPrices * shippingRate) / 100).toFixed(2);
-    return shippingPrice;
-  }
+// calculating the delivery price
+const calculateDelivery = () => ((totalPrice * shippingRate) / 100).toFixed(2);
 
-  const calculateSubTotal = () => {
 
-    const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
-    return total;
-  }
-  
-  console.log(cart)
-  pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
+// calculating the total prices
+const calculateSubTotal = allProductsInCart => [+calculateItemsPrice(allProductsInCart), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
 
-  pricesTotalSection.querySelector(".cart-tax").innerHTML = `$${calculateItemsTax()}`;
 
-  pricesTotalSection.querySelector(".cart-delivery").innerHTML = `$${calculateDelivery()}`;
+// function selecting price elements
+const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 
-  pricesTotalSection.querySelector(".cart-sub-total").innerHTML = `$${calculateSubTotal()}`;
+
+// function calculating and updating prices
+const calculateSubTotalSection = cartProducts => {
+  selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
+ 
+  selector(".cart-tax").innerHTML = `$${calculateItemsTax(allPrices)}`;
+
+  selector(".cart-delivery").innerHTML = `$${calculateDelivery(allPrices)}`;
+
+  selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}`;
+
   deleteCartItemsFunc();
 }
 
+
+// Removing elements in cart
 const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
   const itemId = itemToRemove.querySelector(".item-id").textContent;
   const itemIndex = cart.findIndex(item => item.id === itemId);
   const itemRemoved = cart.splice(itemIndex, 1);
-
   itemToRemove.remove();
-  cartItems.innerHTML ="";
+  cartItems.innerHTML = "";
+  
   updateCartPage(cart);
   calculateSubTotalSection(cart);
-  cartItemsCounter();
-  emptyCart();
+  cartItemsCounter(cart);
+  emptyCart(cart);
 }
 
+
+// function deleting elements in cart
 const deleteCartItemsFunc = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
   deleteCartItemBtns.forEach(btn => {

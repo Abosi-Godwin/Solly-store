@@ -72,6 +72,6 @@ export const generateCartItem = item => {
         `
 }
 
-export const emptyCartContent = ()=>{
+export const emptyCartContent = () =>{
   return  `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
 }
