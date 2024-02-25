@@ -338,7 +338,7 @@ const calculateSubTotalSection = (cartProducts) => {
     const total = [+calculateItemsPrice(), +calculateItemsTax(), +calculateDelivery()].reduce((a, c) => a + c).toFixed(2);
     return total;
   }
-  //console.log(calculateItemsPrice());
+  
   console.log(cart)
   pricesTotalSection.querySelector(".cart-total").innerHTML = calculateItemsPrice().length > 1 ? `$${calculateItemsPrice()}` : `$0.00`;
 
