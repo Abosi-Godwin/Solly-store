@@ -289,27 +289,29 @@ const addToCartFunc = e => {
 
 // Update the cart page when it's opened
 const updateCartPage = itemsInCart => {
-  //cartItems.innerHTML = "";
+  
+  if (itemsInCart.length !== 0) {
+    
+    cartItems.innerHTML = "";
+    
   itemsInCart.forEach(item => {
-    const abc = generateCartItem(item);
-    cartItems.innerHTML += abc;
+    const cartContent = generateCartItem(item);
+    cartItems.insertAdjacentHTML("beforeend", cartContent);
+    
   })
-  emptyCart(itemsInCart);
-  //calculateTotalProductPrices(itemsInCart);
+    
+  } 
+  if(itemsInCart.length === 0){
+  emptyCart();
+  }
+  
+  calculateTotalProductPrices(itemsInCart);
 }
 
 
 // check if cart is empty and display a message
-const emptyCart = productsInCart => {
-  
-  if (productsInCart.length === 0) {
+const emptyCart = () => {
     cartItems.innerHTML = emptyCartContent();
-  }
-  
-  if (productsInCart !== 0){
-    calculateTotalProductPrices(productsInCart);
-  }
-  
 }
 
 // open cart page when the button is clicked
@@ -394,8 +396,7 @@ const deleteItem = e => {
  cart.splice(itemIndex, 1);
  
   itemToRemove.remove();
-  cartItems.innerHTML = "";
-
+  
  const productsInCart = [...cart];
   updateCartPage(productsInCart);
   cartItemsCounter(productsInCart);
