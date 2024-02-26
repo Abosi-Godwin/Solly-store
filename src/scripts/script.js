@@ -289,27 +289,33 @@ const addToCartFunc = e => {
 
 // Update the cart page when it's opened
 const updateCartPage = itemsInCart => {
-  cartItems.innerHTML = "";
+  //cartItems.innerHTML = "";
   itemsInCart.forEach(item => {
     const abc = generateCartItem(item);
     cartItems.innerHTML += abc;
   })
-  calculateTotalProductPrices(cart);
+  emptyCart(itemsInCart);
+  //calculateTotalProductPrices(itemsInCart);
 }
 
 
 // check if cart is empty and display a message
 const emptyCart = productsInCart => {
+  
   if (productsInCart.length === 0) {
     cartItems.innerHTML = emptyCartContent();
   }
+  
+  if (productsInCart !== 0){
+    calculateTotalProductPrices(productsInCart);
+  }
+  
 }
 
 // open cart page when the button is clicked
 const openCartPage = () => {
-  updateCartPage(cart);
-  emptyCart(cart);
-  //calculateTotalProductPrices(cart);
+  const productsInCart = [...cart];
+  updateCartPage(productsInCart);
   cartPage.classList.add("open");
 }
 
@@ -339,30 +345,25 @@ cartSystem();
 
 /* calculating items in cart */
 
-
 // calculating the price
-const calculateItemsPrice = allProductsInCart => {
-  const allPrices = allProductsInCart.map(item => item.price);
-  console.log(allPrices);
-  if (allPrices.length !== 0) {
-    totalPrice = allPrices.reduce((a, c) => a + c).toFixed(2);
-  } else {
-    totalPrice = 0;
+const calculateItemsPrice = productsInCart => {
+  const prices = productsInCart.map(item => item.price);
+  if (prices.length !== 0) {
+    totalPrice = prices.reduce((a, c) => a + c).toFixed(2);
   }
   return totalPrice;
 }
 
 // calculating the tax
-const calculateItemsTax = () => ((totalPrice * taxRate) / 100).toFixed(2);
+const calculateItemsTax = theTotalPrice => ((theTotalPrice * taxRate) / 100).toFixed(2);
 
 // calculating the delivery price
-const calculateDelivery = () => ((totalPrice * shippingRate) / 100).toFixed(2);
+const calculateDelivery = theTotalPrice => ((theTotalPrice * shippingRate) / 100).toFixed(2);
 
 
 // calculating the total prices
-const calculateSubTotal = allProductsInCart => {
-  
- return [+calculateItemsPrice(allProductsInCart), +calculateItemsTax(totalPrice), +calculateDelivery(totalPrice)].reduce((a, c) => a + c).toFixed(2);
+const calculateSubTotal = allCharges => {
+ return allCharges.reduce((a, c) => a + c).toFixed(2);
 }
 
 // function selecting price elements
@@ -372,13 +373,13 @@ const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 // function calculating and updating prices
 const calculateTotalProductPrices = cartProducts => {
   
-  selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
-  console.log(totalPrice)
-  selector(".cart-tax").innerHTML = totalPrice ? `$${calculateItemsTax(totalPrice)}` : `$0.00`;
+ const totalPrice =  selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
+  
+const taxPrice = selector(".cart-tax").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
 
-  selector(".cart-delivery").innerHTML = totalPrice ? `$${calculateDelivery(totalPrice)}` : `$0.00`;
+const deliveryPrice = selector(".cart-delivery").innerHTML = cartProducts.length !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
 
-  selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}` || "$0.00";
+const totalCharges = selector(".cart-sub-total").innerHTML = cartProducts.length !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
 
   deleteCartItemsFunc();
 }
@@ -389,15 +390,15 @@ const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
   const itemId = itemToRemove.querySelector(".item-id").textContent;
   const itemIndex = cart.findIndex(item => item.id === itemId);
+  
  cart.splice(itemIndex, 1);
  
   itemToRemove.remove();
   cartItems.innerHTML = "";
 
-  updateCartPage(cart);
-  calculateTotalProductPrices(cart);
-  cartItemsCounter(cart);
-  emptyCart(cart);
+ const productsInCart = [...cart];
+  updateCartPage(productsInCart);
+  cartItemsCounter(productsInCart);
 }
 
 
