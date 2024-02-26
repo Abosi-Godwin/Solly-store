@@ -17,7 +17,7 @@ const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
 let addToCartBtns;
-let totalPrice = 0;
+let totalPrice;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -294,6 +294,7 @@ const updateCartPage = itemsInCart => {
     const abc = generateCartItem(item);
     cartItems.innerHTML += abc;
   })
+  calculateTotalProductPrices(cart);
 }
 
 
@@ -308,7 +309,7 @@ const emptyCart = productsInCart => {
 const openCartPage = () => {
   updateCartPage(cart);
   emptyCart(cart);
-  calculateTotalProductPrices(cart);
+  //calculateTotalProductPrices(cart);
   cartPage.classList.add("open");
 }
 
@@ -342,8 +343,11 @@ cartSystem();
 // calculating the price
 const calculateItemsPrice = allProductsInCart => {
   const allPrices = allProductsInCart.map(item => item.price);
+  console.log(allPrices);
   if (allPrices.length !== 0) {
     totalPrice = allPrices.reduce((a, c) => a + c).toFixed(2);
+  } else {
+    totalPrice = 0;
   }
   return totalPrice;
 }
@@ -369,10 +373,10 @@ const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 const calculateTotalProductPrices = cartProducts => {
   
   selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
-console.log(totalPrice);
-  selector(".cart-tax").innerHTML = `$${calculateItemsTax(totalPrice)}` ||`$0.00`;
-console.log(totalPrice);
-  selector(".cart-delivery").innerHTML = `$${calculateDelivery(totalPrice)}`;
+  console.log(totalPrice)
+  selector(".cart-tax").innerHTML = totalPrice ? `$${calculateItemsTax(totalPrice)}` : `$0.00`;
+
+  selector(".cart-delivery").innerHTML = totalPrice ? `$${calculateDelivery(totalPrice)}` : `$0.00`;
 
   selector(".cart-sub-total").innerHTML = `$${calculateSubTotal(cartProducts)}` || "$0.00";
 
