@@ -688,12 +688,13 @@ ion-icon{
 .cart-row{
   width: 90vw;
   height: 10vh;
-  border: 1px solid red;
 }
+
 .cart-footer{
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+  height: 35vh;
 }
 .input-bg{
   width: 100%;
@@ -752,6 +753,7 @@ ion-icon{
 }
 .total-row span, .total-section span{
   font-weight: 800;
+  font-family: var(--normal-font);
 }
 .total-section-line{
   width: 90%;
