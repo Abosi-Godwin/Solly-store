@@ -117,11 +117,13 @@ nav .nav-links {
   overflow: hidden;
   outline: none;
   border: 2px solid white;
-  background: transparent;
+  background: rgba(20, 49, 83, 0.75);
   color: #fff;
+ background: linear-gradient(360deg, rgba(20, 49, 83, 0.10), rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.10));
+
 }
 .banner button:hover{
-  background: linear-gradient(125deg, rgba(11, 8, 27, 0.95), rgba(11, 8, 27, 0.75), rgba(11, 8, 27, 0.10));
+  cursor: hand;
 }
 .category-product,
 .explore, .war-clothing {
