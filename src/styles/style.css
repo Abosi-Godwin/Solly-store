@@ -788,3 +788,12 @@ ion-icon{
   height: 100%;
   didsplay: none;
 }*/
+
+
+
+@media screen and (min-width: 480px) {
+  header{
+    height: 50vh;
+  }
+  
+}
