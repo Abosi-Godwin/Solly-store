@@ -42,6 +42,7 @@ header {
   background-position: bottom-right;
   color: #fff;
   position: relative;
+  display: flex;
 }
 
 nav {
@@ -51,12 +52,13 @@ nav {
   justify-content: space-between;
   padding: 0.9rem 0.6rem;
   height: 8vh;
-  width: 100vw;
+  width: 100%;
   -webkit-transition: all 0.8s;
   -moz-transition: all 0.8s;
   -ms-transition: all 0.8s;
   -o-transition: all 0.8s;
   transition: all 0.8s;
+  top: 0;
 }
 .color{
   background: #143153;
@@ -137,20 +139,20 @@ nav .nav-links {
 }
 
 .explore .products {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 50px;
+  display: grid;
+  grid-gap: 3rem;
+  grid-template-columns: 1fr 1fr;
+  width: 100vw;
 }
 
 .product-div {
-  width: 80vw;
+  wideth: 40%;
   -webkit-border-radius: 0.4rem;
   -moz-border-radius: 0.4rem;
   border-radius: 0.4rem;
   box-shadow: 0px 0px 10px 0px rgba(11, 8, 27, 0.16);
   background: #fff;
+  margin: auto;
 }
 
 .product-info {
@@ -791,9 +793,31 @@ ion-icon{
 
 
 
-@media screen and (min-width: 480px) {
+@media only screen and (min-width: 480px) {
   header{
-    height: 50vh;
+    height: 30vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  
+  nav{
+    height: 4vh;
+  }
+  .banner {
+  height: calc(30vh - 8vh);
+  width: 90%;
+}
+.products {
+  overflow: hidden;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 3rem;
+  border: 2px solid pink;
+  padding: 1rem 0;
+}
+.product-div {
+  width: 50%;
+  border: 2px solid red;
+  marghin: none;
+}
+
 }
