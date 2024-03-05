@@ -141,7 +141,7 @@ nav .nav-links {
   margin: 0 0 4rem 0;
 }
 
-.explore .products {
+ #products {
   display: grid;
   grid-gap: 3rem;
   grid-template-columns: 1fr;
@@ -203,13 +203,13 @@ nav .nav-links {
 .cart {
   display: flex;
   align-items: center;
-  justify-content: center;
-  padding: 1rem;
+  justify-content: flex-start;
+  padding: 1rem 0;
 }
 .cart .addToCart{
   display: block;
-  width: 50%;
   height: 50px;
+  width: 70%;
   background: var(--act-color);
   border: none;
   outline: none;
@@ -219,6 +219,7 @@ nav .nav-links {
   font-size: 1.1rem;
   text-transform: uppercase;
   font-weight: 700;
+  padding: 1rem;
   color: #fff;
   font-family: var(--normal-font);
 }
@@ -801,26 +802,24 @@ ion-icon{
     height: 30vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
   }
   nav{
     height: 4vh;
+    padding: 1rem 2rem;
   }
   .banner {
   height: calc(30vh - 8vh);
-  width: 90%;
+  padding-left: 2rem;
 }
-.products {
-  overflow: hidden;
-  grid-template-columns: 1fr 1fr;
-  grid-gap: 3rem;
-  border: 2px solid pink;
-  padding: 1rem 0;
+#products {
+  grid-template-columns: repeat(2, 1fr);
+  padding: 1rem;
 }
 .product-div {
-  width: 50%;
-  border: 2px solid red;
-  marghin: none;
+  width: 100%;
 }
-
+.product-img{
+  height: 500px;
+}
 }

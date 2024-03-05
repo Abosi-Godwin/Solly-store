@@ -7,7 +7,7 @@ import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
-const products = document.querySelector(".products");
+const products = document.querySelector("#products");
 const categoryProducts = document.querySelector(".category-products");
 const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
