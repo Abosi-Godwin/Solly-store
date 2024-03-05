@@ -204,7 +204,7 @@ nav .nav-links {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 1rem;
+  padding: 1rem;
 }
 .cart .addToCart{
   display: block;
