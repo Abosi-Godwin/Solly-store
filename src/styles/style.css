@@ -837,6 +837,7 @@ ion-icon{
 }
 .obj{
   flex-direction: row;
+  padding: 4rem;
 }
 .countdown-timer{
   width: 100%;
@@ -861,6 +862,13 @@ ion-icon{
 }
 .email-section > div p, .email-section > div > input{
   text-align: left;
+  width: 100%;
+}
+.war-clothing .war-products {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+.war-clothing .war-products > div{
   width: 100%;
 }
   
