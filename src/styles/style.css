@@ -270,7 +270,7 @@ nav .nav-links {
 }
 
 .category-products div.product-div {
-  width: 80vw;
+  width: 100%;
   -webkit-border-radius: 0.4rem;
   -moz-border-radius: 0.4rem;
   border-radius: 0.4rem;
@@ -359,6 +359,7 @@ nav .nav-links {
 
 .review .whatTheyBought {
   color: #adb5bd;
+  width: 50%;
   text-transform: capitalize;
 }
 
@@ -408,6 +409,10 @@ nav .nav-links {
 
 .email-capture{
   padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 }
 .email-section-title{
   text-transform: uppercase;
@@ -822,4 +827,41 @@ ion-icon{
 .product-img{
   height: 500px;
 }
+.category-tab{
+  width: 50vw;
+  margin: auto;
+}
+.theReview{
+  width: 50vw;
+  margin: auto;
+}
+.obj{
+  flex-direction: row;
+}
+.countdown-timer{
+  width: 100%;
+  margin: 0.8rem 0;
+}
+.email-section{
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  grid-gap: 2rem;
+  padding: 1rem;
+}
+.email-section input[type="submit"]{
+  text-align: center;
+}
+.email-section > div{
+  box-shadow: 0px 0px 10px 0px rgba(11, 8, 27, 0.16);
+  padding: 1rem;
+  border: 2px solid #143153;
+  -webkit-border-radius: 0.3rem;
+  -moz-border-radius: 0.3rem;
+  border-radius: 0.3rem;
+}
+.email-section > div p, .email-section > div > input{
+  text-align: left;
+  width: 100%;
+}
+  
 }
