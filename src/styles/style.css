@@ -473,19 +473,6 @@ nav .nav-links {
   text-transform: uppercase;
 }
 
-
-#map{ 
-  height: 450px; 
-  width: 90%;
-  margin: 0 auto;
-  overflow: hidden;
-  -webkit-border-radius: 0.5rem;
-  -moz-border-radius: 0.5rem;
-  border-radius: 0.5rem;
-  z-index: 1;
-}
-
-
 .war-clothing .war-heading, .war-para {
   text-align: center;
 }
@@ -540,12 +527,11 @@ footer{
   margin: 0.3rem 0;
 }
 
-.platforms-section{
-}
 .connecting-medium{
   padding: 1rem 0;
-  display: grid;
-  grid-gap: 1rem;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
 }
 .platforms{
   display: flex;
@@ -559,6 +545,10 @@ footer{
   -moz-border-radius: 0.5rem;
   border-radius: 0.5rem;
   margin: auto;
+  /*
+  width: 20%;
+  gap: 1rem;
+  flex-direction: column;*/
 }
 .platform{
   background: #143153;
@@ -570,6 +560,16 @@ footer{
 }
 ion-icon{
   font-size: 1.7rem;
+}
+#map{ 
+  height: 450px; 
+  width: 90%;
+  margin: 0 auto;
+  overflow: hidden;
+  -webkit-border-radius: 0.5rem;
+  -moz-border-radius: 0.5rem;
+  border-radius: 0.5rem;
+  z-index: 1;
 }
 
 .links{
@@ -887,13 +887,26 @@ ion-icon{
   .about-company div{
   padding: 1rem;
   width: 80%;
+  height: 90%;
 }
 .connecting-medium{
-  grid-template-columns: repeat(2, 1fr)
+  flex-direction: row;
+  border: 1px solid red;
+  width: 100vw;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
+.connecting-medium div{
+  height: 450px;
+}
+
 .platforms{
   flex-direction: column;
-  width: 20%;
+  min-width: 10vw;
   gap: 1rem
+}
+#map{
+  min-width: 80vw;
 }
 }
