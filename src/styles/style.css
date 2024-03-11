@@ -476,7 +476,7 @@ nav .nav-links {
 
 #map{ 
   height: 450px; 
-  width: 90vw;
+  width: 90%;
   margin: 0 auto;
   overflow: hidden;
   -webkit-border-radius: 0.5rem;
@@ -523,14 +523,17 @@ footer{
   padding: 1rem 0;
 }
 .links, .mission{
-  padding: 1rem;
+  padd3ing: 1rem;
 }
 
-.connect{
-  padding: 1rem;
+.about-company{
+  display: grid;
+  grid-template-columns: 1fr;
+  gridr-gap: 2rem;
 }
-.connect-info{
-  margin-bottom: 1rem;
+.about-company div{
+  padding: 1rem;
+  bordeer: 1px solid red;
 }
 .mission h1, .connect-info h1{
   text-transform: uppercase;
@@ -538,18 +541,24 @@ footer{
 }
 
 .platforms-section{
+}
+.connecting-medium{
+  padding: 1rem 0;
+  display: grid;
+  grid-gap: 1rem;
+}
+.platforms{
+  display: flex;
+  width: 90%;
+  align-items: center;
+  justify-content: space-around;
+  padding: 1rem 0;
   background: #fff;
   color: #000;
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
   border-radius: 0.5rem;
-}
-.platforms{
-  display: flex;
-  width: 100%;
-  align-items: center;
-  justify-content: space-around;
-  padding: 1rem 0;
+  margin: auto;
 }
 .platform{
   background: #143153;
@@ -871,5 +880,20 @@ ion-icon{
 .war-clothing .war-products > div{
   width: 100%;
 }
-  
+.about-company{
+  grid-template-columns: repeat(2,1fr);
+  padding: 2rem 1rem;
+}
+  .about-company div{
+  padding: 1rem;
+  width: 80%;
+}
+.connecting-medium{
+  grid-template-columns: repeat(2, 1fr)
+}
+.platforms{
+  flex-direction: column;
+  width: 20%;
+  gap: 1rem
+}
 }
