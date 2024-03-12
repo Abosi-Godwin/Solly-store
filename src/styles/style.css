@@ -828,7 +828,7 @@ ion-icon{
 }
 #products {
   grid-template-columns: repeat(2, 1fr);
-  padding: 1rem;
+  padding: 2rem;
 }
 .product-div {
   width: 100%;
@@ -876,6 +876,7 @@ ion-icon{
 .war-clothing .war-products {
   display: grid;
   grid-template-columns: repeat(2,1fr);
+  padding: 2rem;
 }
 .war-clothing .war-products > div{
   width: 100%;
@@ -891,9 +892,8 @@ ion-icon{
 }
 .connecting-medium{
   flex-direction: row;
-  border: 1px solid red;
   width: 100vw;
-  padding: 2rem;
+  padding: 0 2rem;
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
@@ -906,7 +906,25 @@ ion-icon{
   min-width: 10vw;
   gap: 1rem
 }
+.platform{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+}
 #map{
   min-width: 80vw;
+}
+.links{
+  flex-direction: row;
+  padding: 2rem;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.links div{
+  width: 50vw;
+}
+.cart-page{
+  width: 50vw;
 }
 }
