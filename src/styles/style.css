@@ -576,6 +576,7 @@ ion-icon{
   display: flex;
   flex-direction: column;
   gap: 1.8rem;
+  padding: 1rem;
 }
 .links div ul{
   list-style-type: none;
