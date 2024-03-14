@@ -818,6 +818,9 @@ ion-icon{
   height: calc(30vh - 8vh);
   padding-left: 2rem;
 }
+.banner button{
+  min-height: 80px;
+}
 #products {
   grid-template-columns: repeat(2, 1fr);
   padding: 2rem;
@@ -829,7 +832,7 @@ ion-icon{
   height: 500px;
 }
 .category-tab{
-  width: 50vw;
+  width: 80vw;
   margin: auto;
 }
 .theReview{
