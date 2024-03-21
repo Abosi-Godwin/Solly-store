@@ -4,7 +4,9 @@ import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
+import { database } from '/src/scripts/utilities/database.js';
 
+//database();
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
 const products = document.querySelector("#products");
@@ -279,6 +281,7 @@ const addToCartFunc = e => {
   const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
 
   if (!isItemInCart) {
+    database.sendToDb(itemInfos);
     sendToCart(itemInfos);
     cartItemsCounter();
     e.target.textContent = "Added to cart";
@@ -289,34 +292,39 @@ const addToCartFunc = e => {
 
 // Update the cart page when it's opened
 const updateCartPage = itemsInCart => {
-  
+
   if (itemsInCart.length !== 0) {
-    
+
     cartItems.innerHTML = "";
-    
-  itemsInCart.forEach(item => {
-    const cartContent = generateCartItem(item);
-    cartItems.insertAdjacentHTML("beforeend", cartContent);
-    
-  })
-    
-  } 
-  if(itemsInCart.length === 0){
-  emptyCart();
+
+    itemsInCart.forEach(item => {
+      const cartContent = generateCartItem(item);
+      cartItems.insertAdjacentHTML("beforeend", cartContent);
+
+    })
+
   }
-  
+  if (itemsInCart.length === 0) {
+    emptyCart();
+  }
+
   calculateTotalProductPrices(itemsInCart);
 }
 
 
 // check if cart is empty and display a message
 const emptyCart = () => {
-    cartItems.innerHTML = emptyCartContent();
+  cartItems.innerHTML = emptyCartContent();
 }
 
 // open cart page when the button is clicked
 const openCartPage = () => {
-  const productsInCart = [...cart];
+  const productsInCart = [...cart || database.getFromDb()];
+
+  const dbDatas = database.getFromDb()
+    
+  console.log(dbDatas);
+
   updateCartPage(productsInCart);
   cartPage.classList.add("open");
 }
@@ -365,7 +373,7 @@ const calculateDelivery = theTotalPrice => ((theTotalPrice * shippingRate) / 100
 
 // calculating the total prices
 const calculateSubTotal = allCharges => {
- return allCharges.reduce((a, c) => a + c).toFixed(2);
+  return allCharges.reduce((a, c) => a + c).toFixed(2);
 }
 
 // function selecting price elements
@@ -374,14 +382,14 @@ const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
 
 // function calculating and updating prices
 const calculateTotalProductPrices = cartProducts => {
-  
- const totalPrice =  selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
-  
-const taxPrice = selector(".cart-tax").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
 
-const deliveryPrice = selector(".cart-delivery").innerHTML = cartProducts.length !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
+  const totalPrice = selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
 
-const totalCharges = selector(".cart-sub-total").innerHTML = cartProducts.length !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
+  const taxPrice = selector(".cart-tax").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
+
+  const deliveryPrice = selector(".cart-delivery").innerHTML = cartProducts.length !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
+
+  const totalCharges = selector(".cart-sub-total").innerHTML = cartProducts.length !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
 
   deleteCartItemsFunc();
 }
@@ -392,12 +400,12 @@ const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
   const itemId = itemToRemove.querySelector(".item-id").textContent;
   const itemIndex = cart.findIndex(item => item.id === itemId);
-  
- cart.splice(itemIndex, 1);
- 
+
+  cart.splice(itemIndex, 1);
+
   itemToRemove.remove();
-  
- const productsInCart = [...cart];
+
+  const productsInCart = [...cart];
   updateCartPage(productsInCart);
   cartItemsCounter(productsInCart);
 }
