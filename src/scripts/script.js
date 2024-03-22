@@ -263,7 +263,7 @@ cartItemsCounter();
 // function getting product details
 const getProductDetails = theProduct => {
   return {
-    id: theProduct.querySelector(".item-id").textContent,
+    id: +theProduct.querySelector(".item-id").textContent,
     imgUrl: theProduct.querySelector("img").src,
     category: theProduct.querySelector(".category").textContent,
     title: theProduct.querySelector(".product-title").textContent,
@@ -316,15 +316,19 @@ const updateCartPage = itemsInCart => {
 const emptyCart = () => {
   cartItems.innerHTML = emptyCartContent();
 }
-
+database.getFromDb();
 // open cart page when the button is clicked
 const openCartPage = () => {
-  const productsInCart = [...cart || database.getFromDb()];
+  const productsFromCart = [...cart];
+  const productsFromDb = [];
+  
+  //const fkDb = database.getFromDb().then(data => data);
+  
+  console.log(productsFromCart, productsFromDb);
+  
+  const productsInCart = productsFromCart || productsFromDb;
 
-  const dbDatas = database.getFromDb()
-    
-  console.log(dbDatas);
-
+  
   updateCartPage(productsInCart);
   cartPage.classList.add("open");
 }

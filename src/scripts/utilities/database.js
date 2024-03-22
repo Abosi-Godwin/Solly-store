@@ -20,6 +20,14 @@
  const productsInDb = ref(db, "products");
 
  // Initialize Firebase
+ const fetchProducts = async () =>{
+    const snapshot = await get(child(ref(db), "products"));
+    
+    snapshot.forEach(childSnapShot => {
+      allProductsArr.push(childSnapShot.val());
+    });
+   
+ }
  const init = {
    sendToDb(theProduct) {
      push(productsInDb, theProduct)
@@ -30,16 +38,11 @@
      remove(exactLocation);
 
    },
+   
    async getFromDb() {
   const allProductsArr = [];
   try {
-    const snapshot = await get(child(ref(db), "products"));
-    
-    snapshot.forEach(childSnapShot => {
-      console.log(childSnapShot)
-      allProductsArr.push(childSnapShot.val());
-    });
-    
+    await fetchProducts();
     return allProductsArr;
   } catch (error) {
     throw error;
