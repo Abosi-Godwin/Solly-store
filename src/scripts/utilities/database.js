@@ -21,13 +21,20 @@
 
  // Initialize Firebase
  const fetchProducts = async () =>{
-    const snapshot = await get(child(ref(db), "products"));
-    
-    snapshot.forEach(childSnapShot => {
-      allProductsArr.push(childSnapShot.val());
-    });
-   
+   try {
+    const  fetchedProducts = [];
+  const snapShot =  await get(child(ref(db), "products"))
+  
+  snapShot.forEach(childSnapShot => {
+    fetchedProducts.push(childSnapShot.val());
+  });
+  
+    return fetchedProducts;
+  } catch (error) {
+    throw error;
+  }
  }
+ 
  const init = {
    sendToDb(theProduct) {
      push(productsInDb, theProduct)
@@ -40,13 +47,7 @@
    },
    
    async getFromDb() {
-  const allProductsArr = [];
-  try {
-    await fetchProducts();
-    return allProductsArr;
-  } catch (error) {
-    throw error;
-  }
+  return await fetchProducts();
 }
  }
  export { init as database };

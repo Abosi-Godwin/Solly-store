@@ -2,7 +2,7 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
-import { cart, sendToCart } from './utilities/cart.js';
+import {cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 import { database } from '/src/scripts/utilities/database.js';
 
@@ -28,6 +28,7 @@ const cartPage = document.querySelector(".cart-page");
 const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
+
 
 /* Time interval function */
 setInterval(() => {
@@ -316,17 +317,16 @@ const updateCartPage = itemsInCart => {
 const emptyCart = () => {
   cartItems.innerHTML = emptyCartContent();
 }
-database.getFromDb();
+
 // open cart page when the button is clicked
-const openCartPage = () => {
+const openCartPage = async () => {
   const productsFromCart = [...cart];
-  const productsFromDb = [];
+  const productsFromDb = await database.getFromDb();
   
-  //const fkDb = database.getFromDb().then(data => data);
+ //cart = cart.length === 0 ? productsFromDb : productsFromCart;
+ cartItemsCounter();
   
-  console.log(productsFromCart, productsFromDb);
-  
-  const productsInCart = productsFromCart || productsFromDb;
+  const productsInCart = /*productsFromCart ||*/ productsFromDb;
 
   
   updateCartPage(productsInCart);
