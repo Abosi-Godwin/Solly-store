@@ -1,5 +1,6 @@
 "use strict";
 
+
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import {cart, sendToCart } from './utilities/cart.js';
