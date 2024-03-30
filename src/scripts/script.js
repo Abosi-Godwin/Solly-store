@@ -31,6 +31,10 @@ const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
 
+
+
+
+
 /* Time interval function */
 setInterval(() => {
 
