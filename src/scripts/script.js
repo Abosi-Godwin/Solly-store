@@ -261,8 +261,10 @@ fadeAnimation();
 /* The cart page functions */
 
 //count products in cart and update the cart icon
-const cartItemsCounter = () => {
-  cartCounterEl.textContent = cart.length;
+const cartItemsCounter = async () => {
+  const allProducts = await database.getFromDb();
+  
+  cartCounterEl.textContent = allProducts.length;
 }
 cartItemsCounter();
 
@@ -277,18 +279,23 @@ const getProductDetails = theProduct => {
   }
 }
 
+//Check if item exists in cart
+
+const checkIfItemExistsInCart = item =>{
+//  console.log(item)
+  return database.checkDb(item.id);
+}
 // function facilitating the add to cart feature
-const addToCartFunc = e => {
+const addToCartFunc = async e => {
   const productToAdd = e.target.parentNode.previousElementSibling;
 
   const itemInfos = getProductDetails(productToAdd);
 
-  // checking if item is in cart already
-  const isItemInCart = cart.find((item) => item?.title === itemInfos?.title);
 
+ const isItemInCart =  await checkIfItemExistsInCart(itemInfos);
+  
   if (!isItemInCart) {
     database.sendToDb(itemInfos);
-    sendToCart(itemInfos);
     cartItemsCounter();
     e.target.textContent = "Added to cart";
   }
@@ -407,12 +414,18 @@ const calculateTotalProductPrices = cartProducts => {
 // Removing elements in cart
 const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
-  const itemId = itemToRemove.querySelector(".item-id").textContent;
+  
+  database.removeFromDb(itemToRemove);
+  
+  
+  
+  /*const itemId = itemToRemove.querySelector(".item-id").textContent;
   const itemIndex = cart.findIndex(item => item.id === itemId);
 
   cart.splice(itemIndex, 1);
 
   itemToRemove.remove();
+*/
 
   const productsInCart = [...cart];
   updateCartPage(productsInCart);

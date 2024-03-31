@@ -35,19 +35,28 @@
   }
  }
  
+ const checkTheId = (theId, allProducts) => {
+return allProducts.some(product => product.id === theId);
+ }
  const init = {
    sendToDb(theProduct) {
      push(productsInDb, theProduct)
    },
 
-   removeFromDb() {
-     let exactLocation = ref(database, `products/${currentItemId}`);
+   removeFromDb(item) {
+     let exactLocation = ref(db, `products/${currentItemId}`);
+     
      remove(exactLocation);
 
    },
    
    async getFromDb() {
   return await fetchProducts();
+},
+async checkDb(productId){
+  const existingProducts = await this.getFromDb();
+  
+  return checkTheId(productId,existingProducts);
 }
  }
  export { init as database };
