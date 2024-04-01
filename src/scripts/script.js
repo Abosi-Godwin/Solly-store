@@ -31,20 +31,6 @@ const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
-/*
-
-const itemsFromCart = async () => {
-try {
- // return await database.getFromDb();
-} catch (e) {
-  throw e
-}
-}
-
-//console.log(itemsFromCart().then(result => result));
-*/
-
-/* Time interval function */
 setInterval(() => {
 
   const date = new Date();
@@ -293,6 +279,7 @@ const checkIfItemExistsInCart = item => {
   //  console.log(item)
   return database.checkDb(item.id);
 }
+
 // function facilitating the add to cart feature
 const addToCartFunc = async e => {
   const productToAdd = e.target.parentNode.previousElementSibling;
@@ -432,3 +419,28 @@ const deleteCartItemsFunc = () => {
     btn.addEventListener("click", deleteItem)
   });
 }
+/*
+class CartManagement {
+  constructor() {
+    
+  }
+     addToCartFunc = async e => {
+       console.log("Hey")
+  const productToAdd = e.target.parentNode.previousElementSibling;
+
+  const itemInfos = getProductDetails(productToAdd);
+
+
+  const isItemInCart = await checkIfItemExistsInCart(itemInfos);
+
+  if (!isItemInCart) {
+    database.sendToDb(itemInfos);
+    cartItemsCounter();
+    e.target.textContent = "Added to cart";
+  }
+}
+  
+}
+
+const myCart = new CartManagement();
+myCart.addToCartFunc();*/
