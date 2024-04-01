@@ -3,7 +3,7 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
-import {cart, sendToCart } from './utilities/cart.js';
+import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
 import { database } from '/src/scripts/utilities/database.js';
 
@@ -19,8 +19,9 @@ const taxRate = 0.2;
 const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
-let addToCartBtns;
+//let addToCartBtns;
 let totalPrice;
+let productsInCart;
 const countDownTimer = document.querySelector(".countdown-timer");
 const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
@@ -30,10 +31,18 @@ const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
+/*
 
+const itemsFromCart = async () => {
+try {
+ // return await database.getFromDb();
+} catch (e) {
+  throw e
+}
+}
 
-
-
+//console.log(itemsFromCart().then(result => result));
+*/
 
 /* Time interval function */
 setInterval(() => {
@@ -57,7 +66,7 @@ setInterval(() => {
 }, 1000);
 
 
-/* creating product elements*/
+/* creating product elements */
 const createProducts = async (products, section, divClass) => {
   for (let product of products) {
     let productDiv = elementCreator(product, divClass);
@@ -263,7 +272,6 @@ fadeAnimation();
 //count products in cart and update the cart icon
 const cartItemsCounter = async () => {
   const allProducts = await database.getFromDb();
-  
   cartCounterEl.textContent = allProducts.length;
 }
 cartItemsCounter();
@@ -281,8 +289,8 @@ const getProductDetails = theProduct => {
 
 //Check if item exists in cart
 
-const checkIfItemExistsInCart = item =>{
-//  console.log(item)
+const checkIfItemExistsInCart = item => {
+  //  console.log(item)
   return database.checkDb(item.id);
 }
 // function facilitating the add to cart feature
@@ -292,8 +300,8 @@ const addToCartFunc = async e => {
   const itemInfos = getProductDetails(productToAdd);
 
 
- const isItemInCart =  await checkIfItemExistsInCart(itemInfos);
-  
+  const isItemInCart = await checkIfItemExistsInCart(itemInfos);
+
   if (!isItemInCart) {
     database.sendToDb(itemInfos);
     cartItemsCounter();
@@ -332,16 +340,10 @@ const emptyCart = () => {
 
 // open cart page when the button is clicked
 const openCartPage = async () => {
-  const productsFromCart = [...cart];
   const productsFromDb = await database.getFromDb();
-  
- //cart = cart.length === 0 ? productsFromDb : productsFromCart;
- cartItemsCounter();
-  
-  const productsInCart = /*productsFromCart ||*/ productsFromDb;
 
-  
-  updateCartPage(productsInCart);
+  //cartItemsCounter(productsFromDb);
+  updateCartPage(productsFromDb);
   cartPage.classList.add("open");
 }
 
@@ -359,12 +361,12 @@ const closeCartPageFunc = () => {
 closeCartPage.addEventListener("click", closeCartPageFunc);
 
 // Attaching add to cart function to all products
-const cartSystem = () => {
-  addToCartBtns =
-    document.querySelectorAll(".addToCart");
-  addToCartBtns.forEach(btn => {
-    btn.addEventListener("click", addToCartFunc);
-  })
+const cartSystem = async () => {
+
+  const addToCartBtns =
+    document.querySelectorAll(".addToCart").forEach(btn => {
+      btn.addEventListener("click", addToCartFunc);
+    })
 }
 cartSystem();
 
@@ -414,18 +416,8 @@ const calculateTotalProductPrices = cartProducts => {
 // Removing elements in cart
 const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
-  
+
   database.removeFromDb(itemToRemove);
-  
-  
-  
-  /*const itemId = itemToRemove.querySelector(".item-id").textContent;
-  const itemIndex = cart.findIndex(item => item.id === itemId);
-
-  cart.splice(itemIndex, 1);
-
-  itemToRemove.remove();
-*/
 
   const productsInCart = [...cart];
   updateCartPage(productsInCart);
