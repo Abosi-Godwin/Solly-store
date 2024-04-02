@@ -255,87 +255,94 @@ fadeAnimation();
 
 /* The cart page functions */
 
+class CartManagement {
+  constructor() {
+    //this.emptyCartContent :;
+  }
+
+  checkIfItemExistsInCart = item => database.checkDb(item.id);
+
+  // count items in cart and display it
+  cartItemsCounter = async () => {
+    const allProducts = await database.getFromDb();
+    cartCounterEl.textContent = allProducts.length;
+  }
+
+  // function getting product details
+  getProductDetails = theProduct => {
+    return {
+      id: +theProduct.querySelector(".item-id").textContent,
+      imgUrl: theProduct.querySelector("img").src,
+      category: theProduct.querySelector(".category").textContent,
+      title: theProduct.querySelector(".product-title").textContent,
+      price: +theProduct.querySelector(".price").textContent.replace("$", "")
+    }
+  }
+  // Function adding products to cart
+  addToCartFunc = async e => {
+    const productToAdd = e.target.parentNode.previousElementSibling;
+    const itemInfos = this.getProductDetails(productToAdd);
+    const isItemInCart = await this.checkIfItemExistsInCart(itemInfos);
+
+    if (!isItemInCart) {
+      database.sendToDb(itemInfos);
+      this.cartItemsCounter();
+      e.target.textContent = "Added to cart";
+    }
+  }
+
+  // open cart page when the button is clicked
+  openCartPage = async () => {
+    const productsFromDb = await database.getFromDb();
+    this.updateCartPage(productsFromDb);
+    cartPage.classList.add("open");
+  }
+
+  emptyCart = () => {
+    cartItems.innerHTML = emptyCartContent();
+  }
+
+  // Update the cart page when it's opened
+  updateCartPage = itemsInCart => {
+    itemsInCart.length === 0 ? this.emptyCart() : (() => {
+
+      cartItems.innerHTML = "";
+
+      itemsInCart.forEach(item => {
+        //console.log(item)
+        console.log(item.category, item.id, item.imgUrl, item.price, item.title);
+        const cartContent = new GenerateCartItem(item);
+        cartItems.insertAdjacentHTML("beforeend", cartContent);
+
+      })
+
+    })();
+    calculateTotalProductPrices(itemsInCart);
+  }
+
+
+  // check if cart is empty and display a message
+}
+
+
+
+
+
+const myCart = new CartManagement();
+/* _____________________$$$$__________________ */
+
+
+
+
+
 //count products in cart and update the cart icon
-const cartItemsCounter = async () => {
-  const allProducts = await database.getFromDb();
-  cartCounterEl.textContent = allProducts.length;
-}
-cartItemsCounter();
 
-// function getting product details
-const getProductDetails = theProduct => {
-  return {
-    id: +theProduct.querySelector(".item-id").textContent,
-    imgUrl: theProduct.querySelector("img").src,
-    category: theProduct.querySelector(".category").textContent,
-    title: theProduct.querySelector(".product-title").textContent,
-    price: +theProduct.querySelector(".price").textContent.replace("$", "")
-  }
-}
-
-//Check if item exists in cart
-
-const checkIfItemExistsInCart = item => {
-  //  console.log(item)
-  return database.checkDb(item.id);
-}
-
-// function facilitating the add to cart feature
-const addToCartFunc = async e => {
-  const productToAdd = e.target.parentNode.previousElementSibling;
-
-  const itemInfos = getProductDetails(productToAdd);
+myCart.cartItemsCounter();
 
 
-  const isItemInCart = await checkIfItemExistsInCart(itemInfos);
-
-  if (!isItemInCart) {
-    database.sendToDb(itemInfos);
-    cartItemsCounter();
-    e.target.textContent = "Added to cart";
-  }
-
-}
-
-
-// Update the cart page when it's opened
-const updateCartPage = itemsInCart => {
-
-  if (itemsInCart.length !== 0) {
-
-    cartItems.innerHTML = "";
-
-    itemsInCart.forEach(item => {
-      const cartContent = generateCartItem(item);
-      cartItems.insertAdjacentHTML("beforeend", cartContent);
-
-    })
-
-  }
-  if (itemsInCart.length === 0) {
-    emptyCart();
-  }
-
-  calculateTotalProductPrices(itemsInCart);
-}
-
-
-// check if cart is empty and display a message
-const emptyCart = () => {
-  cartItems.innerHTML = emptyCartContent();
-}
-
-// open cart page when the button is clicked
-const openCartPage = async () => {
-  const productsFromDb = await database.getFromDb();
-
-  //cartItemsCounter(productsFromDb);
-  updateCartPage(productsFromDb);
-  cartPage.classList.add("open");
-}
 
 // Attaching event listener on cart image
-cartCounterSection.addEventListener("click", openCartPage);
+cartCounterSection.addEventListener("click", myCart.openCartPage);
 
 // close cart page when the button is clicked
 const closeCartPageFunc = () => {
@@ -352,7 +359,7 @@ const cartSystem = async () => {
 
   const addToCartBtns =
     document.querySelectorAll(".addToCart").forEach(btn => {
-      btn.addEventListener("click", addToCartFunc);
+      btn.addEventListener("click", myCart.addToCartFunc);
     })
 }
 cartSystem();
@@ -419,28 +426,5 @@ const deleteCartItemsFunc = () => {
     btn.addEventListener("click", deleteItem)
   });
 }
-/*
-class CartManagement {
-  constructor() {
-    
-  }
-     addToCartFunc = async e => {
-       console.log("Hey")
-  const productToAdd = e.target.parentNode.previousElementSibling;
 
-  const itemInfos = getProductDetails(productToAdd);
-
-
-  const isItemInCart = await checkIfItemExistsInCart(itemInfos);
-
-  if (!isItemInCart) {
-    database.sendToDb(itemInfos);
-    cartItemsCounter();
-    e.target.textContent = "Added to cart";
-  }
-}
-  
-}
-
-const myCart = new CartManagement();
-myCart.addToCartFunc();*/
+//myCart.addToCartFunc();
