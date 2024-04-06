@@ -19,7 +19,6 @@ const taxRate = 0.2;
 const shippingRate = 5.0;
 let currentSlide = 0;
 let slideInterval;
-//let addToCartBtns;
 let totalPrice;
 let productsInCart;
 const countDownTimer = document.querySelector(".countdown-timer");
@@ -57,15 +56,15 @@ const createProducts = async (products, section, divClass) => {
   for (let product of products) {
     let productDiv = elementCreator(product, divClass);
     section.insertAdjacentHTML("beforeend", productDiv);
+   //addingToCartSystem();
   }
 }
-
-
 /* IIFE for some generic products */
 (async () => {
   try {
     let genericProducts = await apiCaller(`${DATA_BASE_URL}?limit=6`);
     createProducts(genericProducts, products, "product-div");
+    //addingToCartSystem();
   } catch (e) {
     throw new Error(e);
   }
@@ -100,7 +99,7 @@ const getCategory = e => {
 
         createProducts(result, categoryProducts, "product-div");
         fadeAnimation();
-        cartSystem();
+       addingToCartSystem(); 
       })
       e.target.classList.add("active")
     }
@@ -184,7 +183,7 @@ const warSection = async () => {
     throw new Error(e);
   }
   fadeAnimation();
-  cartSystem();
+  addingToCartSystem();
 }
 warSection();
 
@@ -260,29 +259,35 @@ class CartManagement {
     //this.emptyCartContent :;
   }
 
-  checkIfItemExistsInCart = item => database.checkDb(item.id);
-
   // count items in cart and display it
   cartItemsCounter = async () => {
     const allProducts = await database.getFromDb();
     cartCounterEl.textContent = allProducts.length;
   }
 
-  // function getting product details
-  getProductDetails = theProduct => {
-    return {
-      id: +theProduct.querySelector(".item-id").textContent,
-      imgUrl: theProduct.querySelector("img").src,
-      category: theProduct.querySelector(".category").textContent,
-      title: theProduct.querySelector(".product-title").textContent,
-      price: +theProduct.querySelector(".price").textContent.replace("$", "")
-    }
-  }
+
   // Function adding products to cart
   addToCartFunc = async e => {
+
+    // function getting product details
+    const getProductDetails = theProduct => {
+      return {
+        id: +theProduct.querySelector(".item-id").textContent,
+        imgUrl: theProduct.querySelector("img").src,
+        category: theProduct.querySelector(".category").textContent,
+        title: theProduct.querySelector(".product-title").textContent,
+        price: +theProduct.querySelector(".price").textContent.replace("$", "")
+      }
+    }
+
+    // check if item already exists before sending to cart
+    const checkIfItemExistsInCart = item => database.checkDb(item.id);
+
     const productToAdd = e.target.parentNode.previousElementSibling;
-    const itemInfos = this.getProductDetails(productToAdd);
-    const isItemInCart = await this.checkIfItemExistsInCart(itemInfos);
+
+    const itemInfos = getProductDetails(productToAdd);
+
+    const isItemInCart = await checkIfItemExistsInCart(itemInfos);
 
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
@@ -292,11 +297,6 @@ class CartManagement {
   }
 
   // open cart page when the button is clicked
-  openCartPage = async () => {
-    const productsFromDb = await database.getFromDb();
-    this.updateCartPage(productsFromDb);
-    cartPage.classList.add("open");
-  }
 
   emptyCart = () => {
     cartItems.innerHTML = emptyCartContent();
@@ -304,23 +304,81 @@ class CartManagement {
 
   // Update the cart page when it's opened
   updateCartPage = itemsInCart => {
+
     itemsInCart.length === 0 ? this.emptyCart() : (() => {
 
       cartItems.innerHTML = "";
-
+      //console.log(cartItems)
       itemsInCart.forEach(item => {
-        //console.log(item)
-        console.log(item.category, item.id, item.imgUrl, item.price, item.title);
-        const cartContent = new GenerateCartItem(item);
+        const cartContent = generateCartItem(item);
         cartItems.insertAdjacentHTML("beforeend", cartContent);
-
       })
 
     })();
+    
+    
+    const calculations = products => {
+
+      // function selecting price elements
+      const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
+      
+
+      // calculating the price
+      const calculateItemsPrice = productsInCart => {
+        const prices = productsInCart.map(item => item.price);
+        if (prices.length !== 0) {
+          totalPrice = prices.reduce((a, c) => a + c).toFixed(2);
+        }
+        return totalPrice;
+      }
+
+      // calculating the tax
+      const calculateItemsTax = theTotalPrice => ((theTotalPrice * taxRate) / 100).toFixed(2);
+
+      // calculating the delivery price
+      const calculateDelivery = theTotalPrice => ((theTotalPrice * shippingRate) / 100).toFixed(2);
+
+
+      // calculating the total prices
+      const calculateSubTotal = allCharges => {
+        return allCharges.reduce((a, c) => a + c).toFixed(2);
+      }
+
+
+      // function calculating and updating prices
+      const calculateTotalProductPrices = products => {
+        const getProductsNumber =  productsLength => productsLength.length;
+        
+        const totalPrice = selector(".cart-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsPrice(products)}` : `$0.00`;
+
+        const taxPrice = selector(".cart-tax").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
+
+        const deliveryPrice = selector(".cart-delivery").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
+
+        const totalCharges = selector(".cart-sub-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
+        //  deleteCartItemsFunc();
+      }
     calculateTotalProductPrices(itemsInCart);
+    }
+    calculations(itemsInCart);
+  }
+removeFromCartFunc = e =>{
+  
+}
+  openCartPage = async () => {
+    const productsFromDb = await database.getFromDb();
+    // console.log(productsFromDb);
+    this.updateCartPage(productsFromDb);
+    cartPage.classList.add("open");
+    removingFromCartSystem();
   }
 
-
+  closeCartPageFunc = () => {
+    cartPage.classList.remove("open");
+    setTimeout(() => {
+      cartItems.innerHTML = "";
+    }, 1000);
+  }
   // check if cart is empty and display a message
 }
 
@@ -341,90 +399,38 @@ myCart.cartItemsCounter();
 
 
 
-// Attaching event listener on cart image
+// opening the cart page 
 cartCounterSection.addEventListener("click", myCart.openCartPage);
+// closing the cart page 
+closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
 
-// close cart page when the button is clicked
-const closeCartPageFunc = () => {
-  cartPage.classList.remove("open");
-  setTimeout(() => {
-    cartItems.innerHTML = "";
-  }, 1000);
-}
-
-closeCartPage.addEventListener("click", closeCartPageFunc);
 
 // Attaching add to cart function to all products
-const cartSystem = async () => {
-
+const addingToCartSystem = () => {
   const addToCartBtns =
     document.querySelectorAll(".addToCart").forEach(btn => {
       btn.addEventListener("click", myCart.addToCartFunc);
     })
 }
-cartSystem();
 
+addingToCartSystem();
 
-/* calculating items in cart */
+const removingFromCartSystem = async () => {
 
-// calculating the price
-const calculateItemsPrice = productsInCart => {
-  const prices = productsInCart.map(item => item.price);
-  if (prices.length !== 0) {
-    totalPrice = prices.reduce((a, c) => a + c).toFixed(2);
-  }
-  return totalPrice;
+  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
+  deleteCartItemBtns.forEach(btn => {
+    btn.addEventListener("click", myCart.removeFromCartFunc)
+  });
+
 }
-
-// calculating the tax
-const calculateItemsTax = theTotalPrice => ((theTotalPrice * taxRate) / 100).toFixed(2);
-
-// calculating the delivery price
-const calculateDelivery = theTotalPrice => ((theTotalPrice * shippingRate) / 100).toFixed(2);
-
-
-// calculating the total prices
-const calculateSubTotal = allCharges => {
-  return allCharges.reduce((a, c) => a + c).toFixed(2);
-}
-
-// function selecting price elements
-const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
-
-
-// function calculating and updating prices
-const calculateTotalProductPrices = cartProducts => {
-
-  const totalPrice = selector(".cart-total").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsPrice(cartProducts)}` : `$0.00`;
-
-  const taxPrice = selector(".cart-tax").innerHTML = cartProducts.length !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
-
-  const deliveryPrice = selector(".cart-delivery").innerHTML = cartProducts.length !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
-
-  const totalCharges = selector(".cart-sub-total").innerHTML = cartProducts.length !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
-
-  deleteCartItemsFunc();
-}
+//removingFromCartSystem();
 
 
 // Removing elements in cart
 const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
-
   database.removeFromDb(itemToRemove);
-
   const productsInCart = [...cart];
   updateCartPage(productsInCart);
   cartItemsCounter(productsInCart);
 }
-
-
-// function deleting elements in cart
-const deleteCartItemsFunc = () => {
-  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
-  deleteCartItemBtns.forEach(btn => {
-    btn.addEventListener("click", deleteItem)
-  });
-}
-
-//myCart.addToCartFunc();
