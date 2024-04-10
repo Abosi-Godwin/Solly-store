@@ -323,6 +323,10 @@ class CartManagement {
       const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
       
 
+
+      // function calculating and updating prices
+      const calculateTotalProductPrices = products => {
+ 
       // calculating the price
       const calculateItemsPrice = productsInCart => {
         const prices = productsInCart.map(item => item.price);
@@ -344,9 +348,6 @@ class CartManagement {
         return allCharges.reduce((a, c) => a + c).toFixed(2);
       }
 
-
-      // function calculating and updating prices
-      const calculateTotalProductPrices = products => {
         const getProductsNumber =  productsLength => productsLength.length;
         
         const totalPrice = selector(".cart-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsPrice(products)}` : `$0.00`;
@@ -362,9 +363,11 @@ class CartManagement {
     }
     calculations(itemsInCart);
   }
+  
 removeFromCartFunc = e =>{
   
 }
+
   openCartPage = async () => {
     const productsFromDb = await database.getFromDb();
     // console.log(productsFromDb);
