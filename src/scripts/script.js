@@ -308,7 +308,6 @@ class CartManagement {
     itemsInCart.length === 0 ? this.emptyCart() : (() => {
 
       cartItems.innerHTML = "";
-      //console.log(cartItems)
       itemsInCart.forEach(item => {
         const cartContent = generateCartItem(item);
         cartItems.insertAdjacentHTML("beforeend", cartContent);
@@ -325,16 +324,11 @@ class CartManagement {
 
 
       // function calculating and updating prices
-      const calculateTotalProductPrices = products => {
+      const calculateTotalProductPrices = cartProducts => {
  
       // calculating the price
-      const calculateItemsPrice = productsInCart => {
-        const prices = productsInCart.map(item => item.price);
-        if (prices.length !== 0) {
-          totalPrice = prices.reduce((a, c) => a + c).toFixed(2);
-        }
-        return totalPrice;
-      }
+      const calculateItemsPrice = productsInCart => productsInCart.map(item => item.price).reduce((a, c) => a + c).toFixed(2);
+
 
       // calculating the tax
       const calculateItemsTax = theTotalPrice => ((theTotalPrice * taxRate) / 100).toFixed(2);
@@ -344,28 +338,34 @@ class CartManagement {
 
 
       // calculating the total prices
-      const calculateSubTotal = allCharges => {
-        return allCharges.reduce((a, c) => a + c).toFixed(2);
-      }
+      const calculateSubTotal = allCharges => allCharges.reduce((a, c) => a + c).toFixed(2);
 
         const getProductsNumber =  productsLength => productsLength.length;
         
-        const totalPrice = selector(".cart-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsPrice(products)}` : `$0.00`;
+        const cartTotalPrice = selector(".cart-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsPrice(products)}` : `$0.00`;
 
-        const taxPrice = selector(".cart-tax").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsTax(totalPrice.slice(1))}` : `$0.00`;
+        const taxPrice = selector(".cart-tax").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsTax(cartTotalPrice.slice(1))}` : `$0.00`;
 
-        const deliveryPrice = selector(".cart-delivery").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateDelivery(totalPrice.slice(1))}` : `$0.00`;
+        const deliveryPrice = selector(".cart-delivery").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateDelivery(cartTotalPrice.slice(1))}` : `$0.00`;
 
-        const totalCharges = selector(".cart-sub-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateSubTotal([+totalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
-        //  deleteCartItemsFunc();
+        const totalCharges = selector(".cart-sub-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateSubTotal([+cartTotalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
+        
       }
-    calculateTotalProductPrices(itemsInCart);
+    calculateTotalProductPrices(products);
+    
     }
+    
+    
     calculations(itemsInCart);
   }
   
 removeFromCartFunc = e =>{
-  
+const itemToRemove = e.target.closest(".item-row");
+console.log(itemToRemove);
+database.removeFromDb(itemToRemove);
+  const productsInCart = [...cart];
+  updateCartPage(productsInCart);
+  cartItemsCounter(productsInCart);
 }
 
   openCartPage = async () => {
@@ -382,28 +382,22 @@ removeFromCartFunc = e =>{
       cartItems.innerHTML = "";
     }, 1000);
   }
-  // check if cart is empty and display a message
+
 }
-
-
-
 
 
 const myCart = new CartManagement();
 /* _____________________$$$$__________________ */
 
 
-
-
-
-//count products in cart and update the cart icon
-
+//count products in cart and update the cart icon on page load.
 myCart.cartItemsCounter();
 
 
 
 // opening the cart page 
 cartCounterSection.addEventListener("click", myCart.openCartPage);
+
 // closing the cart page 
 closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
 
@@ -415,20 +409,17 @@ const addingToCartSystem = () => {
       btn.addEventListener("click", myCart.addToCartFunc);
     })
 }
-
 addingToCartSystem();
 
-const removingFromCartSystem = async () => {
 
-  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item");
-  deleteCartItemBtns.forEach(btn => {
-    btn.addEventListener("click", myCart.removeFromCartFunc)
-  });
-
+const removingFromCartSystem = () => {
+  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
+    btn.addEventListener("click", myCart.removeFromCartFunc);
+  })
 }
-//removingFromCartSystem();
+removingFromCartSystem();
 
-
+/*
 // Removing elements in cart
 const deleteItem = e => {
   const itemToRemove = e.target.parentNode.parentNode.parentNode;
@@ -436,4 +427,4 @@ const deleteItem = e => {
   const productsInCart = [...cart];
   updateCartPage(productsInCart);
   cartItemsCounter(productsInCart);
-}
+}*/
