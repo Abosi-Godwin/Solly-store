@@ -349,23 +349,18 @@ class CartManagement {
         const deliveryPrice = selector(".cart-delivery").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateDelivery(cartTotalPrice.slice(1))}` : `$0.00`;
 
         const totalCharges = selector(".cart-sub-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateSubTotal([+cartTotalPrice.slice(1), +taxPrice.slice(1), +deliveryPrice.slice(1)])}` : "$0.00";
-        
       }
     calculateTotalProductPrices(products);
-    
     }
-    
-    
     calculations(itemsInCart);
   }
   
 removeFromCartFunc = e =>{
-const itemToRemove = e.target.closest(".item-row");
+const itemToRemove = e.target.closest(".item-row").querySelector(".item-id").textContent;
+
 console.log(itemToRemove);
-database.removeFromDb(itemToRemove);
-  const productsInCart = [...cart];
-  updateCartPage(productsInCart);
-  cartItemsCounter(productsInCart);
+
+
 }
 
   openCartPage = async () => {
