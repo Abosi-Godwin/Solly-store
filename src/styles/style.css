@@ -806,7 +806,7 @@ ion-icon{
 
 @media only screen and (min-width: 480px) {
   header{
-    height: 30vh;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: flex-start;
@@ -827,7 +827,7 @@ ion-icon{
   padding: 2rem;
 }
 .product-div {
-  width: 100%;
+  width: 60vw;
 }
 .product-img{
   height: 500px;
