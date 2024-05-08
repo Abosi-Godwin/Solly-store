@@ -8,7 +8,8 @@ const warProducts = document.querySelector(".war-products");
 const cartCounterSection = document.querySelector(".cart-icon-section");
 const cartCounterEl = document.querySelector(".cart-counter");
 //const cartPage = document.querySelector(".cart-page");
-const closeCartPage = document.querySelector(".close-cart-page");
+
+//const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
