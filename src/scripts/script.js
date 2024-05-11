@@ -5,10 +5,9 @@ import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
-import { database } from '/src/scripts/utilities/database.js';
-import {myCart, addingToCartSystem, removingFromCartSystem} from "./cartPage.js";
+import {myCart, addingToCartSystem, removingFromCartSystem} from "./cartPageScript/cartPage.js";
 
-console.log(myCart)
+//console.log(myCart)
 //database();
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
@@ -17,10 +16,13 @@ const categoryProducts = document.querySelector(".category-products");
 const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
 const sliderNav = document.querySelector(".slider-navigation");
+/*const cartCounterSection = document.querySelector(".cart-icon-section");
+console.log(cartCounterSection);*/
 let currentSlide = 0;
 let slideInterval;
 setInterval(() => {
 
+const countDownTimer = document.querySelector(".countdown-timer");
   const date = new Date();
   const now = date.getTime();
   const gap = TARGETDATE - now;
@@ -161,6 +163,7 @@ autoSlider();
 /* Getting collections section */
 const warSection = async () => {
   try {
+const warProducts = document.querySelector(".war-products");
     const collections = await apiCaller(`${DATA_BASE_URL}categories`);
     const mensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(0,1)}`);
     const womensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(1)}`);

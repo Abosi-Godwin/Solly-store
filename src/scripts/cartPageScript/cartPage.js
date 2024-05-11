@@ -1,15 +1,21 @@
 "use strict";
+import { database } from '/src/scripts/utilities/database.js';
+import {generateCartItem} from "../modules/views.js";
+
 const taxRate = 0.2;
 const shippingRate = 5.0;
 let totalPrice;
 let productsInCart;
-const countDownTimer = document.querySelector(".countdown-timer");
-const warProducts = document.querySelector(".war-products");
+
 const cartCounterSection = document.querySelector(".cart-icon-section");
+
+//console.log(cartCounterSection);
+
 const cartCounterEl = document.querySelector(".cart-counter");
+
 //const cartPage = document.querySelector(".cart-page");
 
-//const closeCartPage = document.querySelector(".close-cart-page");
+const closeCartPage = document.querySelector(".close-cart-page");
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
 
@@ -157,6 +163,7 @@ myCart.cartItemsCounter();
 cartCounterSection.addEventListener("click", myCart.openCartPage);
 
 // closing the cart page 
+//console.log(closeCartPage);
 closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
 
 
