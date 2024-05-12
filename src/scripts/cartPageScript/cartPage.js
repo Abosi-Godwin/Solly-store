@@ -63,7 +63,7 @@ async addToCart(e){
 
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
-      this.cartItemsCounter();
+    //  this.cartItemsCounter();
       e.target.textContent = "Added to cart";
     }
   };
@@ -133,8 +133,16 @@ const emptyCart = function(){
     //calculations(itemsInCart);
   };
   
- removeFromCart(){
-   console.log("Hello")
+ removeFromCart(e){
+   console.log("Hello");
+   
+   const itemToRemove = e.target.parentNode.parentNode.parentNode
+   console.log(itemToRemove);
+  database.removeFromDb(itemToRemove);
+  
+  /*const productsInCart = [...cart];
+  updateCartPage(productsInCart);
+  cartItemsCounter(productsInCart);*/
  }
   
 //}
@@ -157,6 +165,17 @@ const emptyCart = function(){
 const myCart = new CartManagement();
 
 /* ___________________$$$$__________________ */
+
+const addToCartEvent = () => {
+  const addToCartBtns =
+    document.querySelectorAll(".addToCart").forEach(btn => {
+      btn.addEventListener("click", myCart.addToCart);
+    });
+    
+    //myCart.numberOfItemsInCart();
+  
+}
+
 const deleteFromCartEvent = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
     btn.addEventListener("click", myCart.removeFromCart);
@@ -179,10 +198,6 @@ const deleteFromCartEvent = () => {
 // Attaching add to cart function to all products
 /*
 const addingToCartSystem = () => {
-  const addToCartBtns =
-    document.querySelectorAll(".addToCart").forEach(btn => {
-      btn.addEventListener("click", myCart.addToCartFunc);
-    })
 }
 addingToCartSystem();
 */
@@ -190,7 +205,7 @@ addingToCartSystem();
 
 removingFromCartSystem();
 */
-export { myCart, deleteFromCartEvent }
+export { myCart, deleteFromCartEvent, addToCartEvent}
 
 /*
 // Removing elements in cart

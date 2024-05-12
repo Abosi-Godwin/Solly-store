@@ -635,13 +635,13 @@ ion-icon{
 .cart-page.open{
   right: 0;
 }
-
+/*
 .backward{
   width: 100%;
   display: flex;
   justify-content: space-between;
-  padding: 1rem 0;
-}
+  padding: 0.4rem 0;
+}*/
 .page-info h2{
   font-size: 2rem;
   text-transform: capitalize;
@@ -726,9 +726,56 @@ ion-icon{
 .cart-footer{
   display: flex;
   flex-direction: column;
-  gap: 0.2rem;
+  gap: 0.8rem;
   height: 35vh;
+  padding-top: 0.8rem;
 }
+
+.cart-footer .seeMoreSection{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  padding: 0.8rem 0.4rem;
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
+  border-radius: 0.4rem;
+}
+.seeMoreSection p{
+  font-size: 1.2rem;
+}
+.seeMoreSection p a,.all_products_length,.total_price_value{
+  color: var(--act-color);
+  text-decoration: none;
+}
+
+.cart-footer .checkOutSection{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  background: #ffffff;
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
+  border-radius: 0.4rem;
+  padding: 0.5rem 0;
+}
+.checkOutSection button {
+  padding: 1rem;
+  outline: none;
+  border: none;
+  background: var(--dark-gray);
+  -webkit-border-radius: 0.4rem;
+  -moz-border-radius: 0.4rem;
+  border-radius: 0.4rem;
+  font-size: 1.1rem;
+}
+.checkOutSection button:last-child{
+  background: var(--act-color);
+}
+
+/*
 .input-bg{
   width: 100%;
   height: 60px;
@@ -807,7 +854,7 @@ ion-icon{
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
   border-radius: 0.5rem;
-}
+}*/
 
 /*      End of cart page      */
 /*-----------------------------*/

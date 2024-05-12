@@ -45,6 +45,7 @@ return allProducts.some(product => product.id === theId);
    },
 
    removeFromDb(item) {
+     
      let exactLocation = ref(db, `products/${currentItemId}`);
      
      remove(exactLocation);

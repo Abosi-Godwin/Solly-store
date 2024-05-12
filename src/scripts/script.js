@@ -4,7 +4,7 @@ import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
-import { myCart, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
+import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
 
 //console.log(myCart)
 //database();
@@ -249,10 +249,19 @@ fadeAnimation();
 
 const openCartSection = async function() {
   cartPage.classList.add("open");
-  const firstThreeItems = await myCart._productsFromDb();
+  const allProducts = await myCart._productsFromDb();
+  const firstFourItems = allProducts.slice(0,4)
+const limit = 4;
+const seeMoreSection = document.querySelector(".seeMoreSection .seeMoreSectionText");
+const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
 
-  myCart.updateCartPage(firstThreeItems.slice(0, 2));
+  myCart.updateCartPage(firstFourItems);
+  
 deleteFromCartEvent();
+
+allProducts.length > limit ? seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${limit}/${allProducts.length} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreSection.innerHTML ="";
+//console.log(allProducts)
+totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> $${allProducts.map(product => product.price).reduce((a,c) => a + c)}</span>`;
 }
 
 
@@ -275,3 +284,8 @@ const countCartItems = async () => {
   cartCounterEl.innerHTML = numberOfItems.length;
 }
 countCartItems();
+
+
+//Initialize add to cart btns
+addToCartEvent();
+
