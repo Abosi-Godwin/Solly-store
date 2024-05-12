@@ -38,6 +38,7 @@
  const checkTheId = (theId, allProducts) => {
 return allProducts.some(product => product.id === theId);
  }
+ 
  const init = {
    sendToDb(theProduct) {
      push(productsInDb, theProduct)

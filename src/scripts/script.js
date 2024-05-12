@@ -1,11 +1,10 @@
 "use strict";
 
-
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
 import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
-import {myCart, addingToCartSystem, removingFromCartSystem} from "./cartPageScript/cartPage.js";
+import { myCart, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
 
 //console.log(myCart)
 //database();
@@ -16,13 +15,17 @@ const categoryProducts = document.querySelector(".category-products");
 const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
 const sliderNav = document.querySelector(".slider-navigation");
-/*const cartCounterSection = document.querySelector(".cart-icon-section");
-console.log(cartCounterSection);*/
+const cartPage = document.querySelector(".cart-page")
+const cartCounterEl = document.querySelector(".cart-icon-section");
+const closeCartEl = document.querySelector(".close-cart-page");
+
+
+/*console.log(cartCounterSection);*/
 let currentSlide = 0;
 let slideInterval;
 setInterval(() => {
 
-const countDownTimer = document.querySelector(".countdown-timer");
+  const countDownTimer = document.querySelector(".countdown-timer");
   const date = new Date();
   const now = date.getTime();
   const gap = TARGETDATE - now;
@@ -47,7 +50,7 @@ const createProducts = async (products, section, divClass) => {
   for (let product of products) {
     let productDiv = elementCreator(product, divClass);
     section.insertAdjacentHTML("beforeend", productDiv);
-   //addingToCartSystem();
+    //addingToCartSystem();
   }
 }
 /* IIFE for some generic products */
@@ -90,7 +93,7 @@ const getCategory = e => {
 
         createProducts(result, categoryProducts, "product-div");
         fadeAnimation();
-       addingToCartSystem(); 
+        addingToCartSystem();
       })
       e.target.classList.add("active")
     }
@@ -163,7 +166,7 @@ autoSlider();
 /* Getting collections section */
 const warSection = async () => {
   try {
-const warProducts = document.querySelector(".war-products");
+    const warProducts = document.querySelector(".war-products");
     const collections = await apiCaller(`${DATA_BASE_URL}categories`);
     const mensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(0,1)}`);
     const womensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(1)}`);
@@ -175,7 +178,7 @@ const warProducts = document.querySelector(".war-products");
     throw new Error(e);
   }
   fadeAnimation();
-  addingToCartSystem();
+  //addingToCartSystem();
 }
 warSection();
 
@@ -243,3 +246,32 @@ function fadeAnimation() {
 }
 
 fadeAnimation();
+
+const openCartSection = async function() {
+  cartPage.classList.add("open");
+  const firstThreeItems = await myCart._productsFromDb();
+
+  myCart.updateCartPage(firstThreeItems.slice(0, 2));
+deleteFromCartEvent();
+}
+
+
+const closeCartPage = () => {
+  cartPage.classList.remove("open");
+  setTimeout(() => {
+    myCart.cartItems.innerHTML = "";
+  }, 1000);
+}
+
+cartCounterEl.addEventListener("click", openCartSection);
+
+closeCartEl.addEventListener("click", closeCartPage);
+
+
+const countCartItems = async () => {
+  const cartCounterEl = document.querySelector(".cart-counter");
+  const numberOfItems = await myCart.numberOfItemsInCart();
+
+  cartCounterEl.innerHTML = numberOfItems.length;
+}
+countCartItems();

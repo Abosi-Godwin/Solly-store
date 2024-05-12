@@ -1,41 +1,45 @@
 "use strict";
 import { database } from '/src/scripts/utilities/database.js';
-import {generateCartItem} from "../modules/views.js";
+import {generateCartItem, emptyCartContent} from "../modules/views.js";
 
-const taxRate = 0.2;
-const shippingRate = 5.0;
+//const taxRate = 0.2;
+//const shippingRate = 5.0;
 let totalPrice;
 let productsInCart;
 
-const cartCounterSection = document.querySelector(".cart-icon-section");
+//const cartCounterSection = document.querySelector(".cart-icon-section");
 
-//console.log(cartCounterSection);
 
-const cartCounterEl = document.querySelector(".cart-counter");
+//const cartCounterEl = document.querySelector(".cart-counter");
 
-//const cartPage = document.querySelector(".cart-page");
-
-const closeCartPage = document.querySelector(".close-cart-page");
+/*
 const cartItems = document.querySelector(".items")
 const pricesTotalSection = document.querySelector(".cart-total-section");
+console.log(pricesTotalSection)
+*/
 
 
 /* The cart page functions */
 
  class CartManagement {
   constructor() {
-    //this.emptyCartContent :;
+    this._taxRate = 0.2;
+    this._shippingRate = 5.0;
+    this._productsFromDb = () => database.getFromDb();
+    this.cartItems = document.querySelector(".items");
+    
   }
 
-  // count items in cart and display it
-  cartItemsCounter = async () => {
-    const allProducts = await database.getFromDb();
-    cartCounterEl.textContent = allProducts.length;
+  // count and return items in cart
+   numberOfItemsInCart (){
+    return this._productsFromDb();
   }
 
 
   // Function adding products to cart
-  addToCartFunc = async e => {
+  
+
+async addToCart(e){
 
     // function getting product details
     const getProductDetails = theProduct => {
@@ -62,33 +66,35 @@ const pricesTotalSection = document.querySelector(".cart-total-section");
       this.cartItemsCounter();
       e.target.textContent = "Added to cart";
     }
-  }
+  };
+
+
 
   // open cart page when the button is clicked
 
-  emptyCart = () => {
-    cartItems.innerHTML = emptyCartContent();
-  }
+
 
   // Update the cart page when it's opened
-  updateCartPage = itemsInCart => {
+  updateCartPage(itemsInCart) {
+   
+const emptyCart = function(){
+    this.cartItems.innerHTML = emptyCartContent();
+  }
+  
+    itemsInCart.length === 0 ? emptyCart() : (() => {
 
-    itemsInCart.length === 0 ? this.emptyCart() : (() => {
-
-      cartItems.innerHTML = "";
+      this.cartItems.innerHTML = "";
       itemsInCart.forEach(item => {
         const cartContent = generateCartItem(item);
-        cartItems.insertAdjacentHTML("beforeend", cartContent);
+        this.cartItems.insertAdjacentHTML("beforeend", cartContent);
       })
 
     })();
     
     
+    
+    /*
     const calculations = products => {
-
-      // function selecting price elements
-      const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
-      
 
 
       // function calculating and updating prices
@@ -110,6 +116,9 @@ const pricesTotalSection = document.querySelector(".cart-total-section");
 
         const getProductsNumber =  productsLength => productsLength.length;
         
+      // function selecting price elements
+      const selector = sectionClass => pricesTotalSection.querySelector(sectionClass);
+      
         const cartTotalPrice = selector(".cart-total").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsPrice(products)}` : `$0.00`;
 
         const taxPrice = selector(".cart-tax").innerHTML = getProductsNumber(products) !== 0 ? `$${calculateItemsTax(cartTotalPrice.slice(1))}` : `$0.00`;
@@ -120,54 +129,55 @@ const pricesTotalSection = document.querySelector(".cart-total-section");
       }
     calculateTotalProductPrices(products);
     }
-    calculations(itemsInCart);
+    */
+    //calculations(itemsInCart);
+  };
+  
+ removeFromCart(){
+   console.log("Hello")
+ }
+  
+//}
+/*
+  openCartPage(){
+   // const productsFromDb = await database.getFromDb();
+    // console.log(productsFromDb);
+    this.updateCartPage(this._productsFromDb);
+    cartPage.classList.add("open");
+    this._addRemovingFromCartEvent();
+    //removingFromCartSystem();
   }
   
-removeFromCartFunc = e =>{
-const itemToRemove = e.target.closest(".item-row").querySelector(".item-id").textContent;
 
-console.log(itemToRemove);
-
-
-}
-
-  openCartPage = async () => {
-    const productsFromDb = await database.getFromDb();
-    // console.log(productsFromDb);
-    this.updateCartPage(productsFromDb);
-    cartPage.classList.add("open");
-    removingFromCartSystem();
-  }
-
-  closeCartPageFunc = () => {
-    cartPage.classList.remove("open");
-    setTimeout(() => {
-      cartItems.innerHTML = "";
-    }, 1000);
-  }
-
+  
+*/
 }
 
 
 const myCart = new CartManagement();
 
-/* _____________________$$$$__________________ */
-
+/* ___________________$$$$__________________ */
+const deleteFromCartEvent = () => {
+  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
+    btn.addEventListener("click", myCart.removeFromCart);
+  })
+}
 
 //count products in cart and update the cart icon on page load.
-myCart.cartItemsCounter();
+//myCart.cartItemsCounter();
 
 
 
 // opening the cart page 
-cartCounterSection.addEventListener("click", myCart.openCartPage);
+//cartCounterSection.addEventListener("click", myCart.openCartPage);
 
 // closing the cart page 
 //console.log(closeCartPage);
-closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
+//closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
 
 
 // Attaching add to cart function to all products
+/*
 const addingToCartSystem = () => {
   const addToCartBtns =
     document.querySelectorAll(".addToCart").forEach(btn => {
@@ -175,16 +185,12 @@ const addingToCartSystem = () => {
     })
 }
 addingToCartSystem();
+*/
+/*
 
-
-const removingFromCartSystem = () => {
-  const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
-    btn.addEventListener("click", myCart.removeFromCartFunc);
-  })
-}
 removingFromCartSystem();
-
-export {myCart, addingToCartSystem, removingFromCartSystem}
+*/
+export { myCart, deleteFromCartEvent }
 
 /*
 // Removing elements in cart
