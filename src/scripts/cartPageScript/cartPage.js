@@ -38,8 +38,6 @@ console.log(pricesTotalSection)
 
 
   // Function adding products to cart
-  
-
 async addToCart(e){
 
     // function getting product details
@@ -53,18 +51,19 @@ async addToCart(e){
       }
     }
 
-    // check if item already exists before sending to cart
-    const checkIfItemExistsInCart = item => database.checkDb(item.id);
-
     const productToAdd = e.target.parentNode.previousElementSibling;
 
     const itemInfos = getProductDetails(productToAdd);
 
-    const isItemInCart = await checkIfItemExistsInCart(itemInfos);
 
+    // check if item already exists before sending to cart
+    const checkIfItemExistsInCart = item => database.checkDb(item.id);
+    
+    const isItemInCart = await checkIfItemExistsInCart(itemInfos);
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
-    //  this.cartItemsCounter();
+
+    
       e.target.textContent = "Added to cart";
     }
     countCartItems();
@@ -136,9 +135,7 @@ const emptyCart = function(){
   };
   
  removeFromCart(e){
-   console.log("Hello");
-   
-   const itemToRemove = e.target.parentNode.parentNode.parentNode
+   const itemToRemove = e.target.parentNode.parentNode.parentNode.querySelector(".item-id").innerHTML;
    console.log(itemToRemove);
   database.removeFromDb(itemToRemove);
   

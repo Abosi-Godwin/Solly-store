@@ -16,58 +16,71 @@
  };
 
  const app = initializeApp(firebaseConfig);
- const db = getDatabase(app);
+ const db = getDatabase();
  const productsInDb = ref(db, "products");
 
- // Initialize Firebase
- const fetchProducts = async () =>{
-   try {
-    const  fetchedProducts = [];
-  const snapShot =  await get(child(ref(db), "products"))
-  
-  snapShot.forEach(childSnapShot => {
-    fetchedProducts.push(childSnapShot.val());
-  });
-  
-    return fetchedProducts;
-  } catch (error) {
-    throw error;
-  }
- }
- 
+
  const checkTheId = (theId, allProducts) => {
-return allProducts.some(product => product.id === theId);
+
+   return allProducts.some(product => product.id === theId);
  }
- 
+
+
+ // Initialize Firebase
+
  const init = {
-   
+
    sendToDb(theProduct) {
      set(ref(db, `Products/${theProduct.id}`), {
-       theProduct
-     }).then(()=> {
-       console.log("Successfully added")
-     }).catch(e =>{
-       console.log(e)
+       id: theProduct.id,
+       category: theProduct.category,
+       price: theProduct.price,
+       title: theProduct.title,
+       imgUrl: theProduct.imgUrl
+     }).then(() => {
+       console.log("Successfully added.")
+     }).catch(e => {
+       console.log("Can`t add to cart.")
      })
-    // console.log(theProduct)
-  //   push(productsInDb, theProduct)
-   },
-
-   removeFromDb(item) {
-     
-     let exactLocation = ref(db, `products/${currentItemId}`);
-     
-     remove(exactLocation);
-
    },
    
+   
+
+   removeFromDb(itemId) {
+   remove(ref(db),`Products/${itemId}/`).then(msg =>{
+     console.log("Successfully remove from Db.")
+   }).catch(err => {
+     console.log("Product is not removed.")
+   })
+   },
+
+
+
    async getFromDb() {
-  return await fetchProducts();
-},
-async checkDb(productId){
-  const existingProducts = await this.getFromDb();
-  
-  return checkTheId(productId,existingProducts);
-}
+     const dbRef = ref(db);
+
+     try {
+       const fetchedProducts = [];
+       const snapShot = await get(child(dbRef, "Products"))
+
+       snapShot.forEach(childSnapShot => {
+         fetchedProducts.push(childSnapShot.val());
+       });
+
+       return fetchedProducts;
+     } catch (error) {
+       throw error;
+     }
+
+     return fetchedProducts;
+   },
+
+
+   async checkDb(productId) {
+     
+     const existingProducts = await this.getFromDb();
+     
+     return checkTheId(productId, existingProducts);
+   }
  }
  export { init as database };

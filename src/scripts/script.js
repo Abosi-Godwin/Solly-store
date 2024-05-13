@@ -316,4 +316,5 @@ const currencyFormater = function(param) {
 }
 currencyFormater();
 
+//Imported add to cart method
 addToCartEvent();
