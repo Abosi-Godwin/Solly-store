@@ -40,8 +40,17 @@ return allProducts.some(product => product.id === theId);
  }
  
  const init = {
+   
    sendToDb(theProduct) {
-     push(productsInDb, theProduct)
+     set(ref(db, `Products/${theProduct.id}`), {
+       theProduct
+     }).then(()=> {
+       console.log("Successfully added")
+     }).catch(e =>{
+       console.log(e)
+     })
+    // console.log(theProduct)
+  //   push(productsInDb, theProduct)
    },
 
    removeFromDb(item) {

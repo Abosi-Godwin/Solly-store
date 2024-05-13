@@ -2,8 +2,8 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
-import { cart, sendToCart } from './utilities/cart.js';
-import { DATA_BASE_URL, TARGETDATE } from './utilities/config.js';
+//import { cart, sendToCart } from './utilities/cart.js';
+import { DATA_BASE_URL, TARGETDATE, CURRENCYFORMATER } from './utilities/config.js';
 import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
 
 //console.log(myCart)
@@ -93,7 +93,7 @@ const getCategory = e => {
 
         createProducts(result, categoryProducts, "product-div");
         fadeAnimation();
-        addingToCartSystem();
+        addToCartEvent();
       })
       e.target.classList.add("active")
     }
@@ -139,9 +139,12 @@ const prevSlide = () => {
 
 // Detecting which slider button was clicked
 const navigate = e => {
+  
   const nextArrClicked = e.target.classList.contains("md");
   const nextBtnClicked = e.target.closest("button").classList.contains("btn-right");
   const prevBtnClicked = e.target.closest("button").classList.contains("btn-left");
+  
+  
   if (nextArrClicked && nextBtnClicked || e.target.classList.contains("btn-right")) {
     nextSlide();
   }
@@ -178,7 +181,8 @@ const warSection = async () => {
     throw new Error(e);
   }
   fadeAnimation();
-  //addingToCartSystem();
+  addToCartEvent();
+  currencyFormater();
 }
 warSection();
 
@@ -244,24 +248,44 @@ function fadeAnimation() {
     fader.observe(workImage);
   })
 }
-
 fadeAnimation();
 
 const openCartSection = async function() {
   cartPage.classList.add("open");
-  const allProducts = await myCart._productsFromDb();
-  const firstFourItems = allProducts.slice(0,4)
-const limit = 4;
-const seeMoreSection = document.querySelector(".seeMoreSection .seeMoreSectionText");
-const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
-
-  myCart.updateCartPage(firstFourItems);
   
-deleteFromCartEvent();
+  const allProducts = await myCart._productsFromDb();
+  const limit = 4;
+  const productsLength = allProducts.length;
+  const isNotZero = productsLength !== 0;
+  const seeMoreSection = document.querySelector(".seeMoreSection .seeMoreSectionText");
+  const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
+  const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
+  
+  const emptyCart = () =>{
+    myCart.cartItems.innerHTML = emptyCartContent();
+  }
+  
+  const nonEmptyCart = products => {  
+    const firstFourItems = products.slice(0, 4)
+  myCart.updateCartPage(firstFourItems);
+  deleteFromCartEvent();
+}
+ 
+const updateSeeMore = () => {
 
-allProducts.length > limit ? seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${limit}/${allProducts.length} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreSection.innerHTML ="";
-//console.log(allProducts)
-totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> $${allProducts.map(product => product.price).reduce((a,c) => a + c)}</span>`;
+  productsLength > limit ? seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${limit}/${allProducts.length} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreSection.innerHTML = "";
+  
+  totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
+  
+}
+
+  isNotZero ? updateSeeMore() : totalPriceEl.closest(".seeMoreSection").style.display = "none";
+  
+  isNotZero ? nonEmptyCart(allProducts): emptyCart() ;
+
+  cartPagePriceEles.forEach(ele =>{
+    ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));
+  })
 }
 
 
@@ -277,15 +301,19 @@ cartCounterEl.addEventListener("click", openCartSection);
 closeCartEl.addEventListener("click", closeCartPage);
 
 
-const countCartItems = async () => {
+export const countCartItems = async () => {
   const cartCounterEl = document.querySelector(".cart-counter");
   const numberOfItems = await myCart.numberOfItemsInCart();
-
   cartCounterEl.innerHTML = numberOfItems.length;
 }
 countCartItems();
 
+const currencyFormater = function(param) {
+  const priceElements = document.querySelectorAll(".price");
+  priceElements.forEach(priceEle => {
+    priceEle.textContent = CURRENCYFORMATER.format(priceEle.textContent.slice(1));
+  })
+}
+currencyFormater();
 
-//Initialize add to cart btns
 addToCartEvent();
-

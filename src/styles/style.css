@@ -642,16 +642,20 @@ ion-icon{
   justify-content: space-between;
   padding: 0.4rem 0;
 }*/
+/*
+.page-info{
+  border: 1px solid red;
+}
 .page-info h2{
   font-size: 2rem;
   text-transform: capitalize;
 }
-
+*/
 .details-info{
   display: grid;
   grid-template-columns: 1fr 4fr 1fr;
   text-align: center;
-  margin: 1rem 0;
+  height: 5vh;
 }
 
 .items{
@@ -661,6 +665,7 @@ ion-icon{
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
+  height: 1000vh;
 }
 .items .item-row{
   display: grid;
@@ -844,7 +849,7 @@ ion-icon{
   border-radius: 0.5rem;
   margin: 10px 0;
 }
-
+*/
 .cart-notification{
   text-align: center;
   text-wrap: balance;
@@ -854,7 +859,7 @@ ion-icon{
   -webkit-border-radius: 0.5rem;
   -moz-border-radius: 0.5rem;
   border-radius: 0.5rem;
-}*/
+}
 
 /*      End of cart page      */
 /*-----------------------------*/

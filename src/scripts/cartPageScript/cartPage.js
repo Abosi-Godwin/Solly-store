@@ -1,6 +1,7 @@
 "use strict";
 import { database } from '/src/scripts/utilities/database.js';
 import {generateCartItem, emptyCartContent} from "../modules/views.js";
+import {countCartItems} from '../script.js';
 
 //const taxRate = 0.2;
 //const shippingRate = 5.0;
@@ -66,6 +67,7 @@ async addToCart(e){
     //  this.cartItemsCounter();
       e.target.textContent = "Added to cart";
     }
+    countCartItems();
   };
 
 

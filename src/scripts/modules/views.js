@@ -60,7 +60,7 @@ export const generateCartItem = item => {
           <span class="item-id">${item.id}</span>
                 <h4 class="item-title">${item.title.slice(0,35).concat("....")}</h4>
                 <p>${item.category.toUpperCase()}</p>
-                <p><b>$${item.price.toFixed(2)}</b></p>
+                <p><b class="cartProductPrice">$${item.price.toFixed(2)}</b></p>
               </div>
             </div>
             <div class="row-action">
@@ -73,5 +73,5 @@ export const generateCartItem = item => {
 }
 
 export const emptyCartContent = () =>{
-  return  `<div class="cart-notification"><h2>Your cart is currently empty, start adding things now!</h2></div>`;
+  return  `<div class="cart-notification"><h2>Your cart is currently empty, <br/> start adding things now!</h2></div>`;
 }
