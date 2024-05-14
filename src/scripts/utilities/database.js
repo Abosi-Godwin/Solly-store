@@ -47,7 +47,7 @@
    
 
    removeFromDb(itemId) {
-   remove(ref(db),`Products/${itemId}/`).then(msg =>{
+   remove(ref(db,`Products/${itemId}`)).then(() =>{
      console.log("Successfully remove from Db.")
    }).catch(err => {
      console.log("Product is not removed.")

@@ -1,7 +1,7 @@
 "use strict";
 import { database } from '/src/scripts/utilities/database.js';
-import {generateCartItem, emptyCartContent} from "../modules/views.js";
-import {countCartItems} from '../script.js';
+import { generateCartItem, emptyCartContent } from "../modules/views.js";
+import { countCartItems } from '../script.js';
 
 //const taxRate = 0.2;
 //const shippingRate = 5.0;
@@ -22,23 +22,23 @@ console.log(pricesTotalSection)
 
 /* The cart page functions */
 
- class CartManagement {
+class CartManagement {
   constructor() {
     this._taxRate = 0.2;
     this._shippingRate = 5.0;
     this._productsFromDb = () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
-    
+
   }
 
   // count and return items in cart
-   numberOfItemsInCart (){
-    return this._productsFromDb();
+  async numberOfItemsInCart() {
+    return await this._productsFromDb();
   }
 
 
   // Function adding products to cart
-async addToCart(e){
+  async addToCart(e) {
 
     // function getting product details
     const getProductDetails = theProduct => {
@@ -58,30 +58,25 @@ async addToCart(e){
 
     // check if item already exists before sending to cart
     const checkIfItemExistsInCart = item => database.checkDb(item.id);
-    
+
     const isItemInCart = await checkIfItemExistsInCart(itemInfos);
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
 
-    
+
       e.target.textContent = "Added to cart";
     }
     countCartItems();
   };
 
 
-
-  // open cart page when the button is clicked
-
-
-
   // Update the cart page when it's opened
-  updateCartPage(itemsInCart) {
-   
-const emptyCart = function(){
-    this.cartItems.innerHTML = emptyCartContent();
-  }
-  
+  async updateCartPage(itemsInCart) {
+    const emptyCart = function() {
+     // console.log(this.cartItems);
+      this.cartItems.innerHTML = emptyCartContent();
+    }
+
     itemsInCart.length === 0 ? emptyCart() : (() => {
 
       this.cartItems.innerHTML = "";
@@ -91,9 +86,9 @@ const emptyCart = function(){
       })
 
     })();
-    
-    
-    
+deleteFromCartEvent();
+
+
     /*
     const calculations = products => {
 
@@ -133,31 +128,14 @@ const emptyCart = function(){
     */
     //calculations(itemsInCart);
   };
-  
- removeFromCart(e){
-   const itemToRemove = e.target.parentNode.parentNode.parentNode.querySelector(".item-id").innerHTML;
-   console.log(itemToRemove);
-  database.removeFromDb(itemToRemove);
-  
-  /*const productsInCart = [...cart];
-  updateCartPage(productsInCart);
-  cartItemsCounter(productsInCart);*/
- }
-  
-//}
-/*
-  openCartPage(){
-   // const productsFromDb = await database.getFromDb();
-    // console.log(productsFromDb);
-    this.updateCartPage(this._productsFromDb);
-    cartPage.classList.add("open");
-    this._addRemovingFromCartEvent();
-    //removingFromCartSystem();
-  }
-  
 
-  
-*/
+  async removeFromCart(itemId) {
+    database.removeFromDb(itemId);
+    const productsInCart = await this._productsFromDb();
+    this.updateCartPage(productsInCart);
+    countCartItems();
+  }
+
 }
 
 
@@ -170,48 +148,16 @@ const addToCartEvent = () => {
     document.querySelectorAll(".addToCart").forEach(btn => {
       btn.addEventListener("click", myCart.addToCart);
     });
-    
-    //myCart.numberOfItemsInCart();
-  
 }
 
 const deleteFromCartEvent = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
-    btn.addEventListener("click", myCart.removeFromCart);
+    btn.addEventListener("click", e => {
+      const itemToRemove = e.target.parentNode.parentNode.parentNode.querySelector(".item-id").innerHTML;
+      myCart.removeFromCart(itemToRemove)
+    })
   })
 }
 
-//count products in cart and update the cart icon on page load.
-//myCart.cartItemsCounter();
 
-
-
-// opening the cart page 
-//cartCounterSection.addEventListener("click", myCart.openCartPage);
-
-// closing the cart page 
-//console.log(closeCartPage);
-//closeCartPage.addEventListener("click", myCart.closeCartPageFunc);
-
-
-// Attaching add to cart function to all products
-/*
-const addingToCartSystem = () => {
-}
-addingToCartSystem();
-*/
-/*
-
-removingFromCartSystem();
-*/
-export { myCart, deleteFromCartEvent, addToCartEvent}
-
-/*
-// Removing elements in cart
-const deleteItem = e => {
-  const itemToRemove = e.target.parentNode.parentNode.parentNode;
-  database.removeFromDb(itemToRemove);
-  const productsInCart = [...cart];
-  updateCartPage(productsInCart);
-  cartItemsCounter(productsInCart);
-}*/
+export { myCart, deleteFromCartEvent, addToCartEvent }

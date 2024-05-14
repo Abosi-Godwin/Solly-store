@@ -252,7 +252,7 @@ fadeAnimation();
 
 const openCartSection = async function() {
   cartPage.classList.add("open");
-  
+
   const allProducts = await myCart._productsFromDb();
   const limit = 4;
   const productsLength = allProducts.length;
