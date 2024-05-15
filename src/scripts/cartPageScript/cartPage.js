@@ -73,11 +73,10 @@ class CartManagement {
   // Update the cart page when it's opened
   async updateCartPage(itemsInCart) {
     const emptyCart = function() {
-     // console.log(this.cartItems);
       this.cartItems.innerHTML = emptyCartContent();
     }
 
-    itemsInCart.length === 0 ? emptyCart() : (() => {
+    itemsInCart.length <= 0 ? emptyCart() : (() => {
 
       this.cartItems.innerHTML = "";
       itemsInCart.forEach(item => {
@@ -86,7 +85,7 @@ class CartManagement {
       })
 
     })();
-deleteFromCartEvent();
+    deleteFromCartEvent();
 
 
     /*
@@ -132,6 +131,7 @@ deleteFromCartEvent();
   async removeFromCart(itemId) {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
+    //console.log(productsInCart.length);
     this.updateCartPage(productsInCart);
     countCartItems();
   }

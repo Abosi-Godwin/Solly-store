@@ -262,6 +262,7 @@ const openCartSection = async function() {
   const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
   
   const emptyCart = () =>{
+    console.log(myCart.cartItems);
     myCart.cartItems.innerHTML = emptyCartContent();
   }
   
