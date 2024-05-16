@@ -1,38 +1,20 @@
 "use strict";
 import { database } from '/src/scripts/utilities/database.js';
 import { generateCartItem, emptyCartContent } from "../modules/views.js";
+import { getProductDetails } from '/src/scripts/modules/model.js';
 import { countCartItems } from '../script.js';
 
 
-let totalPrice;
-let productsInCart;
-
-//const cartCounterSection = document.querySelector(".cart-icon-section");
-
-
-//const cartCounterEl = document.querySelector(".cart-counter");
-
-/*
-const cartItems = document.querySelector(".items")
-const pricesTotalSection = document.querySelector(".cart-total-section");
-console.log(pricesTotalSection)
-*/
-
-
 /* The cart page functions */
-
 class CartManagement {
   constructor() {
     this._taxRate = 0.2;
     this._shippingRate = 5.0;
     this._productsFromDb = () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
-
     this.emptyCart = function() {
-       //console.log(this.cartItems.children.length);
         this.cartItems.innerHTML = emptyCartContent();
     };
-    
     this.nonEmptyCart = function(products, limit = products.length) {
        const firstFourItems = products.slice(0, limit);
        myCart.updateCartPage(firstFourItems);
@@ -49,17 +31,6 @@ class CartManagement {
   // Function adding products to cart
   async addToCart(e) {
 
-    // function getting product details
-    const getProductDetails = theProduct => {
-      return {
-        id: +theProduct.querySelector(".item-id").textContent,
-        imgUrl: theProduct.querySelector("img").src,
-        category: theProduct.querySelector(".category").textContent,
-        title: theProduct.querySelector(".product-title").textContent,
-        price: +theProduct.querySelector(".price").textContent.replace("$", "")
-      }
-    }
-
     const productToAdd = e.target.parentNode.previousElementSibling;
 
     const itemInfos = getProductDetails(productToAdd);
@@ -69,6 +40,7 @@ class CartManagement {
     const checkIfItemExistsInCart = item => database.checkDb(item.id);
 
     const isItemInCart = await checkIfItemExistsInCart(itemInfos);
+    
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
 
@@ -81,10 +53,6 @@ class CartManagement {
 
   // Update the cart page when it's opened
   async updateCartPage(itemsInCart) {
-    /*
-    const emptyCart = function() {
-      this.cartItems.innerHTML = emptyCartContent();
-    }*/
 
     itemsInCart.length === 0 ? this.emptyCart() : (() => {
 
@@ -96,7 +64,6 @@ class CartManagement {
 
     })();
     deleteFromCartEvent();
-
 
     /*
     const calculations = products => {
