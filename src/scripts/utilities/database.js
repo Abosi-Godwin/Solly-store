@@ -37,21 +37,21 @@
        price: theProduct.price,
        title: theProduct.title,
        imgUrl: theProduct.imgUrl
-     }).then(() => {
+     })/*.then(() => {
        console.log("Successfully added.")
      }).catch(e => {
        console.log("Can`t add to cart.")
-     })
+     })*/
    },
    
    
 
    removeFromDb(itemId) {
-   remove(ref(db,`Products/${itemId}`)).then(() =>{
+   remove(ref(db,`Products/${itemId}`))/*.then(() =>{
      console.log("Successfully remove from Db.")
    }).catch(err => {
      console.log("Product is not removed.")
-   })
+   })*/
    },
 
 

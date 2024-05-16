@@ -3,8 +3,7 @@ import { database } from '/src/scripts/utilities/database.js';
 import { generateCartItem, emptyCartContent } from "../modules/views.js";
 import { countCartItems } from '../script.js';
 
-//const taxRate = 0.2;
-//const shippingRate = 5.0;
+
 let totalPrice;
 let productsInCart;
 
@@ -29,6 +28,16 @@ class CartManagement {
     this._productsFromDb = () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
 
+    this.emptyCart = function() {
+       //console.log(this.cartItems.children.length);
+        this.cartItems.innerHTML = emptyCartContent();
+    };
+    
+    this.nonEmptyCart = function(products, limit = products.length) {
+       const firstFourItems = products.slice(0, limit);
+       myCart.updateCartPage(firstFourItems);
+       deleteFromCartEvent();
+     }
   }
 
   // count and return items in cart
@@ -72,11 +81,12 @@ class CartManagement {
 
   // Update the cart page when it's opened
   async updateCartPage(itemsInCart) {
+    /*
     const emptyCart = function() {
       this.cartItems.innerHTML = emptyCartContent();
-    }
+    }*/
 
-    itemsInCart.length <= 0 ? emptyCart() : (() => {
+    itemsInCart.length === 0 ? this.emptyCart() : (() => {
 
       this.cartItems.innerHTML = "";
       itemsInCart.forEach(item => {
@@ -132,7 +142,8 @@ class CartManagement {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
     //console.log(productsInCart.length);
-    this.updateCartPage(productsInCart);
+    console.log(productsInCart)
+    await this.updateCartPage(productsInCart);
     countCartItems();
   }
 
@@ -154,6 +165,7 @@ const deleteFromCartEvent = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
     btn.addEventListener("click", e => {
       const itemToRemove = e.target.parentNode.parentNode.parentNode.querySelector(".item-id").innerHTML;
+      console.log(itemToRemove);
       myCart.removeFromCart(itemToRemove)
     })
   })

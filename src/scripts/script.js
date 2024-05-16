@@ -250,8 +250,12 @@ function fadeAnimation() {
 }
 fadeAnimation();
 
+
+
+// Homepage cart section 
+
 const openCartSection = async function() {
-  cartPage.classList.add("open");
+ // cartPage.classList.add("open");
 
   const allProducts = await myCart._productsFromDb();
   const limit = 4;
@@ -260,7 +264,8 @@ const openCartSection = async function() {
   const seeMoreSection = document.querySelector(".seeMoreSection .seeMoreSectionText");
   const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
   const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
-  
+
+  /*
   const emptyCart = () =>{
     console.log(myCart.cartItems);
     myCart.cartItems.innerHTML = emptyCartContent();
@@ -271,6 +276,7 @@ const openCartSection = async function() {
   myCart.updateCartPage(firstFourItems);
   deleteFromCartEvent();
 }
+ */
  
 const updateSeeMore = () => {
 
@@ -282,11 +288,13 @@ const updateSeeMore = () => {
 
   isNotZero ? updateSeeMore() : totalPriceEl.closest(".seeMoreSection").style.display = "none";
   
-  isNotZero ? nonEmptyCart(allProducts): emptyCart() ;
+  isNotZero ? myCart.nonEmptyCart(allProducts,4): myCart.emptyCart() ;
 
   cartPagePriceEles.forEach(ele =>{
     ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));
-  })
+  });
+  
+  cartPage.classList.add("open");
 }
 
 
