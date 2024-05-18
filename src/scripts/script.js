@@ -252,29 +252,23 @@ fadeAnimation();
 
 // Homepage cart section 
 function updateCartSection(allTheProducts) {
-//  console.log(allTheProducts)
- // ToDos 
- /* 
- 1. count and update the number of items in the cart
- 2. calculate the price of all the items in the cart
- 3. update the see more section messages 
- */
- 
  
  const options  = {
     limit: 4,
     productsLength: allTheProducts.length
   };
   
+  //console.log(options.productsLength);
+  
   const seeMoreEls = {
     seeMoreSection: document.querySelector(".seeMoreSection .seeMoreSectionText"),
     totalPriceEl: document.querySelector(".seeMoreSection .total_price_text"),
   }
-  console.log(options.productsLength, options.limit);
+  
   options.productsLength > options.limit ? seeMoreEls.seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${options.limit}/${options.productsLength} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreEls.seeMoreSection.innerHTML = "";
   
-  seeMoreEls.totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allTheProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
-  
+options.productsLength > 0 ? seeMoreEls.totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allTheProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
+  : document.querySelector(".seeMoreSection").style.display = "none";
  
 }
 
@@ -286,13 +280,18 @@ function removeSeeMore() {
   
 }
 
+
 const openCartSection = async function() {
+  
+  const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
  
   const allProducts = await myCart._productsFromDb();
-  const isNotZero = allProducts.length !== 0;
-  const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
-  isNotZero ? updateCartSection(allProducts) : removeSeeMore();
-  isNotZero ? myCart.nonEmptyCart(allProducts,4): myCart.emptyCart() ;
+  
+  const cartIsNotZero = allProducts.length !== 0;
+  //cartIsNotZero ? myCart.updateCartPage(allProducts) : removeSeeMore();
+  
+  cartIsNotZero ? myCart.nonEmptyCart(allProducts,4): myCart.emptyCart();
+  
   cartPagePriceEles.forEach(ele =>{
     ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));
   });
@@ -344,7 +343,7 @@ currencyFormater();
 addToCartEvent();
 
 
-export {openCartSection};
+export {updateCartSection};
 
 /*
 if ("pushManager" in window) {

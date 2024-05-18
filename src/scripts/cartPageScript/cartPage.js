@@ -3,7 +3,7 @@ import { database } from '/src/scripts/utilities/database.js';
 import { generateCartItem, emptyCartContent } from "../modules/views.js";
 import { getProductDetails } from '/src/scripts/modules/model.js';
 import { countCartItems } from '../script.js';
-import { openCartSection } from '../script.js';
+import { updateCartSection } from '../script.js';
 
 /* The cart page functions */
 class CartManagement {
@@ -15,10 +15,11 @@ class CartManagement {
     this.emptyCart = function() {
       this.cartItems.innerHTML = emptyCartContent();
     };
-    this.nonEmptyCart = function(products, limit = products.length) {
+    this.nonEmptyCart = async function(products, limit = products.length) {
       const firstFourItems = products.slice(0, limit);
       myCart.updateCartPage(firstFourItems);
       deleteFromCartEvent();
+      updateCartSection(await this._productsFromDb())
     }
   }
 
@@ -110,8 +111,9 @@ class CartManagement {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
 
-    //  await this.updateCartPage(productsInCart);
-    openCartSection(productsInCart)
+      await this.updateCartPage(productsInCart);
+    //openCartSection(productsInCart)
+    updateCartSection(productsInCart);
     countCartItems();
   }
 
