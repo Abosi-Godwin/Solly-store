@@ -3,7 +3,7 @@ import { database } from '/src/scripts/utilities/database.js';
 import { generateCartItem, emptyCartContent } from "../modules/views.js";
 import { getProductDetails } from '/src/scripts/modules/model.js';
 import { countCartItems } from '../script.js';
-
+import { openCartSection } from '../script.js';
 
 /* The cart page functions */
 class CartManagement {
@@ -13,13 +13,13 @@ class CartManagement {
     this._productsFromDb = () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
     this.emptyCart = function() {
-        this.cartItems.innerHTML = emptyCartContent();
+      this.cartItems.innerHTML = emptyCartContent();
     };
     this.nonEmptyCart = function(products, limit = products.length) {
-       const firstFourItems = products.slice(0, limit);
-       myCart.updateCartPage(firstFourItems);
-       deleteFromCartEvent();
-     }
+      const firstFourItems = products.slice(0, limit);
+      myCart.updateCartPage(firstFourItems);
+      deleteFromCartEvent();
+    }
   }
 
   // count and return items in cart
@@ -40,7 +40,7 @@ class CartManagement {
     const checkIfItemExistsInCart = item => database.checkDb(item.id);
 
     const isItemInCart = await checkIfItemExistsInCart(itemInfos);
-    
+
     if (!isItemInCart) {
       database.sendToDb(itemInfos);
 
@@ -103,14 +103,15 @@ class CartManagement {
     }
     */
     //calculations(itemsInCart);
+    // updateCartSection(itemsInCart);
   };
 
   async removeFromCart(itemId) {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
-    //console.log(productsInCart.length);
-    console.log(productsInCart)
-    await this.updateCartPage(productsInCart);
+
+    //  await this.updateCartPage(productsInCart);
+    openCartSection(productsInCart)
     countCartItems();
   }
 
@@ -128,6 +129,7 @@ const addToCartEvent = () => {
     });
 }
 
+
 const deleteFromCartEvent = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
     btn.addEventListener("click", e => {
@@ -139,4 +141,4 @@ const deleteFromCartEvent = () => {
 }
 
 
-export { myCart, deleteFromCartEvent, addToCartEvent }
+export { myCart, deleteFromCartEvent, addToCartEvent };

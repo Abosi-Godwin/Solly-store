@@ -2,12 +2,10 @@
 
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
-//import { cart, sendToCart } from './utilities/cart.js';
 import { DATA_BASE_URL, TARGETDATE, CURRENCYFORMATER } from './utilities/config.js';
 import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
 
-//console.log(myCart)
-//database();
+
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
 const products = document.querySelector("#products");
@@ -20,7 +18,7 @@ const cartCounterEl = document.querySelector(".cart-icon-section");
 const closeCartEl = document.querySelector(".close-cart-page");
 
 
-/*console.log(cartCounterSection);*/
+
 let currentSlide = 0;
 let slideInterval;
 setInterval(() => {
@@ -253,43 +251,48 @@ fadeAnimation();
 
 
 // Homepage cart section 
-
-const openCartSection = async function() {
- // cartPage.classList.add("open");
-
-  const allProducts = await myCart._productsFromDb();
-  const limit = 4;
-  const productsLength = allProducts.length;
-  const isNotZero = productsLength !== 0;
-  const seeMoreSection = document.querySelector(".seeMoreSection .seeMoreSectionText");
-  const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
-  const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
-
-  /*
-  const emptyCart = () =>{
-    console.log(myCart.cartItems);
-    myCart.cartItems.innerHTML = emptyCartContent();
-  }
-  
-  const nonEmptyCart = products => {  
-    const firstFourItems = products.slice(0, 4)
-  myCart.updateCartPage(firstFourItems);
-  deleteFromCartEvent();
-}
+function updateCartSection(allTheProducts) {
+//  console.log(allTheProducts)
+ // ToDos 
+ /* 
+ 1. count and update the number of items in the cart
+ 2. calculate the price of all the items in the cart
+ 3. update the see more section messages 
  */
  
-const updateSeeMore = () => {
-
-  productsLength > limit ? seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${limit}/${allProducts.length} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreSection.innerHTML = "";
+ 
+ const options  = {
+    limit: 4,
+    productsLength: allTheProducts.length
+  };
   
-  totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
+  const seeMoreEls = {
+    seeMoreSection: document.querySelector(".seeMoreSection .seeMoreSectionText"),
+    totalPriceEl: document.querySelector(".seeMoreSection .total_price_text"),
+  }
+  console.log(options.productsLength, options.limit);
+  options.productsLength > options.limit ? seeMoreEls.seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${options.limit}/${options.productsLength} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreEls.seeMoreSection.innerHTML = "";
+  
+  seeMoreEls.totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allTheProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
+  
+ 
+}
+
+function removeSeeMore() {
+  
+  const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
+  
+  totalPriceEl.closest(".seeMoreSection").style.display = "none";
   
 }
 
-  isNotZero ? updateSeeMore() : totalPriceEl.closest(".seeMoreSection").style.display = "none";
-  
+const openCartSection = async function() {
+ 
+  const allProducts = await myCart._productsFromDb();
+  const isNotZero = allProducts.length !== 0;
+  const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
+  isNotZero ? updateCartSection(allProducts) : removeSeeMore();
   isNotZero ? myCart.nonEmptyCart(allProducts,4): myCart.emptyCart() ;
-
   cartPagePriceEles.forEach(ele =>{
     ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));
   });
@@ -298,6 +301,7 @@ const updateSeeMore = () => {
 }
 
 
+// The close-cart method
 const closeCartPage = () => {
   cartPage.classList.remove("open");
   setTimeout(() => {
@@ -305,11 +309,15 @@ const closeCartPage = () => {
   }, 1000);
 }
 
+// Calling the add-to-cart method
 cartCounterEl.addEventListener("click", openCartSection);
 
+// Calling the close-cart method
 closeCartEl.addEventListener("click", closeCartPage);
 
 
+
+// Function counting items in the cart
 export const countCartItems = async () => {
   const cartCounterEl = document.querySelector(".cart-counter");
   const numberOfItems = await myCart.numberOfItemsInCart();
@@ -317,6 +325,11 @@ export const countCartItems = async () => {
 }
 countCartItems();
 
+
+
+
+
+// Function formatting the currencies
 const currencyFormater = function(param) {
   const priceElements = document.querySelectorAll(".price");
   priceElements.forEach(priceEle => {
@@ -325,5 +338,19 @@ const currencyFormater = function(param) {
 }
 currencyFormater();
 
+
+
 //Imported add to cart method
 addToCartEvent();
+
+
+export {openCartSection};
+
+/*
+if ("pushManager" in window) {
+  Notification.requestPermission().then(permission => {
+    if (permission === "granted") {
+      console.log("Hi")
+    }
+  })
+}*/
