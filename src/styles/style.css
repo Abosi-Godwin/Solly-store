@@ -631,9 +631,20 @@ ion-icon{
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 0.3rem;
 }
+
 .cart-page.open{
   right: 0;
+}
+.cart-head-page{
+  height: 5%;
+}
+.cart-body{
+  height: 65%;
+}
+.cart-footer{
+  height: 30%;
 }
 /*
 .backward{
@@ -659,13 +670,12 @@ ion-icon{
 }
 
 .items{
-  padding: 1rem 0;
+  padditng: 0.2rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
-  height: 1000vh;
 }
 .items .item-row{
   display: grid;
@@ -747,9 +757,7 @@ ion-icon{
   -moz-border-radius: 0.4rem;
   border-radius: 0.4rem;
 }
-.seeMoreSection p{
-  font-size: 1.2rem;
-}
+
 .seeMoreSection p a,.all_products_length,.total_price_value{
   color: var(--act-color);
   text-decoration: none;
