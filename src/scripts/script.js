@@ -251,51 +251,37 @@ fadeAnimation();
 
 
 // Homepage cart section 
-function updateCartSection(allTheProducts) {
- console.log(allTheProducts)
+export function updateCartSection(allTheProducts) {
+ 
  const options  = {
     limit: 4,
     productsLength: allTheProducts.length
   };
   
-  //console.log(options.productsLength());
-  
   const seeMoreEls = {
     seeMoreSection: document.querySelector(".seeMoreSection .seeMoreSectionText"),
     totalPriceEl: document.querySelector(".seeMoreSection .total_price_text"),
   }
+  
    seeMoreEls.seeMoreSection.innerHTML = options.productsLength > options.limit ?
   seeMoreMessageFunc.seeMoreMessage(options) : seeMoreEls.seeMoreSection.innerHTML = "";
   
 seeMoreEls.totalPriceEl.innerHTML = options.productsLength > 0 ? seeMoreMessageFunc.seeMoreMessagePrices(CURRENCYFORMATER,allTheProducts)
   : seeMoreEls.totalPriceEl.textContent = `No products in cart.`
   
-  /*document.querySelector(".seeMoreSection").style.display = "none"*/;
- 
+
 }
 
-function removeSeeMore() {
-  
-  const totalPriceEl = document.querySelector(".seeMoreSection .total_price_text");
-  
-  totalPriceEl.closest(".seeMoreSection").style.display = "none";
-  
-}
 
 
 const openCartSection = async function() {
-  
   const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
   const allProducts = await myCart._productsFromDb();
   const cartIsNotZero = allProducts.length !== 0;
-  //cartIsNotZero ? myCart.updateCartPage(allProducts) : removeSeeMore();
-  
   cartIsNotZero ? myCart.nonEmptyCart(allProducts, 4): myCart.emptyCart();
-  
   cartPagePriceEles.forEach(ele =>{
     ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));
   });
-  
   cartPage.classList.add("open");
 }
 
@@ -325,9 +311,6 @@ export const countCartItems = async () => {
 countCartItems();
 
 
-
-
-
 // Function formatting the currencies
 const currencyFormater = function(param) {
   const priceElements = document.querySelectorAll(".price");
@@ -341,15 +324,3 @@ currencyFormater();
 
 //Imported add to cart method
 addToCartEvent();
-
-
-export {updateCartSection};
-
-/*
-if ("pushManager" in window) {
-  Notification.requestPermission().then(permission => {
-    if (permission === "granted") {
-      console.log("Hi")
-    }
-  })
-}*/
