@@ -1,7 +1,7 @@
 "use strict";
 
 import { apiCaller } from './modules/model.js';
-import { updateTimer, elementCreator, generateCartItem, emptyCartContent } from "./modules/views.js";
+import { updateTimer, elementCreator, generateCartItem, emptyCartContent, seeMoreMessageFunc } from "./modules/views.js";
 import { DATA_BASE_URL, TARGETDATE, CURRENCYFORMATER } from './utilities/config.js';
 import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
 
@@ -264,11 +264,11 @@ function updateCartSection(allTheProducts) {
     seeMoreSection: document.querySelector(".seeMoreSection .seeMoreSectionText"),
     totalPriceEl: document.querySelector(".seeMoreSection .total_price_text"),
   }
+   seeMoreEls.seeMoreSection.innerHTML = options.productsLength > options.limit ?
+  seeMoreMessageFunc(options) : seeMoreEls.seeMoreSection.innerHTML = "";
   
-  options.productsLength > options.limit ? seeMoreEls.seeMoreSection.innerHTML = `You are seeing <span class="all_products_length">${options.limit}/${options.productsLength} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>` : seeMoreEls.seeMoreSection.innerHTML = "";
-  
-options.productsLength > 0 ? seeMoreEls.totalPriceEl.innerHTML = `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allTheProducts.map(product => product.price).reduce((a,c) => a + c))}</span>` 
-  : document.querySelector(".seeMoreSection").style.display = "none";
+seeMoreEls.totalPriceEl.innerHTML = options.productsLength > 0 ? seeMoreMessageFunc.seeMoreMessagePrices(CURRENCYFORMATER,allTheProducts)
+  : seeMoreEls.totalPriceEl.textContent = "The total price of all products is $0.00"/*document.querySelector(".seeMoreSection").style.display = "none"*/;
  
 }
 
@@ -284,13 +284,11 @@ function removeSeeMore() {
 const openCartSection = async function() {
   
   const cartPagePriceEles = document.querySelectorAll(".cartProductPrice");
- 
   const allProducts = await myCart._productsFromDb();
-  
   const cartIsNotZero = allProducts.length !== 0;
   //cartIsNotZero ? myCart.updateCartPage(allProducts) : removeSeeMore();
   
-  cartIsNotZero ? myCart.nonEmptyCart(allProducts,4): myCart.emptyCart();
+  cartIsNotZero ? myCart.nonEmptyCart(allProducts, 4): myCart.emptyCart();
   
   cartPagePriceEles.forEach(ele =>{
     ele.innerHTML = CURRENCYFORMATER.format(ele.innerHTML.slice(1));

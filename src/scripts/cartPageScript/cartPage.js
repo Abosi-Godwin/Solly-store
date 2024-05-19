@@ -111,8 +111,7 @@ class CartManagement {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
 
-      await this.updateCartPage(productsInCart);
-    //openCartSection(productsInCart)
+      await this.updateCartPage(productsInCart.slice(0,4));
     updateCartSection(productsInCart);
     countCartItems();
   }

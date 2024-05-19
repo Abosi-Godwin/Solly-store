@@ -72,6 +72,17 @@ export const generateCartItem = item => {
         `
 }
 
+
+export const seeMoreMessageFunc = {
+  seeMoreMessage(options){
+    return `You are seeing <span class="all_products_length">${options.limit}/${options.productsLength} </span> items in your cart, <a href="pages/cart/index.html"> see all.</a>`
+  },
+  
+  seeMoreMessagePrices(CURRENCYFORMATER, allTheProducts){
+    return  `The total price of all products is <span class="total_price_value"> ${CURRENCYFORMATER.format(allTheProducts.map(product => product?.price).reduce((a,c) => a + c))}</span>`
+  }
+};
+
 export const emptyCartContent = () =>{
   return  `<div class="cart-notification"><h2>Your cart is currently empty, <br/> start adding things now!</h2></div>`;
 }
