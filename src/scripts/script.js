@@ -252,23 +252,25 @@ fadeAnimation();
 
 // Homepage cart section 
 function updateCartSection(allTheProducts) {
- 
+ console.log(allTheProducts)
  const options  = {
     limit: 4,
     productsLength: allTheProducts.length
   };
   
-  //console.log(options.productsLength);
+  //console.log(options.productsLength());
   
   const seeMoreEls = {
     seeMoreSection: document.querySelector(".seeMoreSection .seeMoreSectionText"),
     totalPriceEl: document.querySelector(".seeMoreSection .total_price_text"),
   }
    seeMoreEls.seeMoreSection.innerHTML = options.productsLength > options.limit ?
-  seeMoreMessageFunc(options) : seeMoreEls.seeMoreSection.innerHTML = "";
+  seeMoreMessageFunc.seeMoreMessage(options) : seeMoreEls.seeMoreSection.innerHTML = "";
   
 seeMoreEls.totalPriceEl.innerHTML = options.productsLength > 0 ? seeMoreMessageFunc.seeMoreMessagePrices(CURRENCYFORMATER,allTheProducts)
-  : seeMoreEls.totalPriceEl.textContent = "The total price of all products is $0.00"/*document.querySelector(".seeMoreSection").style.display = "none"*/;
+  : seeMoreEls.totalPriceEl.textContent = `No products in cart.`
+  
+  /*document.querySelector(".seeMoreSection").style.display = "none"*/;
  
 }
 

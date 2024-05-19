@@ -10,7 +10,7 @@ class CartManagement {
   constructor() {
     this._taxRate = 0.2;
     this._shippingRate = 5.0;
-    this._productsFromDb = () => database.getFromDb();
+    this._productsFromDb =  () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
     this.emptyCart = function() {
       this.cartItems.innerHTML = emptyCartContent();
@@ -110,10 +110,9 @@ class CartManagement {
   async removeFromCart(itemId) {
     database.removeFromDb(itemId);
     const productsInCart = await this._productsFromDb();
-
-      await this.updateCartPage(productsInCart.slice(0,4));
+      this.updateCartPage(productsInCart.slice(0,4));
+      countCartItems();
     updateCartSection(productsInCart);
-    countCartItems();
   }
 
 }

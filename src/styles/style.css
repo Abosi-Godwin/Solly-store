@@ -708,7 +708,7 @@ ion-icon{
 }
 .cart-product-image img{
   width: 100%;
-  height: 100%;
+  height: 90px;
   object-fit: cover;
 }
 .row-action{
