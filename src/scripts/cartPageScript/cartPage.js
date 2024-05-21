@@ -2,8 +2,8 @@
 import { database } from '/src/scripts/utilities/database.js';
 import { generateCartItem, emptyCartContent } from "../modules/views.js";
 import { getProductDetails } from '/src/scripts/modules/model.js';
-import { countCartItems } from '../script.js';
-import { updateCartSection } from '../script.js';
+import { countCartItems, updateCartSection, allReadyInCart } from '../script.js';
+//import {  } from '../script.js';
 
 /* The cart page functions */
 class CartManagement {
@@ -48,6 +48,7 @@ class CartManagement {
 
       e.target.textContent = "Added to cart";
     }
+    allReadyInCart(myCart._productsFromDb());
     countCartItems();
   };
 

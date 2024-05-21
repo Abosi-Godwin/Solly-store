@@ -327,7 +327,7 @@ currencyFormater();
 addToCartEvent();
 
 
-const allReadyInCart = async function (param) {
+export const allReadyInCart = async function (param) {
    const allMyProducts = document.querySelectorAll(".pdt");
    const allTheProductsInCart = await param;
 
