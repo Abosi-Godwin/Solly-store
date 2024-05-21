@@ -338,10 +338,11 @@ export const allReadyInCart = async function (param) {
        const isInCart = allTheProductsInCart.some(cartProduct => +cartProduct.id === id);
 
        if (isInCart) {
-           addToCartBtn.style.backgroundColor = "Goldenrod";
+           addToCartBtn.style.backgroundColor = "#adb5bd";
            addToCartBtn.textContent = "Added to cart";
        } else {
-           addToCartBtn.style.backgroundColor = "green";
+           addToCartBtn.style.backgroundColor = "#F8A840";
+           addToCartBtn.textContent = "Add to cart";
        }
    });
 }
