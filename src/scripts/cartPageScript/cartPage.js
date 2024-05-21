@@ -10,7 +10,7 @@ class CartManagement {
   constructor() {
     this._taxRate = 0.2;
     this._shippingRate = 5.0;
-    this._productsFromDb =  () => database.getFromDb();
+    this._productsFromDb = () => database.getFromDb();
     this.cartItems = document.querySelector(".items");
     this.emptyCart = function() {
       this.cartItems.innerHTML = emptyCartContent();

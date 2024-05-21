@@ -20,7 +20,7 @@ export const updateTimer = (theDate, theHour, theMinutes, theSeconds) => {
 /* Function creating product elements */
 export const elementCreator = (product, elementClass) => {
   const productsDiv = `
-        <div class="${elementClass}">
+        <div class="${elementClass} pdt">
         <div class="fave">
         <ion-icon class="heart" name="heart"></ion-icon>
         </div>

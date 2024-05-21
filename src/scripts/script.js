@@ -292,6 +292,7 @@ const closeCartPage = () => {
   setTimeout(() => {
     myCart.cartItems.innerHTML = "";
   }, 1000);
+  allReadyInCart(myCart._productsFromDb());
 }
 
 // Calling the add-to-cart method
@@ -324,3 +325,25 @@ currencyFormater();
 
 //Imported add to cart method
 addToCartEvent();
+
+
+const allReadyInCart = async function (param) {
+   const allMyProducts = document.querySelectorAll(".pdt");
+   const allTheProductsInCart = await param;
+
+   allMyProducts.forEach(product => {
+       const id = +product.querySelector(".item-id").textContent;
+       const addToCartBtn = product.querySelector(".addToCart");
+       
+       const isInCart = allTheProductsInCart.some(cartProduct => +cartProduct.id === id);
+
+       if (isInCart) {
+           addToCartBtn.style.backgroundColor = "Goldenrod";
+           addToCartBtn.textContent = "Added to cart";
+       } else {
+           addToCartBtn.style.backgroundColor = "green";
+       }
+   });
+}
+
+allReadyInCart(myCart._productsFromDb());
