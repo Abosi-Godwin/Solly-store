@@ -326,7 +326,7 @@ currencyFormater();
 //Imported add to cart method
 addToCartEvent();
 
-
+// Disabling products already in cart
 export const allReadyInCart = async function (param) {
    const allMyProducts = document.querySelectorAll(".pdt");
    const allTheProductsInCart = await param;
