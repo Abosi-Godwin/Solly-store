@@ -881,7 +881,7 @@ ion-icon{
     justify-content: flex-start;
   }
   nav{
-    height: 8vh;
+    height: 10vh;
     padding: 1rem 2rem;
   }
   .banner {
@@ -896,7 +896,7 @@ ion-icon{
   padding: 2rem;
 }
 .product-div {
-  width: 60vw;
+  width: 40vw;
 }
 .product-img{
   height: 500px;
