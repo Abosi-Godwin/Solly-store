@@ -146,7 +146,7 @@ nav .nav-links {
  #products {
   display: grid;
   grid-gap: 3rem;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(3, 1fr);
   width: 100vw;
   padding: 1rem;
 }
