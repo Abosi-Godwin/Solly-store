@@ -94,7 +94,7 @@ nav .nav-links {
   font-size: 0.9rem;
   background: #fff;
 }
-.cart-counter:hover{
+.cart-icon-section, .cart-counter:hover{
   cursor: pointer;
 }
 .banner {
