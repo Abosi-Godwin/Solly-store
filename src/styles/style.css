@@ -94,7 +94,9 @@ nav .nav-links {
   font-size: 0.9rem;
   background: #fff;
 }
-
+.cart-counter:hover{
+  cursor: pointer;
+}
 .banner {
   height: calc(100vh - 8vh);
   display: flex;
@@ -128,7 +130,7 @@ nav .nav-links {
 
 }
 .banner button:hover{
-  cursor: hand;
+  cursor: pointer;
 }
 .category-product,
 .explore, .war-clothing {
