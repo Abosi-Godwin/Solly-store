@@ -146,13 +146,12 @@ nav .nav-links {
  #products {
   display: grid;
   grid-gap: 3rem;
-  grid-template-columns: repeat(3, 1fr);
-  width: 100vw;
+  grid-template-columns: 1fr;
   padding: 1rem;
+  border: 10px solid #000;
 }
 
 .product-div {
-  wdidth : 80vw;
   -webkit-border-radius: 0.4rem;
   -moz-border-radius: 0.4rem;
   border-radius: 0.4rem;
@@ -894,7 +893,7 @@ ion-icon{
   min-height: 80px;
 }
 #products {
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   padding: 2rem;
 }
 .product-div {
