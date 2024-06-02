@@ -41,8 +41,6 @@ export const elementCreator = (product, elementClass) => {
   return productsDiv;
 }
 
-//export const cartCounter = cart => cart.length;
-
 export const generateCartItem = item => {
 
   return ` <div class="item-row">

@@ -8,8 +8,8 @@ import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/ca
 
 const nav = document.querySelector("nav");
 const banner = document.querySelector(".banner")
-const products = document.querySelector("#products");
-const categoryProducts = document.querySelector(".category-products");
+const latestProducts = document.querySelector("#latest-products");
+const categoryProducts = document.querySelector("#category-products");
 const categoryBtn = document.querySelector(".category-tab");
 const allReviews = document.querySelectorAll(".review");
 const sliderNav = document.querySelector(".slider-navigation");
@@ -55,7 +55,7 @@ const createProducts = async (products, section, divClass) => {
 (async () => {
   try {
     let genericProducts = await apiCaller(`${DATA_BASE_URL}?limit=6`);
-    createProducts(genericProducts, products, "product-div");
+    createProducts(genericProducts, latestProducts, "product-div");
     //addingToCartSystem();
   } catch (e) {
     throw new Error(e);
@@ -167,7 +167,7 @@ autoSlider();
 /* Getting collections section */
 const warSection = async () => {
   try {
-    const warProducts = document.querySelector(".war-products");
+    const warProducts = document.querySelector("#war-products");
     const collections = await apiCaller(`${DATA_BASE_URL}categories`);
     const mensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(0,1)}`);
     const womensClothings = await apiCaller(`${DATA_BASE_URL}category/${collections.slice(-2).slice(1)}`);
@@ -321,14 +321,14 @@ const currencyFormater = function(param) {
 }
 currencyFormater();
 
-
+ 
 
 //Imported add to cart method
 addToCartEvent();
 
 // Disabling products already in cart
 export const allReadyInCart = async function (param) {
-   const allMyProducts = document.querySelectorAll(".pdt");
+   const allMyProducts = document.querySelectorAll(".product-div");
    const allTheProductsInCart = await param;
 
    allMyProducts.forEach(product => {
