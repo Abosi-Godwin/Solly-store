@@ -64,17 +64,18 @@ nav {
   left: 0;
 }
 
-nav .second-nav-section{
+nav .second-nav-section {
   display: flex;
   width: 60%;
   align-items: center;
   justify-content: space-between;
 }
+
 nav.color {
   background: var(--dark-clr);
 }
 
-nav .nav-lintks {
+nav .nav-links {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -125,7 +126,7 @@ nav .nav-lintks {
   text-align: center;
   z-index: 10;
   display: block;
-  color: #F8A840;
+  color: var(--act-color);
   font-size: 0.9rem;
   background: #fff;
 }
@@ -876,31 +877,46 @@ ion-icon {
 
   nav {
     height: 4vh;
-    display: flex!important;
-    padding: 1rem 2rem;
     border: 1px solid red;
-    flex-diredction: column;
+    min-width: 100vw;
   }
 
   nav .menu-el {
     display: none;
   }
 
-  .nav-links {
-    width: 50%;
+  .first-nav-section {
+    width: 60%;
     max-height: 100%;
-    position: static!important;
-    background: transparent!important;
-    border: 2px solid red;
+    position: static !important;
+    background: transparent !important;
+    order: 1;
   }
 
+  .second-nav-section {
+    width: 20%!important;
+  }
+
+  .third-nav-section {
+    width: 10%;
+    order: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+.cart-counter{
+  width: 20px;
+  height: 20px;
+  top: 0px;
+  left: 45%;
+}
   .close-icon-cont {
     display: none;
   }
 
   .nav-links ul {
     flex-direction: row;
-    order: 1!important;
+    order: 1 !important;
     align-items: center;
     max-height: 100%;
   }
