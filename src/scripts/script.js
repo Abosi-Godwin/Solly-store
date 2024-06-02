@@ -17,24 +17,17 @@ const cartPage = document.querySelector(".cart-page")
 const cartCounterEl = document.querySelector(".cart-icon-section");
 const closeCartEl = document.querySelector(".close-cart-page");
 const openMenuIcon = document.querySelector(".menu-el");
+const closeMenuIcon = document.querySelector(".close-icon-cont")
 const menus = document.querySelector(".nav-links");
 
-
-/* Memu section */
-
-const openMenu = function() {
-  console.log(menus);
+/*Side menu cods */
+const toggleMenu = function(e){
+  const work = e.target.dataset.work || e.target.parentElement.dataset.work ;
+  menus.classList[work]("open")
 }
 
-
-
-
-
-
-openMenuIcon.addEventListener("click", openMenu);
-
-
-
+closeMenuIcon.addEventListener("click", toggleMenu);
+openMenuIcon.addEventListener("click", toggleMenu);
 
 
 let currentSlide = 0;

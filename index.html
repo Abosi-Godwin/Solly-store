@@ -26,14 +26,18 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-  
+
 </head>
 
 <body>
   <header>
     <nav>
-      <div class="nav-links">
-        <ion-icon name="close" size="large" class="close-icon iconic"></ion-icon>
+
+      <div class="nav-links first-nav-section">
+        <div class="close-icon-cont" data-work="remove">
+          <ion-icon name="close" size="large" class="close-icon iconic"></ion-icon>
+        </div>
+
         <ul>
           <li>Home</li>
           <li>All products</li>
@@ -42,15 +46,19 @@
           <li>Login</li>
         </ul>
       </div>
-      <div class="menu-el">
-        <ion-icon name="menu" size="large" class="menu-icon iconic"></ion-icon>
+
+      <div class="second-nav-section">
+        <div class="menu-el" data-work="add">
+          <ion-icon name="menu" size="large" class="menu-icon iconic"></ion-icon>
+        </div>
+        <div class="logo">
+          <h1 class="logo">
+            Solly Store
+          </h1>
+        </div>
       </div>
-      <div class="logo">
-        <h1 class="logo">
-          Solly Store
-        </h1>
-      </div>
-      <div class="cart-icon-section">
+
+      <div class="cart-icon-section third-nav-section">
         <span class="cart-counter">0</span>
         <ion-icon name="cart" size="large" class="cart-icon iconic"></ion-icon>
       </div>
@@ -116,17 +124,17 @@
 
             </ion-icon>
           </div>
-          
+
           <div class="theReview">
-          <p class="reviewText">
-            This Ecommerce store is a shopper's paradise! <br>The diverse product range, coupled with seamless navigation, enhances the shopping experience. <br><br>Quick deliveries and responsive customer support make it my preferred online destination.
-          </p>
-          <h4>
-            AlexShopaholic
-          </h4>
-          <p class="whatTheyBought">
-            Bought men's clothes
-          </p>
+            <p class="reviewText">
+              This Ecommerce store is a shopper's paradise! <br>The diverse product range, coupled with seamless navigation, enhances the shopping experience. <br><br>Quick deliveries and responsive customer support make it my preferred online destination.
+            </p>
+            <h4>
+              AlexShopaholic
+            </h4>
+            <p class="whatTheyBought">
+              Bought men's clothes
+            </p>
           </div>
         </div>
 
@@ -137,14 +145,14 @@
             </ion-icon>
           </div>
           <div class="theReview">
-          <p>Fashion finds galore! <br> This Ecommerce store nails it with trendy pieces and affordable prices.<br><br> The website layout is user-friendly, making it easy to explore the latest styles. <br><br>Prompt shipping and hassle-free returns earn them a spot in my bookmarks.
-          </p>
-          <h4>
-            FashionistaJane
-          </h4>
-          <p class="whatTheyBought">
-            Bought women's clothes
-          </p>
+            <p>Fashion finds galore! <br> This Ecommerce store nails it with trendy pieces and affordable prices.<br><br> The website layout is user-friendly, making it easy to explore the latest styles. <br><br>Prompt shipping and hassle-free returns earn them a spot in my bookmarks.
+            </p>
+            <h4>
+              FashionistaJane
+            </h4>
+            <p class="whatTheyBought">
+              Bought women's clothes
+            </p>
           </div>
         </div>
 
@@ -154,19 +162,19 @@
 
             </ion-icon>
           </div>
-          
+
           <div class="theReview">
-          <p>For fitness essentials, this Ecommerce store is unmatched.<br><br> Quality workout gear and equipment, plus a straightforward shopping process. <br>Their commitment to quick deliveries and excellent service has turned me into a loyal customer.<br><br>Highly recommended!
-          </p>
-          <h4>
-            FitnessExplorer77
-          </h4>
-          <p class="whatTheyBought">
-            Bought electronic products
-          </p>
+            <p>For fitness essentials, this Ecommerce store is unmatched.<br><br> Quality workout gear and equipment, plus a straightforward shopping process. <br>Their commitment to quick deliveries and excellent service has turned me into a loyal customer.<br><br>Highly recommended!
+            </p>
+            <h4>
+              FitnessExplorer77
+            </h4>
+            <p class="whatTheyBought">
+              Bought electronic products
+            </p>
+          </div>
         </div>
-        </div>
-        
+
         <div class="slider-navigation">
           <button class="btn-left" name="scroll-left">
             <ion-icon name="chevron-back-outline"></ion-icon>
@@ -219,21 +227,21 @@
         join and save
       </h1>
       <div class="email-section">
-      <div>
-      <p class="email-message">
-        Join us before the countdown finishes to enjoy a <br> 50% discount.
-      </p>
-      <div class="countdown-timer">
-      </div>
-      </div>
-      
-      <div class="form-section">
-        <p>Enter your email below</p>
-        <input type="email" name="email" id="email" placeholder="Enter your valid email here...">
-        
-        <input type="submit" value="Join us now">
-      </div>
-      
+        <div>
+          <p class="email-message">
+            Join us before the countdown finishes to enjoy a <br> 50% discount.
+          </p>
+          <div class="countdown-timer">
+          </div>
+        </div>
+
+        <div class="form-section">
+          <p>Enter your email below</p>
+          <input type="email" name="email" id="email" placeholder="Enter your valid email here...">
+
+          <input type="submit" value="Join us now">
+        </div>
+
       </div>
     </div>
 
@@ -248,10 +256,10 @@
 
       </div>
     </div>
-    
-<!-- ++++++++++++++++++  -->
+
+    <!-- ++++++++++++++++++  -->
     <div class="cart-page">
-      
+
       <div class="cart-head-page">
         <!--<div class="backward">
           <h2>
@@ -278,27 +286,27 @@
 
       <div class="items cart-body">
       </div>
-      
-      
+
+
       <div class="cart-footer">
-        
+
         <div class="seeMoreSection">
           <p class="seeMoreSectionText">
-           
+
           </p>
-        <p class="total_price_text">
-          
-        </p>
-      </div>
-      <div class="checkOutSection">
-        <button class="close-cart-page">
-          Continue shopping 
-        </button>
-        <button>
-          Checkout
-        </button>
-      </div>
-<!--
+          <p class="total_price_text">
+
+          </p>
+        </div>
+        <div class="checkOutSection">
+          <button class="close-cart-page">
+            Continue shopping
+          </button>
+          <button>
+            Checkout
+          </button>
+        </div>
+        <!--
         <div class="promo-section">
           <div class="input-bg">
             <input type="text" placeholder="promo code">
@@ -351,23 +359,23 @@
 -->
 
       </div>
-      
-      
+
+
     </div>
   </main>
 
   <footer>
-      
-      <div class="about-company">
-    <div class="mission">
-      <h1>
-        our mission
-      </h1>
-      <p>
-        We are an innovative online store dedicated to providing you with a wide range of high-quality home improvement products, tools, and accessories.
-      </p>
-    </div>
-    
+
+    <div class="about-company">
+      <div class="mission">
+        <h1>
+          our mission
+        </h1>
+        <p>
+          We are an innovative online store dedicated to providing you with a wide range of high-quality home improvement products, tools, and accessories.
+        </p>
+      </div>
+
       <div class="connect-info socials-icon">
         <h1>
           connect with us
@@ -379,29 +387,29 @@
           Or you visit us at No. 1234 Markville Street NY.
         </p>
       </div>
-</div>
+    </div>
 
 
-<div class="connecting-medium">
-        <div class="platforms">
-          <div class="platform tiktok">
-            <ion-icon name="logo-tiktok"></ion-icon>
-          </div>
-          <div class="platform Instagram">
-            <ion-icon name="logo-instagram"></ion-icon>
-          </div>
-          <div class="platform facebook">
-            <ion-icon name="logo-facebook"></ion-icon>
-          </div>
-          <div class="platform youtube">
-            <ion-icon name="logo-youtube"></ion-icon>
-          </div>
+    <div class="connecting-medium">
+      <div class="platforms">
+        <div class="platform tiktok">
+          <ion-icon name="logo-tiktok"></ion-icon>
         </div>
-    
+        <div class="platform Instagram">
+          <ion-icon name="logo-instagram"></ion-icon>
+        </div>
+        <div class="platform facebook">
+          <ion-icon name="logo-facebook"></ion-icon>
+        </div>
+        <div class="platform youtube">
+          <ion-icon name="logo-youtube"></ion-icon>
+        </div>
+      </div>
+
       <div id="map">
 
+      </div>
     </div>
-</div>
 
     <div class="links">
       <div class="help-links">
