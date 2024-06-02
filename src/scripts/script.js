@@ -16,6 +16,24 @@ const sliderNav = document.querySelector(".slider-navigation");
 const cartPage = document.querySelector(".cart-page")
 const cartCounterEl = document.querySelector(".cart-icon-section");
 const closeCartEl = document.querySelector(".close-cart-page");
+const openMenuIcon = document.querySelector(".menu-el");
+const menus = document.querySelector(".nav-links");
+
+
+/* Memu section */
+
+const openMenu = function() {
+  console.log(menus);
+}
+
+
+
+
+
+
+openMenuIcon.addEventListener("click", openMenu);
+
+
 
 
 
