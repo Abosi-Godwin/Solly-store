@@ -383,7 +383,7 @@ nav .nav-links {
   padding: 0.5rem;
   background: #051C37;
   color: #fff;
-  font-size: 1.5rem;
+  fo6nt-size: 1.5rem;
   width: 80px;
   border: none;
   outline: none;
@@ -877,7 +877,6 @@ ion-icon {
 
   nav {
     height: 4vh;
-    border: 1px solid red;
     min-width: 100vw;
   }
 
