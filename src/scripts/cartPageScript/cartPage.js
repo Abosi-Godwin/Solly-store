@@ -141,5 +141,13 @@ const deleteFromCartEvent = () => {
   })
 }
 
+const updateQuantity = () => {
+  const quantityEles = document.querySelectorAll(".incrQtyBtb");
+  quantityEles.forEach(ele => {
+    console.log(ele)
+  })
+  console.log(quantityEles)
+}
+updateQuantity();
 
 export { myCart, deleteFromCartEvent, addToCartEvent };

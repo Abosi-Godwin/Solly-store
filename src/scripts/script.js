@@ -20,7 +20,7 @@ const openMenuIcon = document.querySelector(".menu-el");
 const closeMenuIcon = document.querySelector(".close-icon-cont")
 const menus = document.querySelector(".nav-links");
 
-/*Side menu cods */
+/*Side menu codes */
 const toggleMenu = function(e){
   const work = e.target.dataset.work || e.target.parentElement.dataset.work ;
   menus.classList[work]("open")
