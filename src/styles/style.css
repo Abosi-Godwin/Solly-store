@@ -166,13 +166,19 @@ nav .nav-links {
   background: rgba(20, 49, 83, 0.75);
   color: #fff;
   background: linear-gradient(360deg, rgba(20, 49, 83, 0.10), rgba(20, 49, 83, 1), rgba(20, 49, 83, 0.10));
-
 }
 
 .banner button:hover {
   cursor: pointer;
 }
-
+/*
+.banner button:hover .banner button:after{
+  content: "Hey";
+  width: 100%;
+  height: 100%;
+  background: rebeccapurple;
+}
+*/
 .category-product,
 .explore,
 .war-clothing {
@@ -863,7 +869,18 @@ ion-icon {
   border-radius: 0.5rem;
 }
 
+.incrQtyBtn{
+  background: red;
+  display: inline-block;
+  font-size: 20rem;
+  border: 1px solid #000;
+  color: red;
+}
+
+
+
 /*      End of cart page      */
+
 /*-----------------------------*/
 
 

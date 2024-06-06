@@ -3,7 +3,7 @@
 import { apiCaller } from './modules/model.js';
 import { updateTimer, elementCreator, generateCartItem, emptyCartContent, seeMoreMessageFunc } from "./modules/views.js";
 import { DATA_BASE_URL, TARGETDATE, CURRENCYFORMATER } from './utilities/config.js';
-import { myCart, addToCartEvent, deleteFromCartEvent } from "./cartPageScript/cartPage.js";
+import { myCart, addToCartEvent, deleteFromCartEvent, updateCartQuantity} from "./cartPageScript/cartPage.js";
 
 
 const nav = document.querySelector("nav");
@@ -359,3 +359,11 @@ export const allReadyInCart = async function (param) {
 }
 
 allReadyInCart(myCart._productsFromDb());
+
+/*
+const updateQuantity = () => {
+  const increaseBtns = document.querySelectorAll(".incrQtyBtn");
+  console.log(increaseBtns);
+  //updateCartQuantity(increaseBtns);
+}
+*/

@@ -135,19 +135,37 @@ const deleteFromCartEvent = () => {
   const deleteCartItemBtns = document.querySelectorAll(".delete-cart-item").forEach(btn => {
     btn.addEventListener("click", e => {
       const itemToRemove = e.target.parentNode.parentNode.parentNode.querySelector(".item-id").innerHTML;
-      console.log(itemToRemove);
+      //console.log(itemToRemove);
       myCart.removeFromCart(itemToRemove)
     })
   })
 }
 
-const updateQuantity = () => {
-  const quantityEles = document.querySelectorAll(".incrQtyBtb");
-  quantityEles.forEach(ele => {
-    console.log(ele)
-  })
-  console.log(quantityEles)
+const updateCartQuantity = () => {
+  const incrQtyBtns = document.querySelectorAll(".incrQtyBtn");
+  incrQtyBtns.forEach(btn =>(
+    btn.addEventListener("click", e =>{
+      console.log(e.target.textContent);
+      alert("Hello");
+    })
+    ))
 }
-updateQuantity();
+updateCartQuantity();
 
-export { myCart, deleteFromCartEvent, addToCartEvent };
+
+/*
+.forEach(btn => {
+    btn.addEventListener("click", e => {
+      console.log(e)
+    })})
+
+const updateCartQuantity = (quantityEles) => {
+  
+  quantityEles.forEach(el => {
+    console.log(el)
+  });
+  
+  console.log(quantityEles);
+}
+*/
+export { myCart, deleteFromCartEvent, addToCartEvent, updateCartQuantity };
