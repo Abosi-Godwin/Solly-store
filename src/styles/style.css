@@ -29,9 +29,8 @@ h3 {
 }
 
 body {
-  font: var(--normal-font);
-  line-height: 1.7;
-  font-size: 16px;
+  line-height: 1.5;
+  font-family: var(--normal-font);
 }
 
 header {
@@ -157,7 +156,7 @@ nav .nav-links {
 .banner button {
   width: 8rem;
   height: 50px;
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   padding: 0.5rem;
   border-radius: 0.4rem;
   overflow: hidden;
