@@ -106,7 +106,9 @@ nav .nav-links {
   list-style-type: none;
 
 }
-
+.nav-links ul li:hover {
+  cursor: pointer;
+}
 .cart-icon-section {
   position: relative;
   height: 100%;
